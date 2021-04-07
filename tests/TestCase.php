@@ -2,8 +2,8 @@
 
 namespace CodebarAg\Zammad\Tests;
 
-use Orchestra\Testbench\TestCase as Orchestra;
 use CodebarAg\Zammad\ZammadServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
