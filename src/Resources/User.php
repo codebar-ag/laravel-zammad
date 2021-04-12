@@ -71,12 +71,12 @@ class User
     {
         $url = sprintf('%s/api/v1/users', config('zammad.url'));
 
-        $data = Http::withToken(config('zammad.token'))
+        $user = Http::withToken(config('zammad.token'))
             ->post($url, $data)
             ->throw()
             ->json();
 
-        return UserDTO::fromJson($data);
+        return UserDTO::fromJson($user);
     }
 
     public function delete(int $id): void
