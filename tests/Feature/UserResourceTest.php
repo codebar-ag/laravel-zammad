@@ -39,6 +39,16 @@ class UserResourceTest extends TestCase
     }
 
     /** @test */
+    public function it_does_search_user_with_empty_result()
+    {
+        $term = 'email:does@not.exist';
+
+        $user = (new Zammad())->user()->search($term);
+
+        $this->assertNull($user);
+    }
+
+    /** @test */
     public function it_does_show_user()
     {
         $id = 20;

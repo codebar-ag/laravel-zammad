@@ -3,6 +3,7 @@
 namespace CodebarAg\Zammad\Resources;
 
 use CodebarAg\Zammad\DTO\User as UserDTO;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -32,7 +33,7 @@ class User
         return collect($users)->map(fn (array $user) => UserDTO::fromJson($user));
     }
 
-    public function search(string $term): UserDTO
+    public function search(string $term): ?UserDTO
     {
         $url = sprintf(
             '%s/api/v1/users/search?query=%s&limit=1',
@@ -45,7 +46,9 @@ class User
             ->throw()
             ->json();
 
-        return UserDTO::fromJson($data[0]);
+        return Arr::exists($data, 0)
+            ? UserDTO::fromJson($data[0])
+            : null;
     }
 
     public function show(int $id): UserDTO
