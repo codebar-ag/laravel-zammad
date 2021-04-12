@@ -91,4 +91,15 @@ class User
             ->delete($url)
             ->throw();
     }
+
+    public function searchOrCreateByEmail(string $email): UserDTO
+    {
+        $user = $this->search("email:{$email}");
+
+        if ($user) {
+            return $user;
+        }
+
+        return $this->create(['email' => $email]);
+    }
 }

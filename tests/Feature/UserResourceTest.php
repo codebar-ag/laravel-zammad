@@ -77,4 +77,15 @@ class UserResourceTest extends TestCase
 
         (new Zammad())->user()->delete($user->id);
     }
+
+    /** @test */
+    public function it_does_search_or_create_user_by_email()
+    {
+        $email = 'noah@schweizer.ch';
+
+        $user = (new Zammad())->user()->searchOrCreateByEmail($email);
+
+        $this->assertSame('noah@schweizer.ch', $user->email);
+        (new Zammad())->user()->delete($user->id);
+    }
 }
