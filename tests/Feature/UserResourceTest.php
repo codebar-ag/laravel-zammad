@@ -56,7 +56,7 @@ class UserResourceTest extends TestCase
         $user = (new Zammad())->user()->show($id);
 
         $this->assertInstanceOf(User::class, $user);
-        $this->assertSame(20, $user->id);
+        $this->assertSame($id, $user->id);
     }
 
     /** @test */
