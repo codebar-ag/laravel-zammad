@@ -2,6 +2,7 @@
 
 namespace CodebarAg\Zammad\Tests\Feature;
 
+use CodebarAg\Zammad\DTO\Comment;
 use CodebarAg\Zammad\DTO\Ticket;
 use CodebarAg\Zammad\DTO\User;
 use CodebarAg\Zammad\Tests\TestCase;
@@ -22,5 +23,13 @@ class DTOTest extends TestCase
         $ticket = Ticket::fake();
 
         $this->assertInstanceOf(Ticket::class, $ticket);
+    }
+
+    /** @test */
+    public function it_does_create_a_fake_comment()
+    {
+        $ticket = Comment::fake();
+
+        $this->assertInstanceOf(Comment::class, $ticket);
     }
 }
