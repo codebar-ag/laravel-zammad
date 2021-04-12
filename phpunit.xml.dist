@@ -36,4 +36,8 @@
     <logging>
         <junit outputFile="build/report.junit.xml"/>
     </logging>
+    <php>
+        <env name="ZAMMAD_URL" value="https://domain.zammad.com"/>
+        <env name="ZAMMAD_TOKEN" value="token"/>
+    </php>
 </phpunit>
