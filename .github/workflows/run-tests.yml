@@ -45,3 +45,6 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit
+        env:
+          ZAMMAD_URL: ${{ secrets.ZAMMAD_URL }}
+          ZAMMAD_USER: ${{ secrets.ZAMMAD_TOKEN }}
