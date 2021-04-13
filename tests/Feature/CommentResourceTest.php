@@ -2,6 +2,7 @@
 
 namespace CodebarAg\Zammad\Tests\Feature;
 
+use CodebarAg\Zammad\DTO\Attachment;
 use CodebarAg\Zammad\DTO\Comment;
 use CodebarAg\Zammad\Tests\TestCase;
 use CodebarAg\Zammad\Zammad;
@@ -40,19 +41,30 @@ class CommentResourceTest extends TestCase
         $data = [
             'ticket_id' => 32,
             'subject' => '::subject::',
-            'body' => '::body::',
+            'body' => 'huhuhuu<br>huhuhuu<br>huhuhuu<br><br>',
             'content_type' => 'text/html',
-            'type' => 'note',
-            'internal' => false,
+            'attachments' => [
+                [
+                    'filename' => 'test.txt',
+                    'data' => 'RHUgYmlzdCBlaW4g8J+OgSBmw7xyIGRpZSDwn4yN',
+                    'mime-type' => 'text/plain',
+                ],
+            ],
         ];
 
         $comment = (new Zammad())->comment()->create($data);
+        (new Zammad())->comment()->delete($comment->id);
 
         $this->assertInstanceOf(Comment::class, $comment);
         $this->assertSame('::subject::', $comment->subject);
-        $this->assertSame('::body::', $comment->body);
+        $this->assertSame('huhuhuu<br>huhuhuu<br>huhuhuu<br><br>', $comment->body);
+        $this->assertSame('text/html', $comment->content_type);
         $this->assertSame(32, $comment->ticket_id);
-
-        (new Zammad())->comment()->delete($comment->id);
+        $this->assertCount(1, $comment->attachments);
+        tap($comment->attachments->first(), function (Attachment $attachment) {
+            $this->assertSame(30, $attachment->size);
+            $this->assertSame('test.txt', $attachment->name);
+            $this->assertSame('text/plain', $attachment->content_type);
+        });
     }
 }

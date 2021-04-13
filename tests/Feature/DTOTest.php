@@ -2,6 +2,7 @@
 
 namespace CodebarAg\Zammad\Tests\Feature;
 
+use CodebarAg\Zammad\DTO\Attachment;
 use CodebarAg\Zammad\DTO\Comment;
 use CodebarAg\Zammad\DTO\Ticket;
 use CodebarAg\Zammad\DTO\User;
@@ -31,5 +32,13 @@ class DTOTest extends TestCase
         $ticket = Comment::fake();
 
         $this->assertInstanceOf(Comment::class, $ticket);
+    }
+
+    /** @test */
+    public function it_does_create_a_fake_attachment()
+    {
+        $attachment = Attachment::fake();
+
+        $this->assertInstanceOf(Attachment::class, $attachment);
     }
 }

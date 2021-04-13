@@ -3,6 +3,7 @@
 namespace CodebarAg\Zammad\DTO;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class Comment
 {
@@ -20,6 +21,7 @@ class Comment
             internal: $data['internal'],
             created_by_id: $data['created_by_id'],
             updated_by_id: $data['updated_by_id'],
+            attachments: collect($data['attachments'])->map(fn (array $a) => Attachment::fromJson($a)),
             updated_at: Carbon::parse($data['updated_at']),
             created_at: Carbon::parse($data['created_at']),
         );
@@ -37,6 +39,7 @@ class Comment
         public bool $internal,
         public int $created_by_id,
         public int $updated_by_id,
+        public Collection $attachments,
         public Carbon $updated_at,
         public Carbon $created_at,
     ) {
@@ -69,6 +72,7 @@ class Comment
             internal: $internal ?? false,
             created_by_id: $created_by_id ?? 1,
             updated_by_id: $updated_by_id ?? 1,
+            attachments: collect([Attachment::fake()]),
             updated_at: $updated_at ?? now(),
             created_at: $created_at ?? now()->subDay(),
         );
