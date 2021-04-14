@@ -40,6 +40,13 @@ ZAMMAD_URL=https://domain.zammad.com
 ZAMMAD_TOKEN=token
 ```
 
+### 🔑 Where can I find the token?
+
+Go to your profile in your Zammad application. In the tab **Token Access** you
+can create your token. Be sure to activate all rights you need.
+
+👉 Make sure to activate **HTTP Token Authentication** in your system settings.
+
 ## 🏗 Usage (WIP)
 
 ```php
