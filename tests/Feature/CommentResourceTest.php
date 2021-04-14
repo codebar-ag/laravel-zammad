@@ -64,7 +64,7 @@ class CommentResourceTest extends TestCase
         tap($comment->attachments->first(), function (Attachment $attachment) {
             $this->assertSame(30, $attachment->size);
             $this->assertSame('test.txt', $attachment->name);
-            $this->assertSame('text/plain', $attachment->content_type);
+            $this->assertSame('text/plain', $attachment->type);
         });
     }
 }

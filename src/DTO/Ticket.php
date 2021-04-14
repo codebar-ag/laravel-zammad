@@ -9,6 +9,21 @@ class Ticket
 {
     public static function fromJson(array $data): self
     {
+        $properties = collect(config('zammad.ticket'))
+            ->filter(fn (string $_, string $key) => Arr::exists($data, $key))
+            ->map(fn (string $type, string $key) => [
+                'name' => $key,
+                'value' => match($type) {
+                    'bool','boolean' => (bool) $data[$key],
+                    'int','integer' => (int) $data[$key],
+                    'float','double' => (float) $data[$key],
+                    'date','datetime' => Carbon::parse($data[$key]),
+                    default => $data[$key],
+                },
+            ])
+            ->values()
+            ->toArray();
+
         return new self(
             id: $data['id'],
             number: $data['number'],
@@ -19,6 +34,7 @@ class Ticket
             comments_count: Arr::get($data, 'article_count', 0) ?? 0,
             updated_at: Carbon::parse($data['updated_at']),
             created_at: Carbon::parse($data['created_at']),
+            properties: $properties,
         );
     }
 
@@ -32,7 +48,11 @@ class Ticket
         public int $comments_count,
         public Carbon $updated_at,
         public Carbon $created_at,
+        array $properties,
     ) {
+        foreach ($properties as ['name' => $name, 'value' => $value]) {
+            $this->$name = $value;
+        }
     }
 
     public function state(): string
@@ -78,6 +98,7 @@ class Ticket
         ?int $comments_count = null,
         ?Carbon $updated_at = null,
         ?Carbon $created_at = null,
+        ?array $properties = null,
     ): self {
         return new self(
             id: $id ?? random_int(1, 1000),
@@ -89,6 +110,7 @@ class Ticket
             comments_count: $comments_count ?? 0,
             updated_at: $updated_at ?? now(),
             created_at: $created_at ?? now()->subDay(),
+            properties: $properties ?? [],
         );
     }
 }
