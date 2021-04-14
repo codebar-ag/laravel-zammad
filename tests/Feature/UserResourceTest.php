@@ -73,7 +73,7 @@ class UserResourceTest extends TestCase
         $this->assertInstanceOf(User::class, $user);
         $this->assertSame('Noah', $user->first_name);
         $this->assertSame('Schweizer', $user->last_name);
-        $this->assertSame('noah@schweizer.ch', $user->email);
+        $this->assertStringEndsWith('noah@schweizer.ch', $user->email);
 
         (new Zammad())->user()->delete($user->id);
     }
