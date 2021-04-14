@@ -4,7 +4,7 @@ namespace CodebarAg\Zammad\Resources;
 
 use Illuminate\Support\Facades\Http;
 
-class Attachment
+class AttachmentResource
 {
     public function download(
         int $ticketId,

@@ -2,11 +2,11 @@
 
 namespace CodebarAg\Zammad\Resources;
 
-use CodebarAg\Zammad\DTO\Comment as CommentDTO;
+use CodebarAg\Zammad\DTO\Comment;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class Comment
+class CommentResource
 {
     public function showByTicket(int $id): Collection
     {
@@ -21,10 +21,10 @@ class Comment
             ->throw()
             ->json();
 
-        return collect($comment)->map(fn (array $comment) => CommentDTO::fromJson($comment));
+        return collect($comment)->map(fn (array $comment) => Comment::fromJson($comment));
     }
 
-    public function show(int $id): ?CommentDTO
+    public function show(int $id): ?Comment
     {
         $url = sprintf(
             '%s/api/v1/ticket_articles/%s',
@@ -37,10 +37,10 @@ class Comment
             ->throw()
             ->json();
 
-        return CommentDTO::fromJson($comment);
+        return Comment::fromJson($comment);
     }
 
-    public function create(array $data): CommentDTO
+    public function create(array $data): Comment
     {
         $url = sprintf('%s/api/v1/ticket_articles', config('zammad.url'));
 
@@ -49,7 +49,7 @@ class Comment
             ->throw()
             ->json();
 
-        return CommentDTO::fromJson($comment);
+        return Comment::fromJson($comment);
     }
 
     public function delete(int $id): void

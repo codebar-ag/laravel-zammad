@@ -2,30 +2,36 @@
 
 namespace CodebarAg\Zammad;
 
-use CodebarAg\Zammad\Resources\Attachment;
-use CodebarAg\Zammad\Resources\Comment;
-use CodebarAg\Zammad\Resources\Ticket;
-use CodebarAg\Zammad\Resources\User;
+use CodebarAg\Zammad\Resources\AttachmentResource;
+use CodebarAg\Zammad\Resources\CommentResource;
+use CodebarAg\Zammad\Resources\ObjectResource;
+use CodebarAg\Zammad\Resources\TicketResource;
+use CodebarAg\Zammad\Resources\UserResource;
 
 class Zammad
 {
-    public function user(): User
+    public function user(): UserResource
     {
-        return new User();
+        return new UserResource();
     }
 
-    public function ticket(): Ticket
+    public function ticket(): TicketResource
     {
-        return new Ticket();
+        return new TicketResource();
     }
 
-    public function comment(): Comment
+    public function comment(): CommentResource
     {
-        return new Comment();
+        return new CommentResource();
     }
 
-    public function attachment(): Attachment
+    public function attachment(): AttachmentResource
     {
-        return new Attachment();
+        return new AttachmentResource();
+    }
+
+    public function object(): ObjectResource
+    {
+        return new ObjectResource();
     }
 }

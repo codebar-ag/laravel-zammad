@@ -2,11 +2,11 @@
 
 namespace CodebarAg\Zammad\Resources;
 
-use CodebarAg\Zammad\DTO\Ticket as TicketDTO;
+use CodebarAg\Zammad\DTO\Ticket;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class Ticket
+class TicketResource
 {
     public function list(): Collection
     {
@@ -17,7 +17,7 @@ class Ticket
             ->throw()
             ->json();
 
-        return collect($tickets)->map(fn (array $ticket) => TicketDTO::fromJson($ticket));
+        return collect($tickets)->map(fn (array $ticket) => Ticket::fromJson($ticket));
     }
 
     public function search(string $term): Collection
@@ -34,11 +34,11 @@ class Ticket
             ->json('assets.Ticket');
 
         return collect($tickets)
-            ->map(fn (array $ticket) => TicketDTO::fromJson($ticket))
+            ->map(fn (array $ticket) => Ticket::fromJson($ticket))
             ->values();
     }
 
-    public function show(int $id): ?TicketDTO
+    public function show(int $id): ?Ticket
     {
         $url = sprintf(
             '%s/api/v1/tickets/%s',
@@ -51,10 +51,10 @@ class Ticket
             ->throw()
             ->json();
 
-        return TicketDTO::fromJson($ticket);
+        return Ticket::fromJson($ticket);
     }
 
-    public function create(array $data): TicketDTO
+    public function create(array $data): Ticket
     {
         $url = sprintf('%s/api/v1/tickets', config('zammad.url'));
 
@@ -63,7 +63,7 @@ class Ticket
             ->throw()
             ->json();
 
-        return TicketDTO::fromJson($ticket);
+        return Ticket::fromJson($ticket);
     }
 
     public function delete(int $id): void

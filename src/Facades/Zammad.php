@@ -2,17 +2,21 @@
 
 namespace CodebarAg\Zammad\Facades;
 
-use CodebarAg\Zammad\Resources\Comment;
-use CodebarAg\Zammad\Resources\Ticket;
-use CodebarAg\Zammad\Resources\User;
+use CodebarAg\Zammad\Resources\AttachmentResource;
+use CodebarAg\Zammad\Resources\CommentResource;
+use CodebarAg\Zammad\Resources\ObjectResource;
+use CodebarAg\Zammad\Resources\TicketResource;
+use CodebarAg\Zammad\Resources\UserResource;
 use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \CodebarAg\Zammad\Zammad
  *
- * @method static User user()
- * @method static Ticket ticket()
- * @method static Comment comment()
+ * @method static UserResource user()
+ * @method static TicketResource ticket()
+ * @method static CommentResource comment()
+ * @method static AttachmentResource attachment()
+ * @method static ObjectResource object()
  */
 class Zammad extends Facade
 {

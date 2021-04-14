@@ -2,14 +2,14 @@
 
 namespace CodebarAg\Zammad\Resources;
 
-use CodebarAg\Zammad\DTO\User as UserDTO;
+use CodebarAg\Zammad\DTO\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class User
+class UserResource
 {
-    public function me(): UserDTO
+    public function me(): User
     {
         $url = sprintf('%s/api/v1/users/me', config('zammad.url'));
 
@@ -18,7 +18,7 @@ class User
             ->throw()
             ->json();
 
-        return UserDTO::fromJson($data);
+        return User::fromJson($data);
     }
 
     public function list(): Collection
@@ -30,10 +30,10 @@ class User
             ->throw()
             ->json();
 
-        return collect($users)->map(fn (array $user) => UserDTO::fromJson($user));
+        return collect($users)->map(fn (array $user) => User::fromJson($user));
     }
 
-    public function search(string $term): ?UserDTO
+    public function search(string $term): ?User
     {
         $url = sprintf(
             '%s/api/v1/users/search?query=%s&limit=1',
@@ -47,11 +47,11 @@ class User
             ->json();
 
         return Arr::exists($data, 0)
-            ? UserDTO::fromJson($data[0])
+            ? User::fromJson($data[0])
             : null;
     }
 
-    public function show(int $id): UserDTO
+    public function show(int $id): User
     {
         $url = sprintf(
             '%s/api/v1/users/%s',
@@ -64,10 +64,10 @@ class User
             ->throw()
             ->json();
 
-        return UserDTO::fromJson($data);
+        return User::fromJson($data);
     }
 
-    public function create(array $data): UserDTO
+    public function create(array $data): User
     {
         $url = sprintf('%s/api/v1/users', config('zammad.url'));
 
@@ -76,7 +76,7 @@ class User
             ->throw()
             ->json();
 
-        return UserDTO::fromJson($user);
+        return User::fromJson($user);
     }
 
     public function delete(int $id): void
@@ -92,7 +92,7 @@ class User
             ->throw();
     }
 
-    public function searchOrCreateByEmail(string $email): UserDTO
+    public function searchOrCreateByEmail(string $email): User
     {
         $user = $this->search("email:{$email}");
 
