@@ -65,7 +65,7 @@ class UserResourceTest extends TestCase
         $data = [
             'firstname' => 'Noah',
             'lastname' => 'Schweizer',
-            'email' => 'noah@schweizer.ch',
+            'email' => rand() . 'noah@schweizer.ch',
         ];
 
         $user = (new Zammad())->user()->create($data);
