@@ -2,6 +2,7 @@
 
 namespace CodebarAg\Zammad\Resources;
 
+use CodebarAg\Zammad\Events\ZammadResponseLog;
 use Illuminate\Support\Facades\Http;
 
 class AttachmentResource
@@ -19,9 +20,10 @@ class AttachmentResource
             $attachmentId,
         );
 
-        return Http::withToken(config('zammad.token'))
-            ->get($url)
-            ->throw()
-            ->body();
+        $response = Http::withToken(config('zammad.token'))->get($url);
+
+        event(new ZammadResponseLog($response));
+
+        return $response->throw()->body();
     }
 }

@@ -3,18 +3,28 @@
 namespace CodebarAg\Zammad\Tests\Feature;
 
 use CodebarAg\Zammad\DTO\User;
+use CodebarAg\Zammad\Events\ZammadResponseLog;
 use CodebarAg\Zammad\Tests\TestCase;
 use CodebarAg\Zammad\Zammad;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
 
 class UserResourceTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Event::fake();
+    }
+
     /** @test */
     public function it_does_fetch_current_user()
     {
         $user = (new Zammad())->user()->me();
 
         $this->assertInstanceOf(User::class, $user);
+        Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
     /** @test */
@@ -26,6 +36,7 @@ class UserResourceTest extends TestCase
         $users->each(function (User $user) {
             $this->assertInstanceOf(User::class, $user);
         });
+        Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
     /** @test */
@@ -36,6 +47,7 @@ class UserResourceTest extends TestCase
         $user = (new Zammad())->user()->search($term);
 
         $this->assertInstanceOf(User::class, $user);
+        Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
     /** @test */
@@ -46,6 +58,7 @@ class UserResourceTest extends TestCase
         $user = (new Zammad())->user()->search($term);
 
         $this->assertNull($user);
+        Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
     /** @test */
@@ -57,6 +70,7 @@ class UserResourceTest extends TestCase
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertSame($id, $user->id);
+        Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
     /** @test */
@@ -74,8 +88,10 @@ class UserResourceTest extends TestCase
         $this->assertSame('Noah', $user->first_name);
         $this->assertSame('Schweizer', $user->last_name);
         $this->assertStringEndsWith('noah@schweizer.ch', $user->email);
+        Event::assertDispatched(ZammadResponseLog::class, 1);
 
         (new Zammad())->user()->delete($user->id);
+        Event::assertDispatched(ZammadResponseLog::class, 2);
     }
 
     /** @test */
@@ -86,6 +102,8 @@ class UserResourceTest extends TestCase
         $user = (new Zammad())->user()->searchOrCreateByEmail($email);
 
         $this->assertSame('noah@schweizer.ch', $user->email);
+        Event::assertDispatched(ZammadResponseLog::class, 2);
         (new Zammad())->user()->delete($user->id);
+        Event::assertDispatched(ZammadResponseLog::class, 3);
     }
 }

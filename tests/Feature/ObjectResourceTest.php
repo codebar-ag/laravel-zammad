@@ -2,12 +2,21 @@
 
 namespace CodebarAg\Zammad\Tests\Feature;
 
+use CodebarAg\Zammad\Events\ZammadResponseLog;
 use CodebarAg\Zammad\Tests\TestCase;
 use CodebarAg\Zammad\Zammad;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
 
 class ObjectResourceTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Event::fake();
+    }
+
     /** @test */
     public function it_does_fetch_a_list_of_objects()
     {
@@ -15,6 +24,7 @@ class ObjectResourceTest extends TestCase
 
         $this->assertInstanceOf(Collection::class, $objects);
         $this->assertTrue($objects->count() > 0);
+        Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
     /** @test */
@@ -25,6 +35,7 @@ class ObjectResourceTest extends TestCase
         $object = (new Zammad())->object()->show($id);
 
         $this->assertSame($id, $object['id']);
+        Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
     /** @test */
@@ -33,5 +44,6 @@ class ObjectResourceTest extends TestCase
         (new Zammad())->object()->executeMigrations();
 
         $this->assertTrue(true);
+        Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace CodebarAg\Zammad\Resources;
 
+use CodebarAg\Zammad\Events\ZammadResponseLog;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -14,10 +15,11 @@ class ObjectResource
             config('zammad.url'),
         );
 
-        $objects = Http::withToken(config('zammad.token'))
-            ->get($url)
-            ->throw()
-            ->json();
+        $response = Http::withToken(config('zammad.token'))->get($url);
+
+        event(new ZammadResponseLog($response));
+
+        $objects = $response->throw()->json();
 
         return collect($objects);
     }
@@ -30,10 +32,11 @@ class ObjectResource
             $id,
         );
 
-        return Http::withToken(config('zammad.token'))
-            ->get($url)
-            ->throw()
-            ->json();
+        $response = Http::withToken(config('zammad.token'))->get($url);
+
+        event(new ZammadResponseLog($response));
+
+        return $response->throw()->json();
     }
 
     public function executeMigrations(): void
@@ -43,8 +46,10 @@ class ObjectResource
             config('zammad.url'),
         );
 
-        Http::withToken(config('zammad.token'))
-            ->post($url)
-            ->throw();
+        $response = Http::withToken(config('zammad.token'))->post($url);
+
+        event(new ZammadResponseLog($response));
+
+        $response->throw();
     }
 }

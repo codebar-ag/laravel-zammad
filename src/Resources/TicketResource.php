@@ -3,6 +3,7 @@
 namespace CodebarAg\Zammad\Resources;
 
 use CodebarAg\Zammad\DTO\Ticket;
+use CodebarAg\Zammad\Events\ZammadResponseLog;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -12,10 +13,11 @@ class TicketResource
     {
         $url = sprintf('%s/api/v1/tickets', config('zammad.url'));
 
-        $tickets = Http::withToken(config('zammad.token'))
-            ->get($url)
-            ->throw()
-            ->json();
+        $response = Http::withToken(config('zammad.token'))->get($url);
+
+        event(new ZammadResponseLog($response));
+
+        $tickets = $response->throw()->json();
 
         return collect($tickets)->map(fn (array $ticket) => Ticket::fromJson($ticket));
     }
@@ -28,10 +30,11 @@ class TicketResource
             $term,
         );
 
-        $tickets = Http::withToken(config('zammad.token'))
-            ->get($url)
-            ->throw()
-            ->json('assets.Ticket');
+        $response = Http::withToken(config('zammad.token'))->get($url);
+
+        event(new ZammadResponseLog($response));
+
+        $tickets = $response->throw()->json('assets.Ticket');
 
         return collect($tickets)
             ->map(fn (array $ticket) => Ticket::fromJson($ticket))
@@ -46,10 +49,11 @@ class TicketResource
             $id,
         );
 
-        $ticket = Http::withToken(config('zammad.token'))
-            ->get($url)
-            ->throw()
-            ->json();
+        $response = Http::withToken(config('zammad.token'))->get($url);
+
+        event(new ZammadResponseLog($response));
+
+        $ticket = $response->throw()->json();
 
         return Ticket::fromJson($ticket);
     }
@@ -58,10 +62,11 @@ class TicketResource
     {
         $url = sprintf('%s/api/v1/tickets', config('zammad.url'));
 
-        $ticket = Http::withToken(config('zammad.token'))
-            ->post($url, $data)
-            ->throw()
-            ->json();
+        $response = Http::withToken(config('zammad.token'))->post($url, $data);
+
+        event(new ZammadResponseLog($response));
+
+        $ticket = $response->throw()->json();
 
         return Ticket::fromJson($ticket);
     }
@@ -74,8 +79,10 @@ class TicketResource
             $id
         );
 
-        Http::withToken(config('zammad.token'))
-            ->delete($url)
-            ->throw();
+        $response = Http::withToken(config('zammad.token'))->delete($url);
+
+        event(new ZammadResponseLog($response));
+
+        $response->throw();
     }
 }

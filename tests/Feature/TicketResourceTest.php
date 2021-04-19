@@ -3,12 +3,21 @@
 namespace CodebarAg\Zammad\Tests\Feature;
 
 use CodebarAg\Zammad\DTO\Ticket;
+use CodebarAg\Zammad\Events\ZammadResponseLog;
 use CodebarAg\Zammad\Tests\TestCase;
 use CodebarAg\Zammad\Zammad;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
 
 class TicketResourceTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Event::fake();
+    }
+
     /** @test */
     public function it_does_fetch_a_list_of_tickets()
     {
@@ -18,6 +27,7 @@ class TicketResourceTest extends TestCase
         $tickets->each(function (Ticket $ticket) {
             $this->assertInstanceOf(Ticket::class, $ticket);
         });
+        Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
     /** @test */
@@ -31,6 +41,7 @@ class TicketResourceTest extends TestCase
         $tickets->each(function (Ticket $ticket) {
             $this->assertInstanceOf(Ticket::class, $ticket);
         });
+        Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
     /** @test */
@@ -42,6 +53,7 @@ class TicketResourceTest extends TestCase
 
         $this->assertInstanceOf(Collection::class, $tickets);
         $this->assertCount(0, $tickets);
+        Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
     /** @test */
@@ -53,6 +65,7 @@ class TicketResourceTest extends TestCase
 
         $this->assertInstanceOf(Ticket::class, $ticket);
         $this->assertSame($id, $ticket->id);
+        Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
     /** @test */
@@ -75,7 +88,9 @@ class TicketResourceTest extends TestCase
         $this->assertInstanceOf(Ticket::class, $ticket);
         $this->assertSame('::title::', $ticket->subject);
         $this->assertSame(20, $ticket->user_id);
+        Event::assertDispatched(ZammadResponseLog::class, 1);
 
         (new Zammad())->ticket()->delete($ticket->id);
+        Event::assertDispatched(ZammadResponseLog::class, 2);
     }
 }

@@ -3,6 +3,7 @@
 namespace CodebarAg\Zammad\Resources;
 
 use CodebarAg\Zammad\DTO\Comment;
+use CodebarAg\Zammad\Events\ZammadResponseLog;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -16,10 +17,11 @@ class CommentResource
             $id,
         );
 
-        $comment = Http::withToken(config('zammad.token'))
-            ->get($url)
-            ->throw()
-            ->json();
+        $response = Http::withToken(config('zammad.token'))->get($url);
+
+        event(new ZammadResponseLog($response));
+
+        $comment = $response->throw()->json();
 
         return collect($comment)->map(fn (array $comment) => Comment::fromJson($comment));
     }
@@ -32,10 +34,11 @@ class CommentResource
             $id,
         );
 
-        $comment = Http::withToken(config('zammad.token'))
-            ->get($url)
-            ->throw()
-            ->json();
+        $response = Http::withToken(config('zammad.token'))->get($url);
+
+        event(new ZammadResponseLog($response));
+
+        $comment = $response->throw()->json();
 
         return Comment::fromJson($comment);
     }
@@ -44,10 +47,11 @@ class CommentResource
     {
         $url = sprintf('%s/api/v1/ticket_articles', config('zammad.url'));
 
-        $comment = Http::withToken(config('zammad.token'))
-            ->post($url, $data)
-            ->throw()
-            ->json();
+        $response = Http::withToken(config('zammad.token'))->post($url, $data);
+
+        event(new ZammadResponseLog($response));
+
+        $comment = $response->throw()->json();
 
         return Comment::fromJson($comment);
     }
@@ -60,8 +64,10 @@ class CommentResource
             $id,
         );
 
-        Http::withToken(config('zammad.token'))
-            ->delete($url)
-            ->throw();
+        $response = Http::withToken(config('zammad.token'))->delete($url);
+
+        event(new ZammadResponseLog($response));
+
+        $response->throw();
     }
 }

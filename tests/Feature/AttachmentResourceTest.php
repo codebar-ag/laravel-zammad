@@ -2,12 +2,21 @@
 
 namespace CodebarAg\Zammad\Tests\Feature;
 
+use CodebarAg\Zammad\Events\ZammadResponseLog;
 use CodebarAg\Zammad\Tests\TestCase;
 use CodebarAg\Zammad\Zammad;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 
 class AttachmentResourceTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Event::fake();
+    }
+
     /** @test */
     public function it_can_download_an_attachment()
     {
@@ -18,5 +27,6 @@ class AttachmentResourceTest extends TestCase
         );
 
         $this->assertSame(37055, Str::length($content));
+        Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 }

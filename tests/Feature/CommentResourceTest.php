@@ -4,12 +4,21 @@ namespace CodebarAg\Zammad\Tests\Feature;
 
 use CodebarAg\Zammad\DTO\Attachment;
 use CodebarAg\Zammad\DTO\Comment;
+use CodebarAg\Zammad\Events\ZammadResponseLog;
 use CodebarAg\Zammad\Tests\TestCase;
 use CodebarAg\Zammad\Zammad;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
 
 class CommentResourceTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Event::fake();
+    }
+
     /** @test */
     public function it_does_show_by_ticket()
     {
@@ -22,6 +31,7 @@ class CommentResourceTest extends TestCase
             $this->assertInstanceOf(Comment::class, $comment);
             $this->assertSame($id, $comment->ticket_id);
         });
+        Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
     /** @test */
@@ -33,6 +43,7 @@ class CommentResourceTest extends TestCase
 
         $this->assertInstanceOf(Comment::class, $comment);
         $this->assertSame($id, $comment->id);
+        Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
     /** @test */
@@ -53,7 +64,6 @@ class CommentResourceTest extends TestCase
         ];
 
         $comment = (new Zammad())->comment()->create($data);
-        (new Zammad())->comment()->delete($comment->id);
 
         $this->assertInstanceOf(Comment::class, $comment);
         $this->assertSame('::subject::', $comment->subject);
@@ -66,5 +76,8 @@ class CommentResourceTest extends TestCase
             $this->assertSame('test.txt', $attachment->name);
             $this->assertSame('text/plain', $attachment->type);
         });
+        Event::assertDispatched(ZammadResponseLog::class, 1);
+        (new Zammad())->comment()->delete($comment->id);
+        Event::assertDispatched(ZammadResponseLog::class, 2);
     }
 }
