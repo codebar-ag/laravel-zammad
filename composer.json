@@ -56,7 +56,7 @@
                 "CodebarAg\\Zammad\\ZammadServiceProvider"
             ],
             "aliases": {
-                "Zammad": "CodebarAg\\Zammad\\ZammadFacade"
+                "Zammad": "CodebarAg\\Zammad\\Facades\\Zammad"
             }
         }
     },

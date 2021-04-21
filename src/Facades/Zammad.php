@@ -22,6 +22,6 @@ class Zammad extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return Zammad::class;
+        return \CodebarAg\Zammad\Zammad::class;
     }
 }
