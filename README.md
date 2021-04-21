@@ -47,12 +47,230 @@ can create your token. Be sure to activate all rights you need.
 
 👉 Make sure to activate **HTTP Token Authentication** in your system settings.
 
-## 🏗 Usage (WIP)
+## 🏗 Usage
+
+### 👶 User Resource
 
 ```php
 use CodebarAg\Zammad\Facades\Zammad;
 
-// 
+/**
+ * Get the current authenticated user.
+ */
+$user = Zammad::user()->me();
+
+/**
+ * Show a list of users.
+ */
+$users = Zammad::user()->list();
+
+/**
+ * Search a single user.
+ */
+$term = 'email:ruslan.steiger@codebar.ch';
+ 
+$user = Zammad::user()->search($term);
+
+/**
+ * Show a user by id.
+ */
+$user = Zammad::user()->show(20);
+
+/**
+ * Create a new user.
+ */
+$data = [
+    'firstname' => 'Bob',
+    'email' => 'bob@domain.test',
+];
+
+$user = (new Zammad())->user()->create($data);
+
+/**
+ * Delete a user by id.
+ */
+(new Zammad())->user()->delete(20);
+
+/**
+ * Search a user by email. If not found create a new user.
+ */
+$user = (new Zammad())->user()->searchOrCreateByEmail('bob@domain.test');
+```
+
+### 🎫 Ticket Resource
+
+```php
+use CodebarAg\Zammad\Facades\Zammad;
+
+/**
+ * Show a list of tickets.
+ */
+$tickets = Zammad::ticket()->list();
+
+/**
+ * Search tickets which include following term.
+ */
+$term = 'bob';
+ 
+$tickets = Zammad::ticket()->search($term);
+
+/**
+ * Show a ticket by id.
+ */
+$ticket = Zammad::ticket()->show(20);
+
+/**
+ * Create a new ticket.
+ */
+$data = [
+    'title' => 'The application is not working',
+    'group' => 'Inbox',
+    'customer' => 'bob@domain.test',
+    'article' => [
+        'body' => 'It just crashes if I visit the page',
+        'type' => 'note',
+        'internal' => false,
+    ],
+];
+
+$ticket = (new Zammad())->ticket()->create($data);
+
+/**
+ * Delete a ticket by id.
+ */
+(new Zammad())->user()->delete(20);
+```
+
+### 💬 Comment Resource
+
+```php
+use CodebarAg\Zammad\Facades\Zammad;
+
+/**
+ * Show comments by ticket id
+ */
+$comments = Zammad::comment()->showByTicket(20);
+
+/**
+ * Show a comment by id.
+ */
+$comment = Zammad::comment()->show(20);
+
+/**
+ * Create a new comment.
+ */
+$data = [
+    'ticket_id' => 42,
+    'subject' => 'Login still not working',
+    'body' => 'Somehow the login is not working<br>Could you check that?',
+    'content_type' => 'text/html',
+    'attachments' => [
+        [
+            'filename' => 'log.txt',
+            'data' => 'RHUgYmlzdCBlaW4g8J+OgSBmw7xyIGRpZSDwn4yN',
+            'mime-type' => 'text/plain',
+        ],
+    ],
+];
+
+$comment = (new Zammad())->comment()->create($data);
+
+/**
+ * Delete a comment by id.
+ */
+(new Zammad())->comment()->delete(20);
+```
+
+### 🏠 Object Resource
+
+```php
+use CodebarAg\Zammad\Facades\Zammad;
+
+/**
+ * Show a list of objects.
+ */
+$objects = Zammad::object()->list();
+
+/**
+ * Show a object by id.
+ */
+$object = Zammad::object()->show(20);
+
+/**
+ * Execute database migrations
+ */
+(new Zammad())->object()->executeMigrations();
+```
+
+### 🧷 Attachment Resource
+
+```php
+use CodebarAg\Zammad\Facades\Zammad;
+
+/**
+ * Download attachment.
+ */
+$content = Zammad::attachment()->download(
+    ticketId: 32,
+    commentId: 111,
+    attachmentId: 42,
+);
+```
+
+## 🏋️ DTO showcase
+
+```php
+CodebarAg\Zammad\DTO\User {
+  +id: 20                       // int
+  +first_name: "Bob"            // string
+  +last_name: "Schweizer"       // string
+  +login: "bob@domain.test"     // string
+  +email: "bob@domain.test"     // string
+  +last_login_at: Carbon\Carbon // Carbon
+  +updated_at: Carbon\Carbon    // Carbon
+  +created_at: Carbon\Carbon    // Carbon
+```
+
+```php
+CodebarAg\Zammad\DTO\Ticket {
+  +id: 32                           // int
+  +number: 69032                    // int
+  +user_id: 20                      // int
+  +group_id: 3                      // int
+  +state_id: 1                      // int
+  +subject: "Login is not working"  // string
+  +comments_count: 3                // int
+  +updated_at: Carbon\Carbon        // Carbon
+  +created_at: Carbon\Carbon        // Carbon
+}
+```
+
+```php
+CodebarAg\Zammad\DTO\Comment {
+  +id: 66                                       // int
+  +type_id: 10                                  // int
+  +ticket_id: 32                                // int
+  +subject: "App Subject"                       // string
+  +body: "Something is wrong"                   // string
+  +content_type: "text/plain"                   // string
+  +from: "Bob Schweizer"                        // string
+  +to: null                                     // ?string
+  +internal: false                              // boolean
+  +created_by_id: 20                            // int
+  +updated_by_id: 20                            // int
+  +attachments: Illuminate\Support\Collection   // Collection|Attachment[]
+  +updated_at: Carbon\Carbon                    // Carbon
+  +created_at: Carbon\Carbon                    // Carbon
+}
+```
+
+```php 
+CodebarAg\Zammad\DTO\Attachment {
+  +id: 313              // int
+  +size: 30             // int
+  +name: "log.txt"      // string
+  +type: "text/plain"   // string
+}
 ```
 
 ## 🔧 Configuration file
