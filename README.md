@@ -277,7 +277,7 @@ CodebarAg\Zammad\DTO\Attachment {
 
 You can publish the config file with:
 ```bash
-php artisan vendor:publish --provider="CodebarAg\Zammad\ZammadServiceProvider" --tag="laravel-zammad-config"
+php artisan vendor:publish --provider="CodebarAg\Zammad\ZammadServiceProvider" --tag="zammad-config"
 ```
 
 This is the contents of the published config file:
