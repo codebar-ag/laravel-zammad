@@ -4,6 +4,7 @@ namespace CodebarAg\Zammad\DTO;
 
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 class Ticket
 {
@@ -34,6 +35,7 @@ class Ticket
             comments_count: Arr::get($data, 'article_count', 0) ?? 0,
             updated_at: Carbon::parse($data['updated_at']),
             created_at: Carbon::parse($data['created_at']),
+            comments: $data['comments'] ?? collect([]),
             properties: $properties,
         );
     }
@@ -48,8 +50,11 @@ class Ticket
         public int $comments_count,
         public Carbon $updated_at,
         public Carbon $created_at,
+        public Collection $comments,
         array $properties,
     ) {
+        $this->comments = collect([]);
+
         foreach ($properties as ['name' => $name, 'value' => $value]) {
             $this->$name = $value;
         }
@@ -98,6 +103,7 @@ class Ticket
         ?int $comments_count = null,
         ?Carbon $updated_at = null,
         ?Carbon $created_at = null,
+        ?Collection $comments = null,
         ?array $properties = null,
     ): self {
         return new self(
@@ -110,6 +116,7 @@ class Ticket
             comments_count: $comments_count ?? 0,
             updated_at: $updated_at ?? now(),
             created_at: $created_at ?? now()->subDay(),
+            comments: $comments ?? collect([Comment::fake()]),
             properties: $properties ?? [],
         );
     }

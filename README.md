@@ -252,15 +252,16 @@ CodebarAg\Zammad\DTO\User {
 
 ```php
 CodebarAg\Zammad\DTO\Ticket {
-  +id: 32                           // int
-  +number: 69032                    // int
-  +customer_id: 20                  // int
-  +group_id: 3                      // int
-  +state_id: 1                      // int
-  +subject: "Login is not working"  // string
-  +comments_count: 3                // int
-  +updated_at: Carbon\Carbon        // Carbon
-  +created_at: Carbon\Carbon        // Carbon
+  +id: 32                                  // int
+  +number: 69032                           // int
+  +customer_id: 20                         // int
+  +group_id: 3                             // int
+  +state_id: 1                             // int
+  +subject: "Login is not working"         // string
+  +comments_count: 3                       // int
+  +updated_at: Carbon\Carbon               // Carbon
+  +created_at: Carbon\Carbon               // Carbon
+  +comments: Illuminate\Support\Collection // Collection|Comment[]
 }
 ```
 
