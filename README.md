@@ -42,10 +42,23 @@ ZAMMAD_TOKEN=token
 
 ### 🔑 Where can I find the token?
 
-Go to your profile in your Zammad application. In the tab **Token Access** you
+Go to your profile page in your Zammad application. In the tab **Token Access** you
 can create your token. Be sure to activate all rights you need.
 
 👉 Make sure to activate **HTTP Token Authentication** in your system settings.
+
+### 📝 How to add dynamic ticket attributes?
+
+- Publish your configuration file (see chapter `🔧 Configuration file`).
+- Add attributes to the *ticket* key:
+
+```php 
+'ticket' => [
+    'note' => 'string',
+    'additional_id' => 'integer',
+],
+```
+
 
 ## 🏗 Usage
 
