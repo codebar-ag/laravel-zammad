@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-zammad` will be documented in this file.
 
-### Unreleased 0.1.0 - 2021-05-18
+### 0.1.0 - 2021-05-18
 
 - ⚠️ [Breaking Change] Changed `user_id` to `customer_id` in the ticket DTO.
 - Added sender_id for the comment DTO.
