@@ -142,8 +142,13 @@ $data = [
     // 'customer' => 'bob@domain.test', // or use the customer e-mail address
     'article' => [
         'body' => 'It just crashes if I visit the page',
-        'type' => 'note',
-        'internal' => false,
+        'attachments' => [
+            [
+                'filename' => 'log.txt',
+                'data' => 'V2FzdGUgbm8gbW9yZSB0aW1lIGFyZ3Vpbmcgd2hhdCBhIGdvb2QgbWFuIHNob3VsZCBiZSwgYmUgb25l',
+                'mime-type' => 'text/plain'
+            ],
+        ],
     ],
 ];
 
@@ -181,7 +186,7 @@ $data = [
     'attachments' => [
         [
             'filename' => 'log.txt',
-            'data' => 'RHUgYmlzdCBlaW4g8J+OgSBmw7xyIGRpZSDwn4yN',
+            'data' => 'WW91IGFyZSBhIPCfjoEgZm9yIHRoZSDwn4yN',
             'mime-type' => 'text/plain',
         ],
     ],
