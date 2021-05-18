@@ -13,7 +13,7 @@ class Ticket
             ->filter(fn (string $_, string $key) => Arr::exists($data, $key))
             ->map(fn (string $type, string $key) => [
                 'name' => $key,
-                'value' => match($type) {
+                'value' => match ($type) {
                     'bool','boolean' => (bool) $data[$key],
                     'int','integer' => (int) $data[$key],
                     'float','double' => (float) $data[$key],
@@ -27,7 +27,7 @@ class Ticket
         return new self(
             id: $data['id'],
             number: $data['number'],
-            user_id: $data['customer_id'],
+            customer_id: $data['customer_id'],
             group_id: $data['group_id'],
             state_id: $data['state_id'],
             subject: $data['title'],
@@ -41,7 +41,7 @@ class Ticket
     public function __construct(
         public int $id,
         public int $number,
-        public int $user_id,
+        public int $customer_id,
         public int $group_id,
         public int $state_id,
         public string $subject,
@@ -57,7 +57,7 @@ class Ticket
 
     public function state(): string
     {
-        return match($this->state_id) {
+        return match ($this->state_id) {
             1 => 'new',
             2 => 'open',
             3 => 'pending_reminder',
@@ -91,7 +91,7 @@ class Ticket
     public static function fake(
         ?int $id = null,
         ?int $number = null,
-        ?int $user_id = null,
+        ?int $customer_id = null,
         ?int $group_id = null,
         ?int $state_id = null,
         ?string $subject = null,
@@ -103,7 +103,7 @@ class Ticket
         return new self(
             id: $id ?? random_int(1, 1000),
             number: $number ?? random_int(10000, 99999),
-            user_id: $user_id ?? 1,
+            customer_id: $customer_id ?? 1,
             group_id: $group_id ?? 1,
             state_id: $state_id ?? random_int(1, 7),
             subject: $subject ?? 'Fake subject',

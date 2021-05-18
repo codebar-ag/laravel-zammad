@@ -87,7 +87,7 @@ class TicketResourceTest extends TestCase
 
         $this->assertInstanceOf(Ticket::class, $ticket);
         $this->assertSame('::title::', $ticket->subject);
-        $this->assertSame(20, $ticket->user_id);
+        $this->assertSame(20, $ticket->customer_id);
         Event::assertDispatched(ZammadResponseLog::class, 1);
 
         (new Zammad())->ticket()->delete($ticket->id);

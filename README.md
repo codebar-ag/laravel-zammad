@@ -248,7 +248,7 @@ CodebarAg\Zammad\DTO\User {
 CodebarAg\Zammad\DTO\Ticket {
   +id: 32                           // int
   +number: 69032                    // int
-  +user_id: 20                      // int
+  +customer_id: 20                  // int
   +group_id: 3                      // int
   +state_id: 1                      // int
   +subject: "Login is not working"  // string
