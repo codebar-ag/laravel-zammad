@@ -80,4 +80,27 @@ class CommentResourceTest extends TestCase
         (new Zammad())->comment()->delete($comment->id);
         Event::assertDispatched(ZammadResponseLog::class, 2);
     }
+
+    /** @test */
+    public function it_does_parse_body_from_comment()
+    {
+        $comment = (new Zammad())->comment()->show(342);
+
+        $this->assertStringContainsString(
+            'Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.',
+            $comment->body,
+        );
+        $this->assertStringContainsString(
+            'Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte.',
+            $comment->body,
+        );
+        $this->assertStringContainsString(
+            'Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.',
+            $comment->body_without_blockquote,
+        );
+        $this->assertStringContainsString(
+            'Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte.',
+            $comment->body_only_blockquote,
+        );
+    }
 }

@@ -4,6 +4,7 @@ namespace CodebarAg\Zammad\DTO;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 /**
  * @property Collection|Attachment[] $attachments
@@ -21,6 +22,13 @@ class Comment
                 );
             });
 
+        $bodyWithoutBlockquote = Str::of($data['body'])
+            ->before('<span class="js-signatureMarker"></span>')
+            ->__toString();
+        $bodyOnlyBlockquote = Str::of($data['body'])
+            ->after('<span class="js-signatureMarker"></span>')
+            ->__toString();
+
         return new self(
             id: $data['id'],
             type_id: $data['type_id'],
@@ -28,6 +36,8 @@ class Comment
             sender_id: $data['sender_id'],
             subject: $data['subject'],
             body: $data['body'],
+            body_without_blockquote: $bodyWithoutBlockquote,
+            body_only_blockquote: $bodyOnlyBlockquote,
             content_type: $data['content_type'],
             from: $data['from'],
             to: $data['to'],
@@ -47,6 +57,8 @@ class Comment
         public int $sender_id,
         public ?string $subject,
         public string $body,
+        public string $body_without_blockquote,
+        public ?string $body_only_blockquote,
         public string $content_type,
         public string $from,
         public ?string $to,
@@ -82,6 +94,8 @@ class Comment
             sender_id: $sender_id ?? 1,
             subject: $subject ?? 'Fake subject',
             body: $body ?? 'Fake body',
+            body_without_blockquote: $body ?? 'Fake body without blockquote',
+            body_only_blockquote: $body ?? 'Fake body only blockquote',
             content_type: $content_type ?? 'text/html',
             from: $from ?? 'Fake User',
             to: $to ?? 'Fake User',
