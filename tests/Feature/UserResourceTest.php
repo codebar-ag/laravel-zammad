@@ -101,7 +101,7 @@ class UserResourceTest extends TestCase
 
         $user = (new Zammad())->user()->searchOrCreateByEmail($email);
 
-        $this->assertSame('noah@schweizer.ch', $user->email);
+        $this->assertSame($email, $user->email);
         Event::assertDispatched(ZammadResponseLog::class, 2);
         (new Zammad())->user()->delete($user->id);
         Event::assertDispatched(ZammadResponseLog::class, 3);
