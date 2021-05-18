@@ -5,10 +5,22 @@ namespace CodebarAg\Zammad\DTO;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
+/**
+ * @property Collection|Attachment[] $attachments
+ */
 class Comment
 {
     public static function fromJson(array $data): self
     {
+        $attachments = collect($data['attachments'])
+            ->map(function (array $attachment) use ($data) {
+                return Attachment::fromJson(
+                    data: $attachment,
+                    ticketId: $data['ticket_id'],
+                    commentId: $data['id'],
+                );
+            });
+
         return new self(
             id: $data['id'],
             type_id: $data['type_id'],
@@ -22,7 +34,7 @@ class Comment
             internal: $data['internal'],
             created_by_id: $data['created_by_id'],
             updated_by_id: $data['updated_by_id'],
-            attachments: collect($data['attachments'])->map(fn (array $a) => Attachment::fromJson($a)),
+            attachments: $attachments,
             updated_at: Carbon::parse($data['updated_at']),
             created_at: Carbon::parse($data['created_at']),
         );

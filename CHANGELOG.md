@@ -8,6 +8,7 @@ All notable changes to `laravel-zammad` will be documented in this file.
 - Added sender_id for the comment DTO.
 - Optional subject for the comment DTO.
 - Added ticket showWithComment endpoint.
+- Added URL for the attachment DTO
 
 ## 0.0.1 - 2021-04-21
 
