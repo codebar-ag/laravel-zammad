@@ -42,10 +42,23 @@ ZAMMAD_TOKEN=token
 
 ### 🔑 Where can I find the token?
 
-Go to your profile in your Zammad application. In the tab **Token Access** you
+Go to your profile page in your Zammad application. In the tab **Token Access** you
 can create your token. Be sure to activate all rights you need.
 
 👉 Make sure to activate **HTTP Token Authentication** in your system settings.
+
+### 📝 How to add dynamic ticket attributes?
+
+- Publish your configuration file (see chapter `🔧 Configuration file`).
+- Add attributes to the *ticket* key:
+
+```php 
+'ticket' => [
+    'note' => 'string',
+    'additional_id' => 'integer',
+],
+```
+
 
 ## 🏗 Usage
 
@@ -125,11 +138,17 @@ $ticket = Zammad::ticket()->show(20);
 $data = [
     'title' => 'The application is not working',
     'group' => 'Inbox',
-    'customer' => 'bob@domain.test',
+    'customer_id' => 20,
+    // 'customer' => 'bob@domain.test', // or use the customer e-mail address
     'article' => [
         'body' => 'It just crashes if I visit the page',
-        'type' => 'note',
-        'internal' => false,
+        'attachments' => [
+            [
+                'filename' => 'log.txt',
+                'data' => 'V2FzdGUgbm8gbW9yZSB0aW1lIGFyZ3Vpbmcgd2hhdCBhIGdvb2QgbWFuIHNob3VsZCBiZSwgYmUgb25l',
+                'mime-type' => 'text/plain'
+            ],
+        ],
     ],
 ];
 
@@ -167,7 +186,7 @@ $data = [
     'attachments' => [
         [
             'filename' => 'log.txt',
-            'data' => 'RHUgYmlzdCBlaW4g8J+OgSBmw7xyIGRpZSDwn4yN',
+            'data' => 'WW91IGFyZSBhIPCfjoEgZm9yIHRoZSDwn4yN',
             'mime-type' => 'text/plain',
         ],
     ],
@@ -233,15 +252,16 @@ CodebarAg\Zammad\DTO\User {
 
 ```php
 CodebarAg\Zammad\DTO\Ticket {
-  +id: 32                           // int
-  +number: 69032                    // int
-  +user_id: 20                      // int
-  +group_id: 3                      // int
-  +state_id: 1                      // int
-  +subject: "Login is not working"  // string
-  +comments_count: 3                // int
-  +updated_at: Carbon\Carbon        // Carbon
-  +created_at: Carbon\Carbon        // Carbon
+  +id: 32                                  // int
+  +number: 69032                           // int
+  +customer_id: 20                         // int
+  +group_id: 3                             // int
+  +state_id: 1                             // int
+  +subject: "Login is not working"         // string
+  +comments_count: 3                       // int
+  +updated_at: Carbon\Carbon               // Carbon
+  +created_at: Carbon\Carbon               // Carbon
+  +comments: Illuminate\Support\Collection // Collection|Comment[]
 }
 ```
 
@@ -277,7 +297,7 @@ CodebarAg\Zammad\DTO\Attachment {
 
 You can publish the config file with:
 ```bash
-php artisan vendor:publish --provider="CodebarAg\Zammad\ZammadServiceProvider" --tag="laravel-zammad-config"
+php artisan vendor:publish --provider="CodebarAg\Zammad\ZammadServiceProvider" --tag="zammad-config"
 ```
 
 This is the contents of the published config file:

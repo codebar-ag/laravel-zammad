@@ -4,6 +4,7 @@ namespace CodebarAg\Zammad\Resources;
 
 use CodebarAg\Zammad\DTO\Ticket;
 use CodebarAg\Zammad\Events\ZammadResponseLog;
+use CodebarAg\Zammad\Facades\Zammad;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -56,6 +57,25 @@ class TicketResource
         $ticket = $response->throw()->json();
 
         return Ticket::fromJson($ticket);
+    }
+
+    public function showWithComments(int $id): ?Ticket
+    {
+        $url = sprintf(
+            '%s/api/v1/tickets/%s',
+            config('zammad.url'),
+            $id,
+        );
+
+        $response = Http::withToken(config('zammad.token'))->get($url);
+
+        event(new ZammadResponseLog($response));
+
+        $ticket = Ticket::fromJson($response->throw()->json());
+
+        $ticket->comments = Zammad::comment()->showByTicket($id);
+
+        return $ticket;
     }
 
     public function create(array $data): Ticket

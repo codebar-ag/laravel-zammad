@@ -69,6 +69,20 @@ class TicketResourceTest extends TestCase
     }
 
     /** @test */
+    public function it_does_show_ticket_with_comments()
+    {
+        $id = 32;
+
+        $ticket = (new Zammad())->ticket()->showWithComments($id);
+
+        $this->assertInstanceOf(Ticket::class, $ticket);
+        $this->assertSame($id, $ticket->id);
+        $this->assertInstanceOf(Collection::class, $ticket->comments);
+        $this->assertTrue($ticket->comments->count() > 0);
+        Event::assertDispatched(ZammadResponseLog::class, 2);
+    }
+
+    /** @test */
     public function it_does_create_and_delete_ticket()
     {
         $data = [
@@ -87,7 +101,7 @@ class TicketResourceTest extends TestCase
 
         $this->assertInstanceOf(Ticket::class, $ticket);
         $this->assertSame('::title::', $ticket->subject);
-        $this->assertSame(20, $ticket->user_id);
+        $this->assertSame(20, $ticket->customer_id);
         Event::assertDispatched(ZammadResponseLog::class, 1);
 
         (new Zammad())->ticket()->delete($ticket->id);

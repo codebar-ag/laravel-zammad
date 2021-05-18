@@ -5,14 +5,27 @@ namespace CodebarAg\Zammad\DTO;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
+/**
+ * @property Collection|Attachment[] $attachments
+ */
 class Comment
 {
     public static function fromJson(array $data): self
     {
+        $attachments = collect($data['attachments'])
+            ->map(function (array $attachment) use ($data) {
+                return Attachment::fromJson(
+                    data: $attachment,
+                    ticketId: $data['ticket_id'],
+                    commentId: $data['id'],
+                );
+            });
+
         return new self(
             id: $data['id'],
             type_id: $data['type_id'],
             ticket_id: $data['ticket_id'],
+            sender_id: $data['sender_id'],
             subject: $data['subject'],
             body: $data['body'],
             content_type: $data['content_type'],
@@ -21,7 +34,7 @@ class Comment
             internal: $data['internal'],
             created_by_id: $data['created_by_id'],
             updated_by_id: $data['updated_by_id'],
-            attachments: collect($data['attachments'])->map(fn (array $a) => Attachment::fromJson($a)),
+            attachments: $attachments,
             updated_at: Carbon::parse($data['updated_at']),
             created_at: Carbon::parse($data['created_at']),
         );
@@ -31,7 +44,8 @@ class Comment
         public int $id,
         public int $type_id,
         public int $ticket_id,
-        public string $subject,
+        public int $sender_id,
+        public ?string $subject,
         public string $body,
         public string $content_type,
         public string $from,
@@ -49,6 +63,7 @@ class Comment
         ?int $id = null,
         ?int $type_id = null,
         ?int $ticket_id = null,
+        ?int $sender_id = null,
         ?string $subject = null,
         ?string $body = null,
         ?string $content_type = null,
@@ -64,6 +79,7 @@ class Comment
             id: $id ?? random_int(1, 1000),
             type_id: $type_id ?? 10,
             ticket_id: $ticket_id ?? 1,
+            sender_id: $sender_id ?? 1,
             subject: $subject ?? 'Fake subject',
             body: $body ?? 'Fake body',
             content_type: $content_type ?? 'text/html',
