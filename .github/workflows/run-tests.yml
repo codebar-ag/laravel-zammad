@@ -48,6 +48,9 @@ jobs:
         env:
           ZAMMAD_URL: ${{ secrets.ZAMMAD_URL }}
           ZAMMAD_TOKEN: ${{ secrets.ZAMMAD_TOKEN }}
+
+      - name: Store test reports
+        uses: actions/upload-artifact@v2
         with:
           name: Store report
           retention-days: 1
