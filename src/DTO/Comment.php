@@ -66,7 +66,7 @@ class Comment
         public bool $internal,
         public int $created_by_id,
         public int $updated_by_id,
-        public int $origin_by_id,
+        public ?int $origin_by_id,
         public Collection $attachments,
         public Carbon $updated_at,
         public Carbon $created_at,
