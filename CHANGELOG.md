@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-zammad` will be documented in this file.
 
+### 0.1.2 - 2021-05-19
+
+- Added `origin_by_id` to the comment DTO
+
 ### 0.1.1 - 2021-05-18
 
 - Added `body_without_blockquote` and `body_only_blockquote` attribute to the
