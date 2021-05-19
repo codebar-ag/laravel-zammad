@@ -76,7 +76,9 @@ class UserResource
     {
         $url = sprintf('%s/api/v1/users', config('zammad.url'));
 
-        $response = Http::withToken(config('zammad.token'))->post($url, $data);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry(2)
+            ->post($url, $data);
 
         event(new ZammadResponseLog($response));
 

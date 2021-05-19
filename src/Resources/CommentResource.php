@@ -47,7 +47,9 @@ class CommentResource
     {
         $url = sprintf('%s/api/v1/ticket_articles', config('zammad.url'));
 
-        $response = Http::withToken(config('zammad.token'))->post($url, $data);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry(2)
+            ->post($url, $data);
 
         event(new ZammadResponseLog($response));
 
