@@ -95,7 +95,9 @@ class UserResource
             $id,
         );
 
-        $response = Http::withToken(config('zammad.token'))->delete($url);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry(2)
+            ->delete($url);
 
         event(new ZammadResponseLog($response));
 
