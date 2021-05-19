@@ -3,6 +3,7 @@
 namespace CodebarAg\Zammad\DTO;
 
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -34,6 +35,7 @@ class Comment
             type_id: $data['type_id'],
             ticket_id: $data['ticket_id'],
             sender_id: $data['sender_id'],
+            sender: $data['sender'],
             subject: $data['subject'],
             body: $data['body'],
             body_without_blockquote: $bodyWithoutBlockquote,
@@ -56,6 +58,7 @@ class Comment
         public int $type_id,
         public int $ticket_id,
         public int $sender_id,
+        public string $sender,
         public ?string $subject,
         public string $body,
         public string $body_without_blockquote,
@@ -78,6 +81,7 @@ class Comment
         ?int $type_id = null,
         ?int $ticket_id = null,
         ?int $sender_id = null,
+        ?string $sender = null,
         ?string $subject = null,
         ?string $body = null,
         ?string $content_type = null,
@@ -95,6 +99,7 @@ class Comment
             type_id: $type_id ?? 10,
             ticket_id: $ticket_id ?? 1,
             sender_id: $sender_id ?? 1,
+            sender: $sender ?? Arr::random(['Agent', 'Customer']),
             subject: $subject ?? 'Fake subject',
             body: $body ?? 'Fake body',
             body_without_blockquote: $body ?? 'Fake body without blockquote',

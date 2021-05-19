@@ -5,6 +5,7 @@ All notable changes to `laravel-zammad` will be documented in this file.
 ### 0.1.2 - 2021-05-19
 
 - Added `origin_by_id` to the comment DTO
+- Added `sender` to the comment DTO
 
 ### 0.1.1 - 2021-05-18
 
