@@ -48,3 +48,8 @@ jobs:
         env:
           ZAMMAD_URL: ${{ secrets.ZAMMAD_URL }}
           ZAMMAD_TOKEN: ${{ secrets.ZAMMAD_TOKEN }}
+        with:
+          name: Store report
+          retention-days: 1
+          path: |
+            ./reports
