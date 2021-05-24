@@ -128,9 +128,14 @@ $term = 'bob';
 $tickets = Zammad::ticket()->search($term);
 
 /**
- * Show a ticket by id.
+ * Show a ticket by id (empty comments).
  */
 $ticket = Zammad::ticket()->show(20);
+
+/**
+ * Show a ticket by id with comments.
+ */
+$ticket = Zammad::ticket()->showWithComments(20);
 
 /**
  * Create a new ticket.
@@ -270,14 +275,19 @@ CodebarAg\Zammad\DTO\Comment {
   +id: 66                                       // int
   +type_id: 10                                  // int
   +ticket_id: 32                                // int
+  +sender_id: 2                                 // int
+  +sender: "Customer"                           // string
   +subject: "App Subject"                       // string
-  +body: "Something is wrong"                   // string
+  +body: "We have fixed your issue! Have a great day<br><span class=\"js-signatureMarker\"></span><blockquote type=\"cite\"><div>It is not working</div></blockquote>"
+  +body_without_blockquote: "We have fixed your issue! Have a great day<br>"
+  +body_only_blockquote: "<blockquote type=\"cite\"><div>It is not working</div></blockquote>"
   +content_type: "text/plain"                   // string
   +from: "Bob Schweizer"                        // string
   +to: null                                     // ?string
   +internal: false                              // boolean
   +created_by_id: 20                            // int
   +updated_by_id: 20                            // int
+  +origin_by_id: 4                              // ?int
   +attachments: Illuminate\Support\Collection   // Collection|Attachment[]
   +updated_at: Carbon\Carbon                    // Carbon
   +created_at: Carbon\Carbon                    // Carbon
