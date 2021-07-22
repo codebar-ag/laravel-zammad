@@ -98,7 +98,7 @@ class TicketResource
         $url = sprintf(
             '%s/api/v1/tickets/%s',
             config('zammad.url'),
-            $id
+            $id,
         );
 
         $response = Http::withToken(config('zammad.token'))
