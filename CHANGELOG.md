@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-zammad` will be documented in this file.
 
+### 1.0.0 - 2021-07-22
+
+- Stable release.
+
 ### 0.1.2 - 2021-05-19
 
 - Added `origin_by_id` to the comment DTO
