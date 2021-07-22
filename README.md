@@ -1,4 +1,4 @@
-<img src=".github/preview.png">
+<img src="https://banners.beyondco.de/Laravel%20Zammad.png?theme=light&packageManager=composer+require&packageName=codebar-ag%2Flaravel-zammad&pattern=circuitBoard&style=style_2&description=An+opinionated+way+to+integrate+Zammad+with+Laravel&md=1&showWatermark=0&fontSize=150px&images=ticket&widths=500&heights=500">
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codebar-ag/laravel-zammad.svg?style=flat-square)](https://packagist.org/packages/codebar-ag/laravel-zammad)
 [![Total Downloads](https://img.shields.io/packagist/dt/codebar-ag/laravel-zammad.svg?style=flat-square)](https://packagist.org/packages/codebar-ag/laravel-zammad)
