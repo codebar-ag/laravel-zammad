@@ -16,10 +16,6 @@ jobs:
         php: [ 8.0, 8.1 ]
         laravel: [ 9.* ]
         stability: [ prefer-lowest, prefer-stable ]
-        include:
-          - laravel: 9.*
-            contracts: 9.*
-            testbench: ^7.6
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
@@ -41,8 +37,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "illuminate/contracts:${{ matrix.contracts }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+          composer install -q --no-progress --prefer-dist --no-interaction --no-suggest --optimize-autoloader --no-scripts
+
 
       - name: Execute tests
         run: vendor/bin/phpunit
