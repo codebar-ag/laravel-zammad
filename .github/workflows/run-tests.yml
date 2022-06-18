@@ -21,7 +21,7 @@ jobs:
             contracts: ^8.0
             testbench: ^6.6
           - laravel: 9.*
-            contracts ^9.0
+            contracts: ^9.0
             testbench: ^7.0
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
