@@ -2,6 +2,7 @@
 
 namespace CodebarAg\Zammad\Tests\Feature;
 
+use CodebarAg\Zammad\DTO\Ticket;
 use CodebarAg\Zammad\Events\ZammadResponseLog;
 use CodebarAg\Zammad\Tests\TestCase;
 use CodebarAg\Zammad\Zammad;
@@ -36,6 +37,32 @@ class ObjectResourceTest extends TestCase
 
         $this->assertSame($id, $object['id']);
         Event::assertDispatched(ZammadResponseLog::class, 1);
+    }
+
+    /** @test */
+    public function it_does_update_an_object()
+    {
+        $data = [
+            'title' => '::title::',
+            'group' => 'Inbox',
+            'customer' => 'ruslan.steiger@codebar.ch',
+            'article' => [
+                'body' => '::body::',
+                'type' => 'note',
+                'internal' => false,
+            ],
+            'house' => 20,
+        ];
+
+        $ticket = (new Zammad())->ticket()->create($data);
+
+        $this->assertInstanceOf(Ticket::class, $ticket);
+        $this->assertSame('::title::', $ticket->subject);
+        $this->assertSame(20, $ticket->customer_id);
+        Event::assertDispatched(ZammadResponseLog::class, 1);
+
+        (new Zammad())->ticket()->delete($ticket->id);
+        Event::assertDispatched(ZammadResponseLog::class, 2);
     }
 
     /** @test */

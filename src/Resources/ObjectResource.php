@@ -2,6 +2,7 @@
 
 namespace CodebarAg\Zammad\Resources;
 
+use CodebarAg\Zammad\DTO\ObjectAttribute;
 use CodebarAg\Zammad\Events\ZammadResponseLog;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
@@ -24,7 +25,7 @@ class ObjectResource
         return collect($objects);
     }
 
-    public function show(int $id): ?array
+    public function show(int $id): ?ObjectAttribute
     {
         $url = sprintf(
             '%s/api/v1/object_manager_attributes/%s',
@@ -36,7 +37,27 @@ class ObjectResource
 
         event(new ZammadResponseLog($response));
 
-        return $response->throw()->json();
+        $object = $response->throw()->json();
+
+        ray($object)->blue();
+        return ObjectAttribute::fromJson($object);
+    }
+
+    public function update(int $id, array $data): ObjectAttribute
+    {
+        $url = sprintf(
+            '%s/api/v1/object_manager_attributes/%s',
+            config('zammad.url'),
+            $id,
+        );
+
+        $response = Http::withToken(config('zammad.token'))
+            ->retry(2, 1000)
+            ->put($url, $data);
+
+        $object = $response->throw()->json();
+
+        return ObjectAttribute::fromJson($object);
     }
 
     public function executeMigrations(): void

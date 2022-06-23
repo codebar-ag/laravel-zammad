@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-zammad` will be documented in this file.
 
+### 2.0.0 - 2021-07-22
+
+- Support for Laravel 9.0 & PHP 8.1
+
 ### 1.0.0 - 2021-07-22
 
 - Stable release.
