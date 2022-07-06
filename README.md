@@ -350,6 +350,20 @@ return [
     'token' => env('ZAMMAD_TOKEN'),
 
     /*
+     |--------------------------------------------------------------------------
+     | HTTP Retry Values
+     |--------------------------------------------------------------------------
+     |
+     | If you would like HTTP client to automatically retry the request if a client or server error occurs,
+     | you may specify the retry values. The maximum retry value specifies the number of times the request should be attempted,
+     | and the retry delay value is the number of milliseconds Laravel should wait between attempts.
+     |
+     */
+
+    'http_retry_maximum' => 5,
+    'http_retry_delay' => 2500,
+    
+    /*
     |--------------------------------------------------------------------------
     | Dynamic Ticket Attributes with Casts
     |--------------------------------------------------------------------------

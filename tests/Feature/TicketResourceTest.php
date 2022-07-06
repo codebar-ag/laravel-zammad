@@ -14,11 +14,12 @@ class TicketResourceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
         Event::fake();
     }
 
-    /** @test */
+    /** @test
+     * @group zammad
+     */
     public function it_does_fetch_a_list_of_tickets()
     {
         $tickets = (new Zammad())->ticket()->list();
@@ -27,6 +28,7 @@ class TicketResourceTest extends TestCase
         $tickets->each(function (Ticket $ticket) {
             $this->assertInstanceOf(Ticket::class, $ticket);
         });
+
         Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 

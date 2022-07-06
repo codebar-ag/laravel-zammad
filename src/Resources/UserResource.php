@@ -2,35 +2,22 @@
 
 namespace CodebarAg\Zammad\Resources;
 
+use CodebarAg\Zammad\Classes\RequestClass;
 use CodebarAg\Zammad\DTO\User;
 use CodebarAg\Zammad\Events\ZammadResponseLog;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class UserResource
+class UserResource extends RequestClass
 {
-    protected $httpRetryMaxium;
-
-    protected $httpRetryDelay;
-
-    public function __construct()
-    {
-        $this->httpRetryMaxium = config('zammad.http_retry_maximum');
-        $this->httpRetryDelay = config('zammad.http_retry_delay');
-    }
-
     public function me(): User
     {
         $url = sprintf('%s/api/v1/users/me', config('zammad.url'));
 
-        $response = Http::withToken(config('zammad.token'))
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->get($url);
+        $response = self::getRequest($url);
 
-        event(new ZammadResponseLog($response));
-
-        $data = $response->throw()->json();
+        $data = $response->json();
 
         return User::fromJson($data);
     }
@@ -39,15 +26,11 @@ class UserResource
     {
         $url = sprintf('%s/api/v1/users', config('zammad.url'));
 
-        $response = Http::withToken(config('zammad.token'))
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->get($url);
+        $response = self::getRequest($url);
 
-        event(new ZammadResponseLog($response));
+        $users = $response->json();
 
-        $users = $response->throw()->json();
-
-        return collect($users)->map(fn (array $user) => User::fromJson($user));
+        return collect($users)->map(fn(array $user) => User::fromJson($user));
     }
 
     public function search(string $term): ?User
@@ -58,13 +41,9 @@ class UserResource
             $term,
         );
 
-        $response = Http::withToken(config('zammad.token'))
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->get($url);
+        $response = self::getRequest($url);
 
-        event(new ZammadResponseLog($response));
-
-        $data = $response->throw()->json();
+        $data = $response->json();
 
         return Arr::exists($data, 0)
             ? User::fromJson($data[0])
@@ -79,13 +58,9 @@ class UserResource
             $id,
         );
 
-        $response = Http::withToken(config('zammad.token'))
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->get($url);
+        $response = self::getRequest($url);
 
-        event(new ZammadResponseLog($response));
-
-        $data = $response->throw()->json();
+        $data = $response->json();
 
         return User::fromJson($data);
     }
@@ -94,13 +69,9 @@ class UserResource
     {
         $url = sprintf('%s/api/v1/users', config('zammad.url'));
 
-        $response = Http::withToken(config('zammad.token'))
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->post($url, $data);
+        $response = self::postRequest($url, $data);
 
-        event(new ZammadResponseLog($response));
-
-        $user = $response->throw()->json();
+        $user = $response->json();
 
         return User::fromJson($user);
     }
@@ -113,13 +84,7 @@ class UserResource
             $id,
         );
 
-        $response = Http::withToken(config('zammad.token'))
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->delete($url);
-
-        event(new ZammadResponseLog($response));
-
-        $response->throw();
+        self::deleteRequest($url);
     }
 
     public function searchOrCreateByEmail(string $email): User

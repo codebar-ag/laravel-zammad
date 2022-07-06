@@ -2,23 +2,14 @@
 
 namespace CodebarAg\Zammad\Resources;
 
+use CodebarAg\Zammad\Classes\RequestClass;
 use CodebarAg\Zammad\DTO\ObjectAttribute;
 use CodebarAg\Zammad\Events\ZammadResponseLog;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class ObjectResource
+class ObjectResource extends RequestClass
 {
-    protected $httpRetryMaxium;
-
-    protected $httpRetryDelay;
-
-    public function __construct()
-    {
-        $this->httpRetryMaxium = config('zammad.http_retry_maximum');
-        $this->httpRetryDelay = config('zammad.http_retry_delay');
-    }
-
     public function list(): Collection
     {
         $url = sprintf(
@@ -26,13 +17,9 @@ class ObjectResource
             config('zammad.url'),
         );
 
-        $response = Http::withToken(config('zammad.token'))
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->get($url);
+        $response = self::getRequest($url);
 
-        event(new ZammadResponseLog($response));
-
-        $objects = $response->throw()->json();
+        $objects = $response->json();
 
         return collect($objects);
     }
@@ -45,13 +32,9 @@ class ObjectResource
             $id,
         );
 
-        $response = Http::withToken(config('zammad.token'))
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->get($url);
+        $response = self::getRequest($url);
 
-        event(new ZammadResponseLog($response));
-
-        $object = $response->throw()->json();
+        $object = $response->json();
 
         return ObjectAttribute::fromJson($object);
     }
@@ -64,11 +47,9 @@ class ObjectResource
             $id,
         );
 
-        $response = Http::withToken(config('zammad.token'))
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->put($url, $data);
+        $response = self::postRequest($url, $data);
 
-        $object = $response->throw()->json();
+        $object = $response->json();
 
         return ObjectAttribute::fromJson($object);
     }
@@ -80,12 +61,6 @@ class ObjectResource
             config('zammad.url'),
         );
 
-        $response = Http::withToken(config('zammad.token'))
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->post($url);
-
-        event(new ZammadResponseLog($response));
-
-        $response->throw();
+        self::postRequest($url);
     }
 }

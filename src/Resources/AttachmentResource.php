@@ -2,21 +2,12 @@
 
 namespace CodebarAg\Zammad\Resources;
 
+use CodebarAg\Zammad\Classes\RequestClass;
 use CodebarAg\Zammad\Events\ZammadResponseLog;
 use Illuminate\Support\Facades\Http;
 
-class AttachmentResource
+class AttachmentResource extends RequestClass
 {
-    protected $httpRetryMaxium;
-
-    protected $httpRetryDelay;
-
-    public function __construct()
-    {
-        $this->httpRetryMaxium = config('zammad.http_retry_maximum');
-        $this->httpRetryDelay = config('zammad.http_retry_delay');
-    }
-
     public function download(
         int $ticketId,
         int $commentId,
@@ -30,12 +21,8 @@ class AttachmentResource
             $attachmentId,
         );
 
-        $response = Http::withToken(config('zammad.token'))
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->get($url);
+        $response = self::getRequest($url);
 
-        event(new ZammadResponseLog($response));
-
-        return $response->throw()->body();
+        return $response->body();
     }
 }
