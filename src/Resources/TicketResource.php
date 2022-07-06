@@ -10,17 +10,28 @@ use Illuminate\Support\Facades\Http;
 
 class TicketResource
 {
+    protected $httpRetryMaxium;
+    protected $httpRetryDelay;
+
+    public function __construct()
+    {
+        $this->httpRetryMaxium = config('zammad.http_retry_maximum');
+        $this->httpRetryDelay = config('zammad.http_retry_delay');
+    }
+
     public function list(): Collection
     {
         $url = sprintf('%s/api/v1/tickets', config('zammad.url'));
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            ->get($url);
 
         event(new ZammadResponseLog($response));
 
         $tickets = $response->throw()->json();
 
-        return collect($tickets)->map(fn (array $ticket) => Ticket::fromJson($ticket));
+        return collect($tickets)->map(fn(array $ticket) => Ticket::fromJson($ticket));
     }
 
     public function search(string $term): Collection
@@ -31,14 +42,16 @@ class TicketResource
             $term,
         );
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            ->get($url);
 
         event(new ZammadResponseLog($response));
 
         $tickets = $response->throw()->json('assets.Ticket');
 
         return collect($tickets)
-            ->map(fn (array $ticket) => Ticket::fromJson($ticket))
+            ->map(fn(array $ticket) => Ticket::fromJson($ticket))
             ->values();
     }
 
@@ -50,7 +63,9 @@ class TicketResource
             $id,
         );
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            ->get($url);
 
         event(new ZammadResponseLog($response));
 
@@ -67,7 +82,9 @@ class TicketResource
             $id,
         );
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            ->get($url);
 
         event(new ZammadResponseLog($response));
 
@@ -83,7 +100,7 @@ class TicketResource
         $url = sprintf('%s/api/v1/tickets', config('zammad.url'));
 
         $response = Http::withToken(config('zammad.token'))
-            ->retry(2, 1000)
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
             ->post($url, $data);
 
         event(new ZammadResponseLog($response));
@@ -102,7 +119,7 @@ class TicketResource
         );
 
         $response = Http::withToken(config('zammad.token'))
-            ->retry(2, 1000)
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
             ->delete($url);
 
         event(new ZammadResponseLog($response));

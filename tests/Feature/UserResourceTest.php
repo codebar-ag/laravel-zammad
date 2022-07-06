@@ -42,7 +42,7 @@ class UserResourceTest extends TestCase
     /** @test */
     public function it_does_search_user()
     {
-        $term = 'email:ruslan.steiger@codebar.ch';
+        $term = 'email:sebastian.fix@codebar.ch';
 
         $user = (new Zammad())->user()->search($term);
 

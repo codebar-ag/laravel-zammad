@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Http;
 
 class CommentResource
 {
+    protected $httpRetryMaxium;
+    protected $httpRetryDelay;
+
+    public function __construct()
+    {
+        $this->httpRetryMaxium = config('zammad.http_retry_maximum');
+        $this->httpRetryDelay = config('zammad.http_retry_delay');
+    }
+
     public function showByTicket(int $id): Collection
     {
         $url = sprintf(
@@ -17,7 +26,9 @@ class CommentResource
             $id,
         );
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            ->get($url);
 
         event(new ZammadResponseLog($response));
 
@@ -34,7 +45,9 @@ class CommentResource
             $id,
         );
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            ->get($url);
 
         event(new ZammadResponseLog($response));
 
@@ -48,7 +61,7 @@ class CommentResource
         $url = sprintf('%s/api/v1/ticket_articles', config('zammad.url'));
 
         $response = Http::withToken(config('zammad.token'))
-            ->retry(2, 1000)
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
             ->post($url, $data);
 
         event(new ZammadResponseLog($response));
@@ -67,7 +80,7 @@ class CommentResource
         );
 
         $response = Http::withToken(config('zammad.token'))
-            ->retry(2, 1000)
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
             ->delete($url);
 
         event(new ZammadResponseLog($response));

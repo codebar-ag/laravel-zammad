@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Http;
 
 class ObjectResource
 {
+    protected $httpRetryMaxium;
+    protected $httpRetryDelay;
+
+    public function __construct()
+    {
+        $this->httpRetryMaxium = config('zammad.http_retry_maximum');
+        $this->httpRetryDelay = config('zammad.http_retry_delay');
+    }
+
     public function list(): Collection
     {
         $url = sprintf(
@@ -16,7 +25,9 @@ class ObjectResource
             config('zammad.url'),
         );
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            ->get($url);
 
         event(new ZammadResponseLog($response));
 
@@ -33,7 +44,9 @@ class ObjectResource
             $id,
         );
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            ->get($url);
 
         event(new ZammadResponseLog($response));
 
@@ -51,7 +64,7 @@ class ObjectResource
         );
 
         $response = Http::withToken(config('zammad.token'))
-            ->retry(2, 1000)
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
             ->put($url, $data);
 
         $object = $response->throw()->json();
@@ -66,7 +79,9 @@ class ObjectResource
             config('zammad.url'),
         );
 
-        $response = Http::withToken(config('zammad.token'))->post($url);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            ->post($url);
 
         event(new ZammadResponseLog($response));
 

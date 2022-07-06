@@ -10,11 +10,22 @@ use Illuminate\Support\Facades\Http;
 
 class UserResource
 {
+    protected $httpRetryMaxium;
+    protected $httpRetryDelay;
+
+    public function __construct()
+    {
+        $this->httpRetryMaxium = config('zammad.http_retry_maximum');
+        $this->httpRetryDelay = config('zammad.http_retry_delay');
+    }
+
     public function me(): User
     {
         $url = sprintf('%s/api/v1/users/me', config('zammad.url'));
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            ->get($url);
 
         event(new ZammadResponseLog($response));
 
@@ -27,7 +38,9 @@ class UserResource
     {
         $url = sprintf('%s/api/v1/users', config('zammad.url'));
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            ->get($url);
 
         event(new ZammadResponseLog($response));
 
@@ -44,7 +57,9 @@ class UserResource
             $term,
         );
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            ->get($url);
 
         event(new ZammadResponseLog($response));
 
@@ -63,7 +78,9 @@ class UserResource
             $id,
         );
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = Http::withToken(config('zammad.token'))
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            ->get($url);
 
         event(new ZammadResponseLog($response));
 
@@ -77,7 +94,7 @@ class UserResource
         $url = sprintf('%s/api/v1/users', config('zammad.url'));
 
         $response = Http::withToken(config('zammad.token'))
-            ->retry(2, 1000)
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
             ->post($url, $data);
 
         event(new ZammadResponseLog($response));
@@ -96,7 +113,7 @@ class UserResource
         );
 
         $response = Http::withToken(config('zammad.token'))
-            ->retry(2, 1000)
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
             ->delete($url);
 
         event(new ZammadResponseLog($response));

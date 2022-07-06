@@ -88,7 +88,7 @@ class TicketResourceTest extends TestCase
         $data = [
             'title' => '::title::',
             'group' => 'Inbox',
-            'customer' => 'ruslan.steiger@codebar.ch',
+            'customer' => 'sebastian.fix@codebar.ch',
             'article' => [
                 'body' => '::body::',
                 'type' => 'note',

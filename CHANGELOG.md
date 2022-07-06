@@ -5,16 +5,17 @@ All notable changes to `laravel-zammad` will be documented in this file.
 ### 2.0.0beta - 2022-07-06
 
 #### Core
-
 - Dropped support for PHP versions below 8.1
 - Replaced PHPUnit for PEST
 
-#### Features
-
-- New |Create & Update Zammad Objects
-- Improved | You can now pass User attributes within the searchOrCreateByEmail method to update or create user
+#### Improvements
+- Added dynamic Retry values for failed HTTP Requests that can be set via the configuration file
+- You can now pass User attributes within the searchOrCreateByEmail method to update or create user
   attributes within the same request.
-- Improved |Added a dynamic HTML Stripe-Out for Signature and Reply HTML via the configuration file.
+- Added a dynamic HTML Stripe-Out for Signature and Replied HTML via the configuration file
+
+#### Features
+- Create & Update Zammad Objects
 
 ### 1.0.0 - 2021-07-22
 
