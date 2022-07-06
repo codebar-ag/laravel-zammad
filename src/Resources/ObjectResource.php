@@ -39,8 +39,6 @@ class ObjectResource
 
         $object = $response->throw()->json();
 
-        ray($object)->blue();
-
         return ObjectAttribute::fromJson($object);
     }
 
