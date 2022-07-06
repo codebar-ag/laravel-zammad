@@ -55,7 +55,7 @@ return [
     */
 
     'object_reference_error_ignore' => env('ZAMMAD_OBJECT_REFERENCE_ERROR_IGNORE', false),
-    'objet_reference_error' => env('ZAMMAD_OBJECT_REFERENCE_ERROR', "Can&#39;t delete, object has references."),
+    'objet_reference_error' => env('ZAMMAD_OBJECT_REFERENCE_ERROR', 'Can&#39;t delete, object has references.'),
 
     /*
     |--------------------------------------------------------------------------

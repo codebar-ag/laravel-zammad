@@ -217,6 +217,11 @@ use CodebarAg\Zammad\Facades\Zammad;
 $objects = Zammad::object()->list();
 
 /**
+ * Create a object
+ */
+$object = Zammad::object()->create($data);
+
+/**
  * Show a object by id.
  */
 $object = Zammad::object()->show(20);
@@ -426,7 +431,7 @@ Modify environment variables in the phpunit.xml-file:
 Run the tests:
 
 ```bash
-./vendor/bin/pint
+./vendor/bin/pest
 ```
 
 ## 📝 Changelog
@@ -439,6 +444,12 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 ```bash
 composer test
+```
+
+### Code Style
+
+```bash
+./vendor/bin/pint
 ```
 
 ## 🧑‍💻 Security Vulnerabilities

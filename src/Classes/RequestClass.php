@@ -10,9 +10,11 @@ use Illuminate\Support\Str;
 abstract class RequestClass
 {
     protected $httpRetryMaxium;
+
     protected $httpRetryDelay;
 
     protected $ignoreReferenceErrorIngore;
+
     protected $objectHasReferenceError;
 
     public function __construct()
@@ -44,7 +46,7 @@ abstract class RequestClass
     public function postRequest($url, $data = null): Response
     {
         $response = Http::withToken(config('zammad.token'))
-            #  ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            //  ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
             ->post($url, $data);
 
         event(new ZammadResponseLog($response));
@@ -72,7 +74,7 @@ abstract class RequestClass
     public function deleteRequest($url): Response
     {
         $response = Http::withToken(config('zammad.token'))
-            # ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            // ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
             ->delete($url);
 
         event(new ZammadResponseLog($response));

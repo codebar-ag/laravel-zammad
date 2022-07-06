@@ -19,26 +19,26 @@ class ObjectAttribute
     }
 
     public function __construct(
-        public int    $id,
+        public int $id,
         public string $name,
-        public int    $object_lookup_id,
+        public int $object_lookup_id,
         public string $display,
         public string $data_type,
-        public int    $position,
-        public array  $data_option,
-        public ?array  $data_option_new,
+        public int $position,
+        public array $data_option,
+        public ?array $data_option_new,
     ) {
     }
 
     public static function fake(
-        ?int    $id = null,
-        ?int    $name = null,
-        ?int    $object_lookup_id = null,
+        ?int $id = null,
+        ?int $name = null,
+        ?int $object_lookup_id = null,
         ?string $display = null,
         ?string $data_type = null,
-        ?int    $position = null,
-        ?array  $data_option = null,
-        ?array  $data_option_new = null,
+        ?int $position = null,
+        ?array $data_option = null,
+        ?array $data_option_new = null,
     ): self {
         return new self(
             id: $id ?? random_int(1, 1000),
@@ -56,10 +56,10 @@ class ObjectAttribute
         ?string $name = 'sample_object',
         ?string $object = 'Ticket',
         ?string $display = 'Sample Object',
-        ?bool   $active = true,
-        ?int    $position = null,
+        ?bool $active = true,
+        ?int $position = null,
         ?string $data_type = 'select',
-        ?array  $data_options = [
+        ?array $data_options = [
             'options' => [
                 'key-one' => 'First Key',
                 'key-two' => 'Second Key',
@@ -67,8 +67,7 @@ class ObjectAttribute
             ],
             'default' => 'key-one',
         ]
-    )
-    {
+    ) {
         return [
             'name' => $name,
             'object' => $object,
