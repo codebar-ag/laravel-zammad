@@ -80,7 +80,7 @@ class UserResourceTest extends TestCase
     {
         $firstname = 'Max';
         $lastname = 'Mustermann';
-        $email = time() . '-' . Str::orderedUuid()->toString() . '@codebar.ch';
+        $email = time().'-'.Str::orderedUuid()->toString().'@codebar.ch';
 
         $data = [
             'firstname' => $firstname,
@@ -105,7 +105,7 @@ class UserResourceTest extends TestCase
      */
     public function it_does_search_or_create_user_by_email()
     {
-        $email = time() . '-' . Str::orderedUuid()->toString() . '@codebar.ch';
+        $email = time().'-'.Str::orderedUuid()->toString().'@codebar.ch';
 
         $user = (new Zammad())->user()->searchOrCreateByEmail($email);
         $this->assertSame($email, $user->email);
