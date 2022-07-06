@@ -388,7 +388,7 @@ Modify environment variables in the phpunit.xml-file:
 Run the tests:
 
 ```bash
-composer test
+./vendor/bin/pint
 ```
 
 ## 📝 Changelog
@@ -398,6 +398,10 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 ## ✏️ Contributing
 
 Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+
+```bash
+composer test
+```
 
 ## 🧑‍💻 Security Vulnerabilities
 

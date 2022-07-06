@@ -11,7 +11,7 @@ class Attachment
     ): self {
         $type = $data['preferences'];
 
-        return new static(
+        return new self(
             id: $data['id'],
             ticket_id: $ticketId,
             comment_id: $commentId,
