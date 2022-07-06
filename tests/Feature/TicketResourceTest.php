@@ -17,9 +17,7 @@ class TicketResourceTest extends TestCase
         Event::fake();
     }
 
-    /** @test
-     * @group zammad
-     */
+    /** @test */
     public function it_does_fetch_a_list_of_tickets()
     {
         $tickets = (new Zammad())->ticket()->list();

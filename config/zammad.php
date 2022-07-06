@@ -39,8 +39,23 @@ return [
      |
      */
 
-    'http_retry_maximum' => 5,
-    'http_retry_delay' => 2500,
+    'http_retry_maximum' => env('ZAMMAD_HTTP_RETRY_MAXIMUM', 5),
+    'http_retry_delay' => env('ZAMMAD_HTTP_RETRY_DELAY', 1000),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Object reference error on delete request
+    |--------------------------------------------------------------------------
+    |
+    | Please note that removing data cannot be undone. Zammad will also remove references - thus potentially tickets!
+    | Removing data with references in e.g. activity streams is not possible via API - this will be indicated by "error":
+    | "Can't delete, object has references." (Status 422). This is not a bug.
+    | Consider using Data Privacy via UI for more control instead. https://docs.zammad.org/en/latest/api/user.html#delete
+    |
+    */
+
+    'object_reference_error_ignore' => env('ZAMMAD_OBJECT_REFERENCE_ERROR_IGNORE', false),
+    'objet_reference_error' => env('ZAMMAD_OBJECT_REFERENCE_ERROR', "Can&#39;t delete, object has references."),
 
     /*
     |--------------------------------------------------------------------------

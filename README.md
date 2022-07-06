@@ -21,11 +21,13 @@ features to manage customer communication.
 ## 🛠 Requirements
 
 ### v2.0.0
+
 - PHP: `^8.1`
 - Laravel: `^9.0`
 - Zammad Access
 
 ### v1.0.0
+
 - PHP: `^8.0`
 - Laravel: `^8.12`
 - Zammad Access
@@ -308,6 +310,19 @@ CodebarAg\Zammad\DTO\Attachment {
 }
 ```
 
+```php 
+CodebarAg\Zammad\DTO\ObjectAttribute {
+  +id: 313                      // int
+  +name: "sample_object"        // string
+  +object_lookup_id: 2          // int
+  +display: "Sample Object"     // string
+  +data_type: "select"          // string
+  +position: 1500               // int
+  +data_option: []              // array
+  +data_option_new: []          // ?array
+}
+```
+
 ## 🔧 Configuration file
 
 You can publish the config file with:
@@ -360,9 +375,24 @@ return [
      |
      */
 
-    'http_retry_maximum' => 5,
-    'http_retry_delay' => 2500,
-    
+    'http_retry_maximum' => env('ZAMMAD_HTTP_RETRY_MAXIMUM', 5),
+    'http_retry_delay' => env('ZAMMAD_HTTP_RETRY_DELAY', 1000),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Object reference error on delete request
+    |--------------------------------------------------------------------------
+    |
+    | Please note that removing data cannot be undone. Zammad will also remove references - thus potentially tickets!
+    | Removing data with references in e.g. activity streams is not possible via API - this will be indicated by "error":
+    | "Can't delete, object has references." (Status 422). This is not a bug.
+    | Consider using Data Privacy via UI for more control instead. https://docs.zammad.org/en/latest/api/user.html#delete
+    |
+    */
+
+    'object_reference_error_ignore' => env('ZAMMAD_OBJECT_REFERENCE_ERROR_IGNORE', false),
+    'objet_reference_error' => env('ZAMMAD_OBJECT_REFERENCE_ERROR', "Can&#39;t delete, object has references."),
+
     /*
     |--------------------------------------------------------------------------
     | Dynamic Ticket Attributes with Casts

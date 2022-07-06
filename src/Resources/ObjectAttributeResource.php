@@ -4,11 +4,9 @@ namespace CodebarAg\Zammad\Resources;
 
 use CodebarAg\Zammad\Classes\RequestClass;
 use CodebarAg\Zammad\DTO\ObjectAttribute;
-use CodebarAg\Zammad\Events\ZammadResponseLog;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
 
-class ObjectResource extends RequestClass
+class ObjectAttributeResource extends RequestClass
 {
     public function list(): Collection
     {
@@ -39,6 +37,17 @@ class ObjectResource extends RequestClass
         return ObjectAttribute::fromJson($object);
     }
 
+    public function create(array $data): ObjectAttribute
+    {
+        $url = sprintf('%s/api/v1/object_manager_attributes', config('zammad.url'));
+
+        $response = self::postRequest($url, $data);
+
+        $object = $response->json();
+
+        return ObjectAttribute::fromJson($object);
+    }
+
     public function update(int $id, array $data): ObjectAttribute
     {
         $url = sprintf(
@@ -47,11 +56,22 @@ class ObjectResource extends RequestClass
             $id,
         );
 
-        $response = self::postRequest($url, $data);
+        $response = self::putRequest($url, $data);
 
         $object = $response->json();
 
         return ObjectAttribute::fromJson($object);
+    }
+
+    public function delete(int $id): void
+    {
+        $url = sprintf(
+            '%s/api/v1/object_manager_attributes/%s',
+            config('zammad.url'),
+            $id,
+        );
+
+        self::deleteRequest($url);
     }
 
     public function executeMigrations(): void

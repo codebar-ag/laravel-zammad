@@ -27,10 +27,12 @@ class CommentResourceTest extends TestCase
         $comments = (new Zammad())->comment()->showByTicket($id);
 
         $this->assertInstanceOf(Collection::class, $comments);
+
         $comments->each(function (Comment $comment) use ($id) {
             $this->assertInstanceOf(Comment::class, $comment);
             $this->assertSame($id, $comment->ticket_id);
         });
+
         Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 

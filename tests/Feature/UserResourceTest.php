@@ -9,6 +9,7 @@ use CodebarAg\Zammad\Zammad;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Config;
 
 class UserResourceTest extends TestCase
 {
@@ -37,6 +38,7 @@ class UserResourceTest extends TestCase
         $users->each(function (User $user) {
             $this->assertInstanceOf(User::class, $user);
         });
+
         Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
@@ -62,13 +64,21 @@ class UserResourceTest extends TestCase
         Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
-    /** @test */
+    /** @test
+        @group zammad
+     */
     public function it_does_show_user()
     {
+
+
         $id = 4;
+        $id = 6;
 
         $user = (new Zammad())->user()->show($id);
+        (new Zammad())->user()->delete($id);
 
+        ray($user);
+        dd($user);
         $this->assertInstanceOf(User::class, $user);
         $this->assertSame($id, $user->id);
         Event::assertDispatched(ZammadResponseLog::class, 1);
@@ -79,7 +89,7 @@ class UserResourceTest extends TestCase
     {
         $firstname = 'Max';
         $lastname = 'Mustermann';
-        $email = time().'-'.Str::orderedUuid()->toString().'@codebar.ch';
+        $email = time() . '-' . Str::orderedUuid()->toString() . '@codebar.ch';
 
         $data = [
             'firstname' => $firstname,
@@ -102,7 +112,7 @@ class UserResourceTest extends TestCase
     /** @test */
     public function it_does_search_or_create_user_by_email()
     {
-        $email = time().'-'.Str::orderedUuid()->toString().'@codebar.ch';
+        $email = time() . '-' . Str::orderedUuid()->toString() . '@codebar.ch';
 
         $user = (new Zammad())->user()->searchOrCreateByEmail($email);
 

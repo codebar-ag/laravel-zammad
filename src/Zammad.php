@@ -4,7 +4,7 @@ namespace CodebarAg\Zammad;
 
 use CodebarAg\Zammad\Resources\AttachmentResource;
 use CodebarAg\Zammad\Resources\CommentResource;
-use CodebarAg\Zammad\Resources\ObjectResource;
+use CodebarAg\Zammad\Resources\ObjectAttributeResource;
 use CodebarAg\Zammad\Resources\TicketResource;
 use CodebarAg\Zammad\Resources\UserResource;
 
@@ -30,8 +30,8 @@ class Zammad
         return new AttachmentResource();
     }
 
-    public function object(): ObjectResource
+    public function object(): ObjectAttributeResource
     {
-        return new ObjectResource();
+        return new ObjectAttributeResource();
     }
 }

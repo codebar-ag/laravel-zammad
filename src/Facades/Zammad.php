@@ -4,7 +4,7 @@ namespace CodebarAg\Zammad\Facades;
 
 use CodebarAg\Zammad\Resources\AttachmentResource;
 use CodebarAg\Zammad\Resources\CommentResource;
-use CodebarAg\Zammad\Resources\ObjectResource;
+use CodebarAg\Zammad\Resources\ObjectAttributeResource;
 use CodebarAg\Zammad\Resources\TicketResource;
 use CodebarAg\Zammad\Resources\UserResource;
 use Illuminate\Support\Facades\Facade;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static TicketResource ticket()
  * @method static CommentResource comment()
  * @method static AttachmentResource attachment()
- * @method static ObjectResource object()
+ * @method static ObjectAttributeResource object()
  */
 class Zammad extends Facade
 {

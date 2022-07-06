@@ -116,4 +116,9 @@ class Comment
             created_at: $created_at ?? now()->subDay(),
         );
     }
+
+    public function toArray()
+    {
+
+    }
 }

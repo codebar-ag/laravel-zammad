@@ -3,8 +3,6 @@
 namespace CodebarAg\Zammad\Resources;
 
 use CodebarAg\Zammad\Classes\RequestClass;
-use CodebarAg\Zammad\Events\ZammadResponseLog;
-use Illuminate\Support\Facades\Http;
 
 class AttachmentResource extends RequestClass
 {

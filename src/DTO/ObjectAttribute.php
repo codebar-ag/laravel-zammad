@@ -19,27 +19,29 @@ class ObjectAttribute
     }
 
     public function __construct(
-        public int $id,
+        public int    $id,
         public string $name,
-        public int $object_lookup_id,
+        public int    $object_lookup_id,
         public string $display,
         public string $data_type,
-        public int $position,
-        public array $data_option,
-        public array $data_option_new,
-    ) {
+        public int    $position,
+        public array  $data_option,
+        public ?array  $data_option_new,
+    )
+    {
     }
 
     public static function fake(
-        ?int $id = null,
-        ?int $name = null,
-        ?int $object_lookup_id = null,
+        ?int    $id = null,
+        ?int    $name = null,
+        ?int    $object_lookup_id = null,
         ?string $display = null,
         ?string $data_type = null,
-        ?int $position = null,
-        ?array $data_option = null,
-        ?array $data_option_new = null,
-    ): self {
+        ?int    $position = null,
+        ?array  $data_option = null,
+        ?array  $data_option_new = null,
+    ): self
+    {
         return new self(
             id: $id ?? random_int(1, 1000),
             name: $name ?? 'sample_boolean',
@@ -50,5 +52,32 @@ class ObjectAttribute
             data_option: $data_option ?? ['options' => ['true' => 'yes', 'false' => 'no'], 'default' => 'false'],
             data_option_new: $data_option_new ?? [],
         );
+    }
+
+    public static function fakeCreateToArray(
+        ?string $name = 'sample_object',
+        ?string $object = 'Ticket',
+        ?string $display = 'Sample Object',
+        ?bool   $active = true,
+        ?int    $position = null,
+        ?string $data_type = 'select',
+        ?array  $data_options = [
+            'options' => [
+                'key-one' => 'First Key',
+                'key-two' => 'Second Key',
+                'key-three' => 'Third Key'
+            ],
+            'default' => 'key-one',
+        ])
+    {
+        return [
+            'name' => $name,
+            'object' => $object,
+            'display' => $display,
+            'active' => $active,
+            'position' => $position,
+            'data_type' => $data_type,
+            'data_option' => $data_options
+        ];
     }
 }

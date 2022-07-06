@@ -4,10 +4,8 @@ namespace CodebarAg\Zammad\Resources;
 
 use CodebarAg\Zammad\Classes\RequestClass;
 use CodebarAg\Zammad\DTO\User;
-use CodebarAg\Zammad\Events\ZammadResponseLog;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
 
 class UserResource extends RequestClass
 {
@@ -87,12 +85,16 @@ class UserResource extends RequestClass
         self::deleteRequest($url);
     }
 
-    public function searchOrCreateByEmail(string $email): User
+    public function searchOrCreateByEmail(string $email, array $data = []): User
     {
         $user = $this->search("email:{$email}");
 
         if ($user) {
             return $user;
+        }
+
+        if (array_key_exists('email', $data)) {
+            return $this->create($data);
         }
 
         return $this->create(['email' => $email]);
