@@ -3,7 +3,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codebar-ag/laravel-zammad.svg?style=flat-square)](https://packagist.org/packages/codebar-ag/laravel-zammad)
 [![Total Downloads](https://img.shields.io/packagist/dt/codebar-ag/laravel-zammad.svg?style=flat-square)](https://packagist.org/packages/codebar-ag/laravel-zammad)
 [![run-tests](https://github.com/codebar-ag/laravel-zammad/actions/workflows/run-tests.yml/badge.svg)](https://github.com/codebar-ag/laravel-zammad/actions/workflows/run-tests.yml)
-[![Psalm](https://github.com/codebar-ag/laravel-zammad/actions/workflows/psalm.yml/badge.svg)](https://github.com/codebar-ag/laravel-zammad/actions/workflows/psalm.yml)
+[![PHPStan](https://github.com/codebar-ag/laravel-zammad/actions/workflows/phpstan.yml/badge.svg)](https://github.com/codebar-ag/laravel-zammad/actions/workflows/phpstan.yml)
 [![Check & fix styling](https://github.com/codebar-ag/laravel-zammad/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/codebar-ag/laravel-zammad/actions/workflows/php-cs-fixer.yml)
 
 This package was developed to give you a quick start to communicate with the
