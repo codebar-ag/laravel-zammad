@@ -47,7 +47,7 @@ class ObjectAttribute
             display: $display ?? 'Sample Boolean',
             data_type: $data_type ?? 'boolean',
             position: $position ?? random_int(1, 1000),
-            data_option: $data_option ?? ['options' => [ 'true' => 'yes', 'false' => 'no'],'default' => 'false'],
+            data_option: $data_option ?? ['options' => ['true' => 'yes', 'false' => 'no'], 'default' => 'false'],
             data_option_new: $data_option_new ?? [],
         );
     }

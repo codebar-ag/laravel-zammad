@@ -79,7 +79,7 @@ class UserResourceTest extends TestCase
         $data = [
             'firstname' => 'Noah',
             'lastname' => 'Schweizer',
-            'email' => rand() . 'noah@schweizer.ch',
+            'email' => rand().'noah@schweizer.ch',
         ];
 
         $user = (new Zammad())->user()->create($data);
@@ -97,7 +97,7 @@ class UserResourceTest extends TestCase
     /** @test */
     public function it_does_search_or_create_user_by_email()
     {
-        $email = rand() . 'noah@schweizer.ch';
+        $email = rand().'noah@schweizer.ch';
 
         $user = (new Zammad())->user()->searchOrCreateByEmail($email);
 

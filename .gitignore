@@ -12,3 +12,5 @@ phpunit.xml
 psalm.xml
 testbench.yaml
 vendor
+node_modules
+phpstan.neon
