@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Http;
 class UserResource
 {
     protected $httpRetryMaxium;
+
     protected $httpRetryDelay;
 
     public function __construct()

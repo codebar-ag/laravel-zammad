@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Http;
 class AttachmentResource
 {
     protected $httpRetryMaxium;
+
     protected $httpRetryDelay;
 
     public function __construct()

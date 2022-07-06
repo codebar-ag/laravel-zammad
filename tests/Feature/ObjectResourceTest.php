@@ -2,7 +2,6 @@
 
 namespace CodebarAg\Zammad\Tests\Feature;
 
-use CodebarAg\Zammad\DTO\Ticket;
 use CodebarAg\Zammad\Events\ZammadResponseLog;
 use CodebarAg\Zammad\Tests\TestCase;
 use CodebarAg\Zammad\Zammad;

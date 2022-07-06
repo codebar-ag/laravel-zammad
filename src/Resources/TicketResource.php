@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Http;
 class TicketResource
 {
     protected $httpRetryMaxium;
+
     protected $httpRetryDelay;
 
     public function __construct()
@@ -31,7 +32,7 @@ class TicketResource
 
         $tickets = $response->throw()->json();
 
-        return collect($tickets)->map(fn(array $ticket) => Ticket::fromJson($ticket));
+        return collect($tickets)->map(fn (array $ticket) => Ticket::fromJson($ticket));
     }
 
     public function search(string $term): Collection
@@ -51,7 +52,7 @@ class TicketResource
         $tickets = $response->throw()->json('assets.Ticket');
 
         return collect($tickets)
-            ->map(fn(array $ticket) => Ticket::fromJson($ticket))
+            ->map(fn (array $ticket) => Ticket::fromJson($ticket))
             ->values();
     }
 

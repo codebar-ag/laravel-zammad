@@ -8,6 +8,7 @@ use CodebarAg\Zammad\Tests\TestCase;
 use CodebarAg\Zammad\Zammad;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 
 class UserResourceTest extends TestCase
 {
@@ -64,7 +65,7 @@ class UserResourceTest extends TestCase
     /** @test */
     public function it_does_show_user()
     {
-        $id = 20;
+        $id = 4;
 
         $user = (new Zammad())->user()->show($id);
 
@@ -76,18 +77,22 @@ class UserResourceTest extends TestCase
     /** @test */
     public function it_does_create_and_delete_user()
     {
+        $firstname = 'Max';
+        $lastname = 'Mustermann';
+        $email = time().'-'.Str::orderedUuid()->toString().'@codebar.ch';
+
         $data = [
-            'firstname' => 'Noah',
-            'lastname' => 'Schweizer',
-            'email' => rand().'noah@schweizer.ch',
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+            'email' => $email,
         ];
 
         $user = (new Zammad())->user()->create($data);
 
         $this->assertInstanceOf(User::class, $user);
-        $this->assertSame('Noah', $user->first_name);
-        $this->assertSame('Schweizer', $user->last_name);
-        $this->assertStringEndsWith('noah@schweizer.ch', $user->email);
+        $this->assertSame($firstname, $user->first_name);
+        $this->assertSame($lastname, $user->last_name);
+        $this->assertStringEndsWith($email, $user->email);
         Event::assertDispatched(ZammadResponseLog::class, 1);
 
         (new Zammad())->user()->delete($user->id);
@@ -97,7 +102,7 @@ class UserResourceTest extends TestCase
     /** @test */
     public function it_does_search_or_create_user_by_email()
     {
-        $email = rand().'noah@schweizer.ch';
+        $email = time().'-'.Str::orderedUuid()->toString().'@codebar.ch';
 
         $user = (new Zammad())->user()->searchOrCreateByEmail($email);
 
