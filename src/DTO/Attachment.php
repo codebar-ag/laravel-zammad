@@ -50,7 +50,7 @@ class Attachment
         ?string $name = null,
         ?string $type = null,
     ): self {
-        return new static(
+        return new self(
             id: $id ?? random_int(1, 9999),
             ticket_id: $ticketId ?? random_int(1, 9999),
             comment_id: $commentId ?? random_int(1, 9999),
