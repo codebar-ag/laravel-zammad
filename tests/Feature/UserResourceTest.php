@@ -63,9 +63,7 @@ class UserResourceTest extends TestCase
         Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
-    /** @test
-     * @group zammad
-     */
+    /** @test */
     public function it_does_show_user()
     {
         $id = 4;
@@ -82,7 +80,7 @@ class UserResourceTest extends TestCase
     {
         $firstname = 'Max';
         $lastname = 'Mustermann';
-        $email = time().'-'.Str::orderedUuid()->toString().'@codebar.ch';
+        $email = time() . '-' . Str::orderedUuid()->toString() . '@codebar.ch';
 
         $data = [
             'firstname' => $firstname,
@@ -102,13 +100,14 @@ class UserResourceTest extends TestCase
         Event::assertDispatched(ZammadResponseLog::class, 2);
     }
 
-    /** @test */
+    /** @test
+     * @group zammad
+     */
     public function it_does_search_or_create_user_by_email()
     {
-        $email = time().'-'.Str::orderedUuid()->toString().'@codebar.ch';
+        $email = time() . '-' . Str::orderedUuid()->toString() . '@codebar.ch';
 
         $user = (new Zammad())->user()->searchOrCreateByEmail($email);
-
         $this->assertSame($email, $user->email);
         Event::assertDispatched(ZammadResponseLog::class, 2);
         (new Zammad())->user()->delete($user->id);

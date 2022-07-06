@@ -109,6 +109,18 @@ $user = (new Zammad())->user()->create($data);
  * Search a user by email. If not found create a new user.
  */
 $user = (new Zammad())->user()->searchOrCreateByEmail('max.mustermann@codebar.ch');
+
+/**
+ * Search a user by email. If not found create a new user with custom $data
+ */
+ 
+ $data = [
+    'firstname' => 'Max',
+    'lastname' => 'Mustermann',
+    'email' => 'max.mustermann@codebar.ch',
+];
+
+$user = (new Zammad())->user()->searchOrCreateByEmail('max.mustermann@codebar.ch', $data);
 ```
 
 ### 🎫 Ticket Resource
@@ -219,7 +231,32 @@ $objects = Zammad::object()->list();
 /**
  * Create a object
  */
+ 
+ $data = [
+    'title' => 'sample_boolean',
+    'object' => 'Ticket',
+    'display' => 'Sample Boolean',
+    'active' => true,
+    'position' => 1500,
+    'data_type' => 'select',
+    'data_options' => [
+        'options' => [
+            'key-one' => 'First Key',
+            'key-two' => 'Second Key',
+            'key-three' => 'Third Key',
+        ],
+        'default' => 'key-one'
+    ],
+];
+
 $object = Zammad::object()->create($data);
+
+/**
+ * Update a object
+ */
+ 
+ 
+$object = Zammad::object()->update($id, $data);
 
 /**
  * Show a object by id.
