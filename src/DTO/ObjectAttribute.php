@@ -67,8 +67,7 @@ class ObjectAttribute
             ],
             'default' => 'key-one',
         ]
-    )
-    {
+    ) {
         return [
             'name' => $name,
             'object' => $object,
