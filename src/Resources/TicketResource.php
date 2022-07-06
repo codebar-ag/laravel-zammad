@@ -2,10 +2,10 @@
 
 namespace CodebarAg\Zammad\Resources;
 
+use CodebarAg\Zammad\Classes\RequestClass;
 use CodebarAg\Zammad\DTO\Ticket;
 use CodebarAg\Zammad\Facades\Zammad;
 use Illuminate\Support\Collection;
-use CodebarAg\Zammad\Classes\RequestClass;
 
 class TicketResource extends RequestClass
 {
@@ -17,7 +17,7 @@ class TicketResource extends RequestClass
 
         $tickets = $response->json();
 
-        return collect($tickets)->map(fn(array $ticket) => Ticket::fromJson($ticket));
+        return collect($tickets)->map(fn (array $ticket) => Ticket::fromJson($ticket));
     }
 
     public function search(string $term): Collection
@@ -33,7 +33,7 @@ class TicketResource extends RequestClass
         $tickets = $response->json('assets.Ticket');
 
         return collect($tickets)
-            ->map(fn(array $ticket) => Ticket::fromJson($ticket))
+            ->map(fn (array $ticket) => Ticket::fromJson($ticket))
             ->values();
     }
 

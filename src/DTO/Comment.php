@@ -119,6 +119,5 @@ class Comment
 
     public function toArray()
     {
-
     }
 }

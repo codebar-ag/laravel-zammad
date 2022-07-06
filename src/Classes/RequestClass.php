@@ -82,11 +82,10 @@ abstract class RequestClass
             'error' => $response->body() && Str::of($response->body())->contains($this->objectHasReferenceError),
         ];
 
-        $ignoreReferenceErrorStatus = !in_array(false, $ignoreReferenceError);
+        $ignoreReferenceErrorStatus = ! in_array(false, $ignoreReferenceError);
 
         return $ignoreReferenceErrorStatus
             ? $response
             : $response->throw();
     }
-
 }

@@ -32,7 +32,6 @@ it('create and delete', function () {
 })->group('objects');
 
 it('update and delete', function () {
-
     $objectAttribute = ObjectAttribute::fakeCreateToArray();
     $object = (new Zammad())->object()->create($objectAttribute);
     Event::assertDispatched(ZammadResponseLog::class, 1);
@@ -49,10 +48,10 @@ it('update and delete', function () {
                 'key-one' => 'First Key',
                 'key-two' => 'Second Key',
                 'key-three' => 'Third Key',
-                'key-four' => 'Fourth Key'
+                'key-four' => 'Fourth Key',
             ],
             'default' => 'key-two',
-        ]
+        ],
     ];
 
     expect($objectAttribute['display'])->toEqual($object->display);
@@ -65,7 +64,6 @@ it('update and delete', function () {
 
     (new Zammad())->object()->delete($object->id);
     Event::assertDispatched(ZammadResponseLog::class, 3);
-
 })->group('objects');
 
 it('execute database migrations', function () {
@@ -74,4 +72,3 @@ it('execute database migrations', function () {
     $this->assertTrue(true);
     Event::assertDispatched(ZammadResponseLog::class, 1);
 })->group('objects');
-

@@ -9,7 +9,6 @@ use CodebarAg\Zammad\Zammad;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Config;
 
 class UserResourceTest extends TestCase
 {
@@ -69,8 +68,6 @@ class UserResourceTest extends TestCase
      */
     public function it_does_show_user()
     {
-
-
         $id = 4;
         $id = 6;
 

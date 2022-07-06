@@ -27,8 +27,7 @@ class ObjectAttribute
         public int    $position,
         public array  $data_option,
         public ?array  $data_option_new,
-    )
-    {
+    ) {
     }
 
     public static function fake(
@@ -40,8 +39,7 @@ class ObjectAttribute
         ?int    $position = null,
         ?array  $data_option = null,
         ?array  $data_option_new = null,
-    ): self
-    {
+    ): self {
         return new self(
             id: $id ?? random_int(1, 1000),
             name: $name ?? 'sample_boolean',
@@ -65,10 +63,11 @@ class ObjectAttribute
             'options' => [
                 'key-one' => 'First Key',
                 'key-two' => 'Second Key',
-                'key-three' => 'Third Key'
+                'key-three' => 'Third Key',
             ],
             'default' => 'key-one',
-        ])
+        ]
+    )
     {
         return [
             'name' => $name,
@@ -77,7 +76,7 @@ class ObjectAttribute
             'active' => $active,
             'position' => $position,
             'data_type' => $data_type,
-            'data_option' => $data_options
+            'data_option' => $data_options,
         ];
     }
 }

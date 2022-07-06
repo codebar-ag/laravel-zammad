@@ -20,7 +20,7 @@ class CommentResource extends RequestClass
 
         $comment = $response->json();
 
-        return collect($comment)->map(fn(array $comment) => Comment::fromJson($comment));
+        return collect($comment)->map(fn (array $comment) => Comment::fromJson($comment));
     }
 
     public function show(int $id): ?Comment
