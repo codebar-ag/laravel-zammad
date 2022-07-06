@@ -64,18 +64,14 @@ class UserResourceTest extends TestCase
     }
 
     /** @test
-        @group zammad
+     * @group zammad
      */
     public function it_does_show_user()
     {
         $id = 4;
-        $id = 6;
 
         $user = (new Zammad())->user()->show($id);
-        (new Zammad())->user()->delete($id);
 
-        ray($user);
-        dd($user);
         $this->assertInstanceOf(User::class, $user);
         $this->assertSame($id, $user->id);
         Event::assertDispatched(ZammadResponseLog::class, 1);
