@@ -13,7 +13,6 @@ Zammad REST API. It is used to query the most common endpoints.
 [Zammad REST API](https://docs.zammad.org/en/latest/api/intro.html).
 See the documentation if you need further functionality. ⚠️
 
-
 ## 💡 What is Zammad?
 
 Zammad is a web based open source helpdesk/customer support system with many
@@ -59,7 +58,6 @@ can create your token. Be sure to activate all rights you need.
 ],
 ```
 
-
 ## 🏗 Usage
 
 ### 👶 User Resource
@@ -80,7 +78,7 @@ $users = Zammad::user()->list();
 /**
  * Search a single user.
  */
-$term = 'email:ruslan.steiger@codebar.ch';
+$term = 'email:sebastian.fix@codebar.ch';
  
 $user = Zammad::user()->search($term);
 
@@ -93,8 +91,9 @@ $user = Zammad::user()->show(20);
  * Create a new user.
  */
 $data = [
-    'firstname' => 'Bob',
-    'email' => 'bob@domain.test',
+    'firstname' => 'Max',
+    'lastname' => 'Mustermann',
+    'email' => 'max.mustermann@codebar.ch',
 ];
 
 $user = (new Zammad())->user()->create($data);
@@ -107,7 +106,7 @@ $user = (new Zammad())->user()->create($data);
 /**
  * Search a user by email. If not found create a new user.
  */
-$user = (new Zammad())->user()->searchOrCreateByEmail('bob@domain.test');
+$user = (new Zammad())->user()->searchOrCreateByEmail('max.mustermann@codebar.ch');
 ```
 
 ### 🎫 Ticket Resource
@@ -123,7 +122,7 @@ $tickets = Zammad::ticket()->list();
 /**
  * Search tickets which include following term.
  */
-$term = 'bob';
+$term = 'Max Mustermann';
  
 $tickets = Zammad::ticket()->search($term);
 
@@ -246,10 +245,10 @@ $content = Zammad::attachment()->download(
 ```php
 CodebarAg\Zammad\DTO\User {
   +id: 20                       // int
-  +first_name: "Bob"            // string
-  +last_name: "Schweizer"       // string
-  +login: "bob@domain.test"     // string
-  +email: "bob@domain.test"     // string
+  +first_name: "Max"            // string
+  +last_name: "Mustermann"       // string
+  +login: "max.mustermann@codebar.ch"     // string
+  +email: "max.mustermann@codebar.ch"     // string
   +last_login_at: Carbon\Carbon // Carbon
   +updated_at: Carbon\Carbon    // Carbon
   +created_at: Carbon\Carbon    // Carbon
@@ -282,7 +281,7 @@ CodebarAg\Zammad\DTO\Comment {
   +body_without_blockquote: "We have fixed your issue! Have a great day<br>"
   +body_only_blockquote: "<blockquote type=\"cite\"><div>It is not working</div></blockquote>"
   +content_type: "text/plain"                   // string
-  +from: "Bob Schweizer"                        // string
+  +from: "Max Mustermann"                        // string
   +to: null                                     // ?string
   +internal: false                              // boolean
   +created_by_id: 20                            // int
@@ -306,6 +305,7 @@ CodebarAg\Zammad\DTO\Attachment {
 ## 🔧 Configuration file
 
 You can publish the config file with:
+
 ```bash
 php artisan vendor:publish --tag="zammad-config"
 ```
@@ -366,17 +366,21 @@ return [
 ## 🚧 Testing
 
 Copy your own phpunit.xml-file.
+
 ```bash
 cp phpunit.xml.dist phpunit.xml
 ```
 
 Modify environment variables in the phpunit.xml-file:
+
 ```xml
+
 <env name="ZAMMAD_URL" value="https://domain.zammad.com"/>
 <env name="ZAMMAD_TOKEN" value="token"/>
 ```
 
 Run the tests:
+
 ```bash
 composer test
 ```
@@ -394,6 +398,7 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 Please review [our security policy](.github/SECURITY.md) on how to report security vulnerabilities.
 
 ## 🙏 Credits
+
 - [Sebastian Fix](https://github.com/StanBarrows)
 - [Ruslan Steiger](https://github.com/ruslansteiger)
 - [All Contributors](../../contributors)
