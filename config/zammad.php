@@ -39,8 +39,8 @@ return [
      |
      */
 
-    'http_retry_maximum' => 3,
-    'http_retry_delay' => 1500,
+    'http_retry_maximum' => 5,
+    'http_retry_delay' => 2500,
 
     /*
     |--------------------------------------------------------------------------
