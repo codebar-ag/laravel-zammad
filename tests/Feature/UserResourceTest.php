@@ -63,7 +63,7 @@ it('shows a user', function () {
 it('creates a user', function () {
     $firstname = Str::orderedUuid()->toString();
     $lastname = Str::orderedUuid()->toString();
-    $email = $firstname.'@codebar.ch';
+    $email = $firstname . '@codebar.ch';
 
     $data = [
         'firstname' => $firstname,
@@ -101,7 +101,7 @@ it('updates a user', function () {
 })->group('users');
 
 it('searches or creates a user', function () {
-    $email = Str::orderedUuid()->toString().'@codebar.ch';
+    $email = Str::orderedUuid()->toString() . '@codebar.ch';
     $user = (new Zammad())->user()->searchOrCreateByEmail($email);
     $this->assertSame($email, $user->email);
     Event::assertDispatched(ZammadResponseLog::class, 2);
@@ -110,10 +110,11 @@ it('searches or creates a user', function () {
 })->group('users');
 
 it('deletes a user', function () {
-    $users = (new Zammad())->user()->list();
-    Event::assertDispatched(ZammadResponseLog::class, 1);
-    $user = $users->last();
+    $email = Str::orderedUuid()->toString() . '@codebar.ch';
+    $user = (new Zammad())->user()->searchOrCreateByEmail($email);
+    $this->assertSame($email, $user->email);
+    Event::assertDispatched(ZammadResponseLog::class, 2);
 
     (new Zammad())->user()->delete($user->id);
-    Event::assertDispatched(ZammadResponseLog::class, 2);
+    Event::assertDispatched(ZammadResponseLog::class, 3);
 })->group('users');
