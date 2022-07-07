@@ -38,7 +38,7 @@ it('update and delete object', function () {
     $this->assertInstanceOf(ObjectAttribute::class, $object);
 
     $updatedObjectAttribute = [
-        'name' => 'sample_object',
+        'name' => $object->name,
         'object' => 'Ticket',
         'display' => 'Updated Sample Object',
         'position' => $object->position,
