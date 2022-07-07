@@ -12,28 +12,16 @@ All notable changes to `laravel-zammad` will be documented in this file.
 - Dropped $body_only_blockquote
 
 #### Core
-
-<<<<<<< HEAD
 - Dropped support for PHP versions below < 8.1
-=======
-- Dropped support for PHP versions below 8.1
->>>>>>> main
 - Replaced PHPUnit for PEST
 - Moved HTTP requests to a dedicated class `RequestClass.php`
 
 #### Improvements
 
-<<<<<<< HEAD
 - Added dynamic retry values for failed HTTP requests that can be set via the configuration file.
 - You can now pass User attributes within the searchOrCreateByEmail method to update or create user
   attributes within the same request.
 - Added a dynamic HTML Stripe-Out possibiliites via configuration file.
-=======
-- Added dynamic retry values for failed HTTP requests that can be set via the configuration file
-- You can now pass User attributes within the searchOrCreateByEmail method to update or create user
-  attributes within the same request.
-- Added a dynamic HTML Stripe-Out for Signature and Replied HTML via the configuration file
->>>>>>> main
 - Define via configuration variable if a 'Unprocessable Entity' response related to an object reference should be
   ignored. [More information](https://docs.zammad.org/en/latest/api/user.html#update).
 
