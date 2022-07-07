@@ -19,7 +19,9 @@ class CommentResourceTest extends TestCase
         Event::fake();
     }
 
-    /** @test */
+    /** @test
+     * @group zammad
+     */
     public function it_does_show_by_ticket()
     {
         $id = 32;
@@ -36,12 +38,17 @@ class CommentResourceTest extends TestCase
         Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
-    /** @test */
+    /** @test
+     * @group zammad
+     */
     public function it_does_show_comment()
     {
         $id = 66;
+        $id = 805;
 
         $comment = (new Zammad())->comment()->show($id);
+
+        ray($comment->body);
 
         $this->assertInstanceOf(Comment::class, $comment);
         $this->assertSame($id, $comment->id);

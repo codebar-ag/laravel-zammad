@@ -59,6 +59,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Comment Object HTML Parsing
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'filter_images' => true,
+    'filter_signature_marker' => true,
+    'filter_signature_marker_value' => '<span class="js-signatureMarker"></span>',
+    'filter_data_signature' => true,
+    # 'filter_data_signature_value' => '<div data-signature="true" data-signature-id="1"></div>',
+    'filter_data_signature_value' => '#<div data-signature="true" data-signature-id="1>(.*?)</div>#',
+
+    /*
+    |--------------------------------------------------------------------------
     | Dynamic Ticket Attributes with Casts
     |--------------------------------------------------------------------------
     |

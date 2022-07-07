@@ -4,6 +4,13 @@ All notable changes to `laravel-zammad` will be documented in this file.
 
 ### 2.0.0beta - 2022-07-06
 
+#### Critical
+
+**Comment DTO**
+
+- Replaced $body_without_blockquote variable with $body_filtered
+- Dropped $body_only_blockquote
+
 #### Core
 
 - Dropped support for PHP versions below 8.1
