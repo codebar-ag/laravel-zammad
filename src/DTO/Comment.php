@@ -40,7 +40,7 @@ class Comment
         }
 
         if ($filterDataSignature) {
-            $bodyFiltered = preg_replace($filterDataSignatureValue, ' ', $bodyFiltered);
+            $bodyFiltered = Str::of($bodyFiltered)->before($filterDataSignatureValue)->toHtmlString().'</div>';
         }
 
         return new self(
@@ -66,47 +66,45 @@ class Comment
     }
 
     public function __construct(
-        public int        $id,
-        public int        $type_id,
-        public int        $ticket_id,
-        public int        $sender_id,
-        public string     $sender,
-        public ?string    $subject,
-        public string     $body,
-        public string     $body_filtered,
-        public string     $content_type,
-        public string     $from,
-        public ?string    $to,
-        public bool       $internal,
-        public int        $created_by_id,
-        public int        $updated_by_id,
-        public ?int       $origin_by_id,
+        public int $id,
+        public int $type_id,
+        public int $ticket_id,
+        public int $sender_id,
+        public string $sender,
+        public ?string $subject,
+        public string $body,
+        public string $body_filtered,
+        public string $content_type,
+        public string $from,
+        public ?string $to,
+        public bool $internal,
+        public int $created_by_id,
+        public int $updated_by_id,
+        public ?int $origin_by_id,
         public Collection $attachments,
-        public Carbon     $updated_at,
-        public Carbon     $created_at,
-    )
-    {
+        public Carbon $updated_at,
+        public Carbon $created_at,
+    ) {
     }
 
     public static function fake(
-        ?int    $id = null,
-        ?int    $type_id = null,
-        ?int    $ticket_id = null,
-        ?int    $sender_id = null,
+        ?int $id = null,
+        ?int $type_id = null,
+        ?int $ticket_id = null,
+        ?int $sender_id = null,
         ?string $sender = null,
         ?string $subject = null,
         ?string $body = null,
         ?string $content_type = null,
         ?string $from = null,
         ?string $to = null,
-        ?bool   $internal = null,
-        ?int    $created_by_id = null,
-        ?int    $updated_by_id = null,
-        ?int    $origin_by_id = null,
+        ?bool $internal = null,
+        ?int $created_by_id = null,
+        ?int $updated_by_id = null,
+        ?int $origin_by_id = null,
         ?Carbon $updated_at = null,
         ?Carbon $created_at = null,
-    ): self
-    {
+    ): self {
         return new self(
             id: $id ?? random_int(1, 1000),
             type_id: $type_id ?? 10,
@@ -128,6 +126,4 @@ class Comment
             created_at: $created_at ?? now()->subDay(),
         );
     }
-
-
 }

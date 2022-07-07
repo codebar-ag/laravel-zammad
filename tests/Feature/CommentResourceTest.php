@@ -19,9 +19,7 @@ class CommentResourceTest extends TestCase
         Event::fake();
     }
 
-    /** @test
-     * @group zammad
-     */
+    /** @test */
     public function it_does_show_by_ticket()
     {
         $id = 32;
@@ -38,17 +36,12 @@ class CommentResourceTest extends TestCase
         Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
-    /** @test
-     * @group zammad
-     */
+    /** @test */
     public function it_does_show_comment()
     {
         $id = 66;
-        $id = 805;
 
         $comment = (new Zammad())->comment()->show($id);
-
-        ray($comment->body);
 
         $this->assertInstanceOf(Comment::class, $comment);
         $this->assertSame($id, $comment->id);
@@ -105,11 +98,7 @@ class CommentResourceTest extends TestCase
         );
         $this->assertStringContainsString(
             'Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.',
-            $comment->body_without_blockquote,
-        );
-        $this->assertStringContainsString(
-            'Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte.',
-            $comment->body_only_blockquote,
+            $comment->body_filtered,
         );
     }
 }

@@ -28,7 +28,7 @@ class UserResource extends RequestClass
 
         $users = $response->json();
 
-        return collect($users)->map(fn(array $user) => User::fromJson($user));
+        return collect($users)->map(fn (array $user) => User::fromJson($user));
     }
 
     public function search(string $term): ?User

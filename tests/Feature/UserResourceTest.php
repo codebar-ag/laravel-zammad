@@ -59,7 +59,7 @@ it('show user', function () {
 it('create and delete user', function () {
     $firstname = 'Max';
     $lastname = 'Mustermann';
-    $email = time() . '-' . Str::orderedUuid()->toString() . '@codebar.ch';
+    $email = time().'-'.Str::orderedUuid()->toString().'@codebar.ch';
 
     $data = [
         'firstname' => $firstname,
@@ -80,7 +80,7 @@ it('create and delete user', function () {
 })->group('users');
 
 it('update and delete user', function () {
-    $email = time() . '-' . Str::orderedUuid()->toString() . '@codebar.ch';
+    $email = time().'-'.Str::orderedUuid()->toString().'@codebar.ch';
     $user = (new Zammad())->user()->searchOrCreateByEmail($email);
     Event::assertDispatched(ZammadResponseLog::class, 2);
 
@@ -100,11 +100,10 @@ it('update and delete user', function () {
 
     (new Zammad())->user()->delete($updatedUser->id);
     Event::assertDispatched(ZammadResponseLog::class, 4);
-
 })->group('users');
 
 it('search or create user', function () {
-    $email = time() . '-' . Str::orderedUuid()->toString() . '@codebar.ch';
+    $email = time().'-'.Str::orderedUuid()->toString().'@codebar.ch';
     $user = (new Zammad())->user()->searchOrCreateByEmail($email);
     $this->assertSame($email, $user->email);
     Event::assertDispatched(ZammadResponseLog::class, 2);
