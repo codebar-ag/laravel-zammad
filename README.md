@@ -95,10 +95,20 @@ $user = Zammad::user()->show(20);
 $data = [
     'firstname' => 'Max',
     'lastname' => 'Mustermann',
-    'email' => 'max.mustermann@codebar.ch',
+        'email' => 'max.mustermann@codebar.ch',
 ];
 
 $user = (new Zammad())->user()->create($data);
+
+/**
+ * Update a existing user.
+ */
+$data = [
+    'firstname' => 'Max',
+    'lastname' => 'Mustermann',
+];
+
+$user = (new Zammad())->user()->update($id, $data);
 
 /**
  * Delete a user by id.

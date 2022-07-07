@@ -28,7 +28,7 @@ class UserResource extends RequestClass
 
         $users = $response->json();
 
-        return collect($users)->map(fn (array $user) => User::fromJson($user));
+        return collect($users)->map(fn(array $user) => User::fromJson($user));
     }
 
     public function search(string $term): ?User
@@ -68,6 +68,17 @@ class UserResource extends RequestClass
         $url = sprintf('%s/api/v1/users', config('zammad.url'));
 
         $response = self::postRequest($url, $data);
+
+        $user = $response->json();
+
+        return User::fromJson($user);
+    }
+
+    public function update($id, array $data): User
+    {
+        $url = sprintf('%s/api/v1/users/%s', config('zammad.url'), $id);
+
+        $response = self::putRequest($url, $data);
 
         $user = $response->json();
 

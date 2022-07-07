@@ -20,7 +20,7 @@ it('show object', function () {
     Event::assertDispatched(ZammadResponseLog::class, 1);
 })->group('objects');
 
-it('create and delete', function () {
+it('create and delete object', function () {
     $objectAttribute = ObjectAttribute::fakeCreateToArray();
     $object = (new Zammad())->object()->create($objectAttribute);
     $this->assertInstanceOf(ObjectAttribute::class, $object);
@@ -31,7 +31,7 @@ it('create and delete', function () {
     Event::assertDispatched(ZammadResponseLog::class, 2);
 })->group('objects');
 
-it('update and delete', function () {
+it('update and delete object', function () {
     $objectAttribute = ObjectAttribute::fakeCreateToArray();
     $object = (new Zammad())->object()->create($objectAttribute);
     Event::assertDispatched(ZammadResponseLog::class, 1);

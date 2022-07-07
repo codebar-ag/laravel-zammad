@@ -74,7 +74,7 @@ abstract class RequestClass
     public function deleteRequest($url): Response
     {
         $response = Http::withToken(config('zammad.token'))
-            // ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
             ->delete($url);
 
         event(new ZammadResponseLog($response));
@@ -84,7 +84,7 @@ abstract class RequestClass
             'error' => $response->body() && Str::of($response->body())->contains($this->objectHasReferenceError),
         ];
 
-        $ignoreReferenceErrorStatus = ! in_array(false, $ignoreReferenceError);
+        $ignoreReferenceErrorStatus = !in_array(false, $ignoreReferenceError);
 
         return $ignoreReferenceErrorStatus
             ? $response
