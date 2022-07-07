@@ -27,10 +27,12 @@ class CommentResourceTest extends TestCase
         $comments = (new Zammad())->comment()->showByTicket($id);
 
         $this->assertInstanceOf(Collection::class, $comments);
+
         $comments->each(function (Comment $comment) use ($id) {
             $this->assertInstanceOf(Comment::class, $comment);
             $this->assertSame($id, $comment->ticket_id);
         });
+
         Event::assertDispatched(ZammadResponseLog::class, 1);
     }
 
@@ -96,11 +98,7 @@ class CommentResourceTest extends TestCase
         );
         $this->assertStringContainsString(
             'Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.',
-            $comment->body_without_blockquote,
-        );
-        $this->assertStringContainsString(
-            'Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte.',
-            $comment->body_only_blockquote,
+            $comment->body_filtered,
         );
     }
 }

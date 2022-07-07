@@ -2,23 +2,20 @@
 
 namespace CodebarAg\Zammad\Resources;
 
+use CodebarAg\Zammad\Classes\RequestClass;
 use CodebarAg\Zammad\DTO\User;
-use CodebarAg\Zammad\Events\ZammadResponseLog;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
 
-class UserResource
+class UserResource extends RequestClass
 {
     public function me(): User
     {
         $url = sprintf('%s/api/v1/users/me', config('zammad.url'));
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = self::getRequest($url);
 
-        event(new ZammadResponseLog($response));
-
-        $data = $response->throw()->json();
+        $data = $response->json();
 
         return User::fromJson($data);
     }
@@ -27,11 +24,9 @@ class UserResource
     {
         $url = sprintf('%s/api/v1/users', config('zammad.url'));
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = self::getRequest($url);
 
-        event(new ZammadResponseLog($response));
-
-        $users = $response->throw()->json();
+        $users = $response->json();
 
         return collect($users)->map(fn (array $user) => User::fromJson($user));
     }
@@ -44,11 +39,9 @@ class UserResource
             $term,
         );
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = self::getRequest($url);
 
-        event(new ZammadResponseLog($response));
-
-        $data = $response->throw()->json();
+        $data = $response->json();
 
         return Arr::exists($data, 0)
             ? User::fromJson($data[0])
@@ -63,11 +56,9 @@ class UserResource
             $id,
         );
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = self::getRequest($url);
 
-        event(new ZammadResponseLog($response));
-
-        $data = $response->throw()->json();
+        $data = $response->json();
 
         return User::fromJson($data);
     }
@@ -76,13 +67,20 @@ class UserResource
     {
         $url = sprintf('%s/api/v1/users', config('zammad.url'));
 
-        $response = Http::withToken(config('zammad.token'))
-            ->retry(2, 1000)
-            ->post($url, $data);
+        $response = self::postRequest($url, $data);
 
-        event(new ZammadResponseLog($response));
+        $user = $response->json();
 
-        $user = $response->throw()->json();
+        return User::fromJson($user);
+    }
+
+    public function update($id, array $data): User
+    {
+        $url = sprintf('%s/api/v1/users/%s', config('zammad.url'), $id);
+
+        $response = self::putRequest($url, $data);
+
+        $user = $response->json();
 
         return User::fromJson($user);
     }
@@ -95,21 +93,19 @@ class UserResource
             $id,
         );
 
-        $response = Http::withToken(config('zammad.token'))
-            ->retry(2, 1000)
-            ->delete($url);
-
-        event(new ZammadResponseLog($response));
-
-        $response->throw();
+        self::deleteRequest($url);
     }
 
-    public function searchOrCreateByEmail(string $email): User
+    public function searchOrCreateByEmail(string $email, array $data = []): User
     {
         $user = $this->search("email:{$email}");
 
         if ($user) {
             return $user;
+        }
+
+        if (array_key_exists('email', $data)) {
+            return $this->create($data);
         }
 
         return $this->create(['email' => $email]);

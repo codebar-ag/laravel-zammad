@@ -23,12 +23,25 @@ class Comment
                 );
             });
 
-        $bodyWithoutBlockquote = Str::of($data['body'])
-            ->before('<span class="js-signatureMarker"></span>')
-            ->__toString();
-        $bodyOnlyBlockquote = Str::of($data['body'])
-            ->after('<span class="js-signatureMarker"></span>')
-            ->__toString();
+        $filterImages = config('zammad.filter_images');
+        $filterSigantureMarker = config('zammad.filter_signature_marker');
+        $filterSigantureMarkerValue = config('zammad.filter_signature_marker_value');
+        $filterDataSignature = config('zammad.filter_data_signature');
+        $filterDataSignatureValue = config('zammad.filter_data_signature_value');
+
+        $bodyFiltered = $data['body'];
+
+        if ($filterImages) {
+            $bodyFiltered = preg_replace("/<img[^>]+\>/i", ' ', $bodyFiltered);
+        }
+
+        if ($filterSigantureMarker) {
+            $bodyFiltered = Str::of($bodyFiltered)->before($filterSigantureMarkerValue)->toString();
+        }
+
+        if ($filterDataSignature) {
+            $bodyFiltered = Str::of($bodyFiltered)->before($filterDataSignatureValue)->toHtmlString().'</div>';
+        }
 
         return new self(
             id: $data['id'],
@@ -38,8 +51,7 @@ class Comment
             sender: $data['sender'],
             subject: $data['subject'],
             body: $data['body'],
-            body_without_blockquote: $bodyWithoutBlockquote,
-            body_only_blockquote: $bodyOnlyBlockquote,
+            body_filtered: $bodyFiltered,
             content_type: $data['content_type'],
             from: $data['from'],
             to: $data['to'],
@@ -61,8 +73,7 @@ class Comment
         public string $sender,
         public ?string $subject,
         public string $body,
-        public string $body_without_blockquote,
-        public ?string $body_only_blockquote,
+        public string $body_filtered,
         public string $content_type,
         public string $from,
         public ?string $to,
@@ -102,8 +113,7 @@ class Comment
             sender: $sender ?? Arr::random(['Agent', 'Customer']),
             subject: $subject ?? 'Fake subject',
             body: $body ?? 'Fake body',
-            body_without_blockquote: $body ?? 'Fake body without blockquote',
-            body_only_blockquote: $body ?? 'Fake body only blockquote',
+            body_filtered: $body ?? 'Fake body with filtered blockquote',
             content_type: $content_type ?? 'text/html',
             from: $from ?? 'Fake User',
             to: $to ?? 'Fake User',

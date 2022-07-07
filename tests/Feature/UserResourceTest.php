@@ -4,106 +4,117 @@ namespace CodebarAg\Zammad\Tests\Feature;
 
 use CodebarAg\Zammad\DTO\User;
 use CodebarAg\Zammad\Events\ZammadResponseLog;
-use CodebarAg\Zammad\Tests\TestCase;
 use CodebarAg\Zammad\Zammad;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 
-class UserResourceTest extends TestCase
-{
-    protected function setUp(): void
-    {
-        parent::setUp();
+it('show current user', function () {
+    $user = (new Zammad())->user()->me();
+    $this->assertInstanceOf(User::class, $user);
+    Event::assertDispatched(ZammadResponseLog::class, 1);
+})->group('users');
 
-        Event::fake();
-    }
+it('list users', function () {
+    $users = (new Zammad())->user()->list();
 
-    /** @test */
-    public function it_does_fetch_current_user()
-    {
-        $user = (new Zammad())->user()->me();
-
+    $this->assertInstanceOf(Collection::class, $users);
+    $users->each(function (User $user) {
         $this->assertInstanceOf(User::class, $user);
-        Event::assertDispatched(ZammadResponseLog::class, 1);
-    }
+    });
 
-    /** @test */
-    public function it_does_fetch_a_list_of_users()
-    {
-        $users = (new Zammad())->user()->list();
+    Event::assertDispatched(ZammadResponseLog::class, 1);
+})->group('users');
 
-        $this->assertInstanceOf(Collection::class, $users);
-        $users->each(function (User $user) {
-            $this->assertInstanceOf(User::class, $user);
-        });
-        Event::assertDispatched(ZammadResponseLog::class, 1);
-    }
+it('searches a user', function () {
+    $users = (new Zammad())->user()->list();
+    Event::assertDispatched(ZammadResponseLog::class, 1);
+    $user = $users->last();
 
-    /** @test */
-    public function it_does_search_user()
-    {
-        $term = 'email:ruslan.steiger@codebar.ch';
+    $searchedUser = (new Zammad())->user()->search($user->email);
 
-        $user = (new Zammad())->user()->search($term);
+    $this->assertInstanceOf(User::class, $searchedUser);
+    $this->assertSame($user->id, $searchedUser->id);
+    $this->assertSame($user->email, $searchedUser->email);
+    Event::assertDispatched(ZammadResponseLog::class, 2);
+})->group('users');
 
-        $this->assertInstanceOf(User::class, $user);
-        Event::assertDispatched(ZammadResponseLog::class, 1);
-    }
+it('searches a non existing user', function () {
+    $term = 'email:does@not.exist';
 
-    /** @test */
-    public function it_does_search_user_with_empty_result()
-    {
-        $term = 'email:does@not.exist';
+    $user = (new Zammad())->user()->search($term);
 
-        $user = (new Zammad())->user()->search($term);
+    $this->assertNull($user);
+    Event::assertDispatched(ZammadResponseLog::class, 1);
+})->group('users');
 
-        $this->assertNull($user);
-        Event::assertDispatched(ZammadResponseLog::class, 1);
-    }
+it('shows a user', function () {
+    $users = (new Zammad())->user()->list();
+    Event::assertDispatched(ZammadResponseLog::class, 1);
+    $user = $users->last();
 
-    /** @test */
-    public function it_does_show_user()
-    {
-        $id = 20;
+    $newUser = (new Zammad())->user()->show($user->id);
 
-        $user = (new Zammad())->user()->show($id);
+    $this->assertInstanceOf(User::class, $newUser);
+    $this->assertSame($user->id, $newUser->id);
+    Event::assertDispatched(ZammadResponseLog::class, 2);
+})->group('users');
 
-        $this->assertInstanceOf(User::class, $user);
-        $this->assertSame($id, $user->id);
-        Event::assertDispatched(ZammadResponseLog::class, 1);
-    }
+it('creates a user', function () {
+    $firstname = Str::orderedUuid()->toString();
+    $lastname = Str::orderedUuid()->toString();
+    $email = $firstname.'@codebar.ch';
 
-    /** @test */
-    public function it_does_create_and_delete_user()
-    {
-        $data = [
-            'firstname' => 'Noah',
-            'lastname' => 'Schweizer',
-            'email' => rand() . 'noah@schweizer.ch',
-        ];
+    $data = [
+        'firstname' => $firstname,
+        'lastname' => $lastname,
+        'email' => $email,
+    ];
 
-        $user = (new Zammad())->user()->create($data);
+    $user = (new Zammad())->user()->create($data);
 
-        $this->assertInstanceOf(User::class, $user);
-        $this->assertSame('Noah', $user->first_name);
-        $this->assertSame('Schweizer', $user->last_name);
-        $this->assertStringEndsWith('noah@schweizer.ch', $user->email);
-        Event::assertDispatched(ZammadResponseLog::class, 1);
+    $this->assertInstanceOf(User::class, $user);
+    $this->assertSame($firstname, $user->first_name);
+    $this->assertSame($lastname, $user->last_name);
+    $this->assertStringEndsWith($email, $user->email);
+    Event::assertDispatched(ZammadResponseLog::class, 1);
+})->group('users');
 
-        (new Zammad())->user()->delete($user->id);
-        Event::assertDispatched(ZammadResponseLog::class, 2);
-    }
+it('updates a user', function () {
+    $users = (new Zammad())->user()->list();
+    Event::assertDispatched(ZammadResponseLog::class, 1);
+    $user = $users->last();
 
-    /** @test */
-    public function it_does_search_or_create_user_by_email()
-    {
-        $email = rand() . 'noah@schweizer.ch';
+    $firstname = Str::orderedUuid()->toString();
+    $lastname = Str::orderedUuid()->toString();
 
-        $user = (new Zammad())->user()->searchOrCreateByEmail($email);
+    $data = [
+        'firstname' => $firstname,
+        'lastname' => $lastname,
+    ];
 
-        $this->assertSame($email, $user->email);
-        Event::assertDispatched(ZammadResponseLog::class, 2);
-        (new Zammad())->user()->delete($user->id);
-        Event::assertDispatched(ZammadResponseLog::class, 3);
-    }
-}
+    $updatedUser = (new Zammad())->user()->update($user->id, $data);
+    Event::assertDispatched(ZammadResponseLog::class, 2);
+
+    expect($firstname)->toEqual($updatedUser->first_name);
+    expect($lastname)->toEqual($updatedUser->last_name);
+})->group('users');
+
+it('searches or creates a user', function () {
+    $email = Str::orderedUuid()->toString().'@codebar.ch';
+    $user = (new Zammad())->user()->searchOrCreateByEmail($email);
+    $this->assertSame($email, $user->email);
+    Event::assertDispatched(ZammadResponseLog::class, 2);
+    (new Zammad())->user()->delete($user->id);
+    Event::assertDispatched(ZammadResponseLog::class, 3);
+})->group('users');
+
+it('deletes a user', function () {
+    $email = Str::orderedUuid()->toString().'@codebar.ch';
+    $user = (new Zammad())->user()->searchOrCreateByEmail($email);
+    $this->assertSame($email, $user->email);
+    Event::assertDispatched(ZammadResponseLog::class, 2);
+
+    (new Zammad())->user()->delete($user->id);
+    Event::assertDispatched(ZammadResponseLog::class, 3);
+})->group('users');

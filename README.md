@@ -3,7 +3,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codebar-ag/laravel-zammad.svg?style=flat-square)](https://packagist.org/packages/codebar-ag/laravel-zammad)
 [![Total Downloads](https://img.shields.io/packagist/dt/codebar-ag/laravel-zammad.svg?style=flat-square)](https://packagist.org/packages/codebar-ag/laravel-zammad)
 [![run-tests](https://github.com/codebar-ag/laravel-zammad/actions/workflows/run-tests.yml/badge.svg)](https://github.com/codebar-ag/laravel-zammad/actions/workflows/run-tests.yml)
-[![Psalm](https://github.com/codebar-ag/laravel-zammad/actions/workflows/psalm.yml/badge.svg)](https://github.com/codebar-ag/laravel-zammad/actions/workflows/psalm.yml)
+[![PHPStan](https://github.com/codebar-ag/laravel-zammad/actions/workflows/phpstan.yml/badge.svg)](https://github.com/codebar-ag/laravel-zammad/actions/workflows/phpstan.yml)
 [![Check & fix styling](https://github.com/codebar-ag/laravel-zammad/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/codebar-ag/laravel-zammad/actions/workflows/php-cs-fixer.yml)
 
 This package was developed to give you a quick start to communicate with the
@@ -13,7 +13,6 @@ Zammad REST API. It is used to query the most common endpoints.
 [Zammad REST API](https://docs.zammad.org/en/latest/api/intro.html).
 See the documentation if you need further functionality. ⚠️
 
-
 ## 💡 What is Zammad?
 
 Zammad is a web based open source helpdesk/customer support system with many
@@ -21,9 +20,11 @@ features to manage customer communication.
 
 ## 🛠 Requirements
 
-- PHP: `^8.0`
-- Laravel: `^8.12`
-- Zammad Access
+| Version | v2.0.0 | v1.0.0  |
+|---------|--------|---------|
+| PHP     | `^8.1` | `^8.0`  |
+| Laravel| `^9.0` | `^8.12` |
+| Zammad Access| ✅      | ✅       |
 
 ## ⚙️ Installation
 
@@ -59,7 +60,6 @@ can create your token. Be sure to activate all rights you need.
 ],
 ```
 
-
 ## 🏗 Usage
 
 ### 👶 User Resource
@@ -80,7 +80,7 @@ $users = Zammad::user()->list();
 /**
  * Search a single user.
  */
-$term = 'email:ruslan.steiger@codebar.ch';
+$term = 'email:sebastian.fix@codebar.ch';
  
 $user = Zammad::user()->search($term);
 
@@ -93,11 +93,22 @@ $user = Zammad::user()->show(20);
  * Create a new user.
  */
 $data = [
-    'firstname' => 'Bob',
-    'email' => 'bob@domain.test',
+    'firstname' => 'Max',
+    'lastname' => 'Mustermann',
+        'email' => 'max.mustermann@codebar.ch',
 ];
 
 $user = (new Zammad())->user()->create($data);
+
+/**
+ * Update a existing user.
+ */
+$data = [
+    'firstname' => 'Max',
+    'lastname' => 'Mustermann',
+];
+
+$user = (new Zammad())->user()->update($id, $data);
 
 /**
  * Delete a user by id.
@@ -107,7 +118,19 @@ $user = (new Zammad())->user()->create($data);
 /**
  * Search a user by email. If not found create a new user.
  */
-$user = (new Zammad())->user()->searchOrCreateByEmail('bob@domain.test');
+$user = (new Zammad())->user()->searchOrCreateByEmail('max.mustermann@codebar.ch');
+
+/**
+ * Search a user by email. If not found create a new user with custom $data
+ */
+ 
+ $data = [
+    'firstname' => 'Max',
+    'lastname' => 'Mustermann',
+    'email' => 'max.mustermann@codebar.ch',
+];
+
+$user = (new Zammad())->user()->searchOrCreateByEmail('max.mustermann@codebar.ch', $data);
 ```
 
 ### 🎫 Ticket Resource
@@ -123,7 +146,7 @@ $tickets = Zammad::ticket()->list();
 /**
  * Search tickets which include following term.
  */
-$term = 'bob';
+$term = 'Max Mustermann';
  
 $tickets = Zammad::ticket()->search($term);
 
@@ -216,6 +239,36 @@ use CodebarAg\Zammad\Facades\Zammad;
 $objects = Zammad::object()->list();
 
 /**
+ * Create a object
+ */
+ 
+ $data = [
+    'title' => 'sample_boolean',
+    'object' => 'Ticket',
+    'display' => 'Sample Boolean',
+    'active' => true,
+    'position' => 1500,
+    'data_type' => 'select',
+    'data_options' => [
+        'options' => [
+            'key-one' => 'First Key',
+            'key-two' => 'Second Key',
+            'key-three' => 'Third Key',
+        ],
+        'default' => 'key-one'
+    ],
+];
+
+$object = Zammad::object()->create($data);
+
+/**
+ * Update a object
+ */
+ 
+ 
+$object = Zammad::object()->update($id, $data);
+
+/**
  * Show a object by id.
  */
 $object = Zammad::object()->show(20);
@@ -246,10 +299,10 @@ $content = Zammad::attachment()->download(
 ```php
 CodebarAg\Zammad\DTO\User {
   +id: 20                       // int
-  +first_name: "Bob"            // string
-  +last_name: "Schweizer"       // string
-  +login: "bob@domain.test"     // string
-  +email: "bob@domain.test"     // string
+  +first_name: "Max"            // string
+  +last_name: "Mustermann"       // string
+  +login: "max.mustermann@codebar.ch"     // string
+  +email: "max.mustermann@codebar.ch"     // string
   +last_login_at: Carbon\Carbon // Carbon
   +updated_at: Carbon\Carbon    // Carbon
   +created_at: Carbon\Carbon    // Carbon
@@ -282,7 +335,7 @@ CodebarAg\Zammad\DTO\Comment {
   +body_without_blockquote: "We have fixed your issue! Have a great day<br>"
   +body_only_blockquote: "<blockquote type=\"cite\"><div>It is not working</div></blockquote>"
   +content_type: "text/plain"                   // string
-  +from: "Bob Schweizer"                        // string
+  +from: "Max Mustermann"                        // string
   +to: null                                     // ?string
   +internal: false                              // boolean
   +created_by_id: 20                            // int
@@ -303,9 +356,23 @@ CodebarAg\Zammad\DTO\Attachment {
 }
 ```
 
+```php 
+CodebarAg\Zammad\DTO\ObjectAttribute {
+  +id: 313                      // int
+  +name: "sample_object"        // string
+  +object_lookup_id: 2          // int
+  +display: "Sample Object"     // string
+  +data_type: "select"          // string
+  +position: 1500               // int
+  +data_option: []              // array
+  +data_option_new: []          // ?array
+}
+```
+
 ## 🔧 Configuration file
 
 You can publish the config file with:
+
 ```bash
 php artisan vendor:publish --tag="zammad-config"
 ```
@@ -344,6 +411,48 @@ return [
     'token' => env('ZAMMAD_TOKEN'),
 
     /*
+     |--------------------------------------------------------------------------
+     | HTTP Retry Values
+     |--------------------------------------------------------------------------
+     |
+     | If you would like HTTP client to automatically retry the request if a client or server error occurs,
+     | you may specify the retry values. The maximum retry value specifies the number of times the request should be attempted,
+     | and the retry delay value is the number of milliseconds Laravel should wait between attempts.
+     |
+     */
+
+    'http_retry_maximum' => env('ZAMMAD_HTTP_RETRY_MAXIMUM', 5),
+    'http_retry_delay' => env('ZAMMAD_HTTP_RETRY_DELAY', 1000),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Object reference error on delete request
+    |--------------------------------------------------------------------------
+    |
+    | Please note that removing data cannot be undone. Zammad will also remove references - thus potentially tickets!
+    | Removing data with references in e.g. activity streams is not possible via API - this will be indicated by "error":
+    | "Can't delete, object has references." (Status 422). This is not a bug.
+    | Consider using Data Privacy via UI for more control instead. https://docs.zammad.org/en/latest/api/user.html#delete
+    |
+    */
+
+    'object_reference_error_ignore' => env('ZAMMAD_OBJECT_REFERENCE_ERROR_IGNORE', false),
+    'objet_reference_error' => env('ZAMMAD_OBJECT_REFERENCE_ERROR', 'Can&#39;t delete, object has references.'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Comment Object HTML Parsing
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'filter_images' => true,
+    'filter_signature_marker' => true,
+    'filter_signature_marker_value' => '<span class="js-signatureMarker"></span>',
+    'filter_data_signature' => true,
+    'filter_data_signature_value' => '<div data-signature="true" data-signature-id="1">',
+
+    /*
     |--------------------------------------------------------------------------
     | Dynamic Ticket Attributes with Casts
     |--------------------------------------------------------------------------
@@ -361,24 +470,29 @@ return [
     ],
 
 ];
+
 ```
 
 ## 🚧 Testing
 
 Copy your own phpunit.xml-file.
+
 ```bash
 cp phpunit.xml.dist phpunit.xml
 ```
 
 Modify environment variables in the phpunit.xml-file:
+
 ```xml
+
 <env name="ZAMMAD_URL" value="https://domain.zammad.com"/>
 <env name="ZAMMAD_TOKEN" value="token"/>
 ```
 
 Run the tests:
+
 ```bash
-composer test
+./vendor/bin/pest
 ```
 
 ## 📝 Changelog
@@ -389,13 +503,24 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
+```bash
+composer test
+```
+
+### Code Style
+
+```bash
+./vendor/bin/pint
+```
+
 ## 🧑‍💻 Security Vulnerabilities
 
 Please review [our security policy](.github/SECURITY.md) on how to report security vulnerabilities.
 
 ## 🙏 Credits
 
-- [Ruslan Steiger](https://github.com/SuddenlyRust)
+- [Sebastian Fix](https://github.com/StanBarrows)
+- [Ruslan Steiger](https://github.com/ruslansteiger)
 - [All Contributors](../../contributors)
 - [Skeleton Repository from Spatie](https://github.com/spatie/package-skeleton-laravel)
 - [Laravel Package Training from Spatie](https://spatie.be/videos/laravel-package-training)

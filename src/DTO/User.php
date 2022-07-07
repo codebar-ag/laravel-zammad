@@ -44,10 +44,10 @@ class User
     ): self {
         return new self(
             id: $id ?? random_int(1, 1000),
-            first_name: $first_name ?? 'Noah',
-            last_name: $last_name ?? 'Schweizer',
-            login: $login ?? 'noah@schweizer.ch',
-            email: $email ?? 'noah@schweizer.ch',
+            first_name: $first_name ?? 'Max',
+            last_name: $last_name ?? 'Mustermann',
+            login: $login ?? 'max.mustermann@codebar.ch',
+            email: $email ?? 'max.mustermann@codebar.ch',
             last_login_at: $last_login_at ?? now(),
             updated_at: $updated_at ?? now(),
             created_at: $created_at ?? now()->subDay(),

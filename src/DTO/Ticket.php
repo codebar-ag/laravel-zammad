@@ -70,6 +70,7 @@ class Ticket
             5 => 'merged',
             6 => 'removed',
             7 => 'pending_close',
+            default => 'unknown',
         };
     }
 

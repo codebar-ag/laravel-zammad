@@ -2,10 +2,9 @@
 
 namespace CodebarAg\Zammad\Resources;
 
-use CodebarAg\Zammad\Events\ZammadResponseLog;
-use Illuminate\Support\Facades\Http;
+use CodebarAg\Zammad\Classes\RequestClass;
 
-class AttachmentResource
+class AttachmentResource extends RequestClass
 {
     public function download(
         int $ticketId,
@@ -20,10 +19,8 @@ class AttachmentResource
             $attachmentId,
         );
 
-        $response = Http::withToken(config('zammad.token'))->get($url);
+        $response = self::getRequest($url);
 
-        event(new ZammadResponseLog($response));
-
-        return $response->throw()->body();
+        return $response->body();
     }
 }
