@@ -71,7 +71,7 @@ class ObjectAttribute
         ]
     ) {
         return [
-            'name' => $name.'_'.Str::orderedUuid()->toString(),
+            'name' => $name,
             'object' => $object,
             'display' => $display,
             'active' => $active,
