@@ -38,7 +38,6 @@ class Comment
 
         if ($filterTables) {
             $bodyFiltered = preg_replace("/<table[^>]+\>/i", '$1', $bodyFiltered);
-
         }
 
         if ($filterSigantureMarker) {
