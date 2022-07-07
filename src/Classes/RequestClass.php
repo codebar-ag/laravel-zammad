@@ -29,47 +29,6 @@ abstract class RequestClass
     /**
      * @throws \Illuminate\Http\Client\RequestException
      */
-    public function getRequestOnBehalf($userId, $url): Response
-    {
-        ray($userId, $url);
-
-        $response = Http::withToken(config('zammad.token'))
-            ->withHeaders([
-                'X-On-Behalf-Of' => $userId,
-            ])
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->get($url);
-
-        ray($response->body());
-
-        event(new ZammadResponseLog($response));
-
-        return $response->throw();
-    }
-
-    /**
-     * @throws \Illuminate\Http\Client\RequestException
-     */
-    public function postRequestOnBehalf($userId, $url, $data): Response
-    {
-        ray($userId, $url, $data);
-
-        $response = Http::withToken(config('zammad.token'))
-            ->withHeaders([
-                'X-On-Behalf-Of' => $userId,
-            ])
-            ->post($url, $data);
-
-        ray($response->body());
-
-        event(new ZammadResponseLog($response));
-
-        return $response->throw();
-    }
-
-    /**
-     * @throws \Illuminate\Http\Client\RequestException
-     */
     public function getRequest($url): Response
     {
         $response = Http::withToken(config('zammad.token'))
@@ -115,7 +74,7 @@ abstract class RequestClass
     public function deleteRequest($url): Response
     {
         $response = Http::withToken(config('zammad.token'))
-            // ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            //->retry($this->httpRetryMaxium, $this->httpRetryDelay)
             ->delete($url);
 
         $ignoreReferenceError = [

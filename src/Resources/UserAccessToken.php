@@ -14,14 +14,6 @@ class UserAccessToken extends RequestClass
         return $response->json();
     }
 
-    public function createOnBehalfOf(int $id, array $data)
-    {
-        $url = sprintf('%s/api/v1/user_access_token', config('zammad.url'));
-        $response = self::postRequestOnBehalf($id, $url, $data);
-
-        return $response->json();
-    }
-
     public function create(array $data)
     {
         $url = sprintf('%s/api/v1/user_access_token', config('zammad.url'));
