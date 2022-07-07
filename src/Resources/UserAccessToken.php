@@ -3,20 +3,31 @@
 namespace CodebarAg\Zammad\Resources;
 
 use CodebarAg\Zammad\Classes\RequestClass;
-use CodebarAg\Zammad\DTO\User;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 
 class UserAccessToken extends RequestClass
 {
-    public function me(): User
+    public function list()
     {
-        $url = sprintf('%s/api/v1/users/me', config('zammad.url'));
-
+        $url = sprintf('%s/api/v1/user_access_token', config('zammad.url'));
         $response = self::getRequest($url);
 
-        $data = $response->json();
+        return $response->json();
+    }
 
-        return User::fromJson($data);
+    public function create(array $data)
+    {
+        $url = sprintf('%s/api/v1/user_access_token', config('zammad.url'));
+        $response = self::postRequest($url, $data);
+
+        return $response->json();
+    }
+
+    public function delete($id)
+    {
+        $url = sprintf('%s/api/v1/user_access_token/%s', config('zammad.url'), $id);
+
+        $response = self::deleteRequest($url);
+
+        return $response->json();
     }
 }

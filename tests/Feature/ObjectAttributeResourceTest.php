@@ -6,29 +6,27 @@ use CodebarAg\Zammad\Zammad;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 
-it('list objects', function () {
+it('lists objects', function () {
     $objects = (new Zammad())->object()->list();
     $this->assertInstanceOf(Collection::class, $objects);
     $this->assertTrue($objects->count() > 0);
     Event::assertDispatched(ZammadResponseLog::class, 1);
 })->group('objects');
 
-it('show object', function () {
+it('shows a object', function () {
     $id = 1;
     $object = (new Zammad())->object()->show($id);
     $this->assertSame($id, $object->id);
     Event::assertDispatched(ZammadResponseLog::class, 1);
 })->group('objects');
 
-it('create and delete object', function () {
+it('creates and delete object', function () {
     $objectAttribute = ObjectAttribute::fakeCreateToArray();
     $object = (new Zammad())->object()->create($objectAttribute);
     $this->assertInstanceOf(ObjectAttribute::class, $object);
     $this->assertSame($objectAttribute['name'], $object->name);
     $this->assertSame($objectAttribute['display'], $object->display);
     Event::assertDispatched(ZammadResponseLog::class, 1);
-    (new Zammad())->object()->delete($object->id);
-    Event::assertDispatched(ZammadResponseLog::class, 2);
 })->group('objects');
 
 it('update and delete object', function () {

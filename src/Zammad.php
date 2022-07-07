@@ -6,6 +6,7 @@ use CodebarAg\Zammad\Resources\AttachmentResource;
 use CodebarAg\Zammad\Resources\CommentResource;
 use CodebarAg\Zammad\Resources\ObjectAttributeResource;
 use CodebarAg\Zammad\Resources\TicketResource;
+use CodebarAg\Zammad\Resources\UserAccessToken;
 use CodebarAg\Zammad\Resources\UserResource;
 
 class Zammad
@@ -13,6 +14,11 @@ class Zammad
     public function user(): UserResource
     {
         return new UserResource();
+    }
+
+    public function userAccessToken(): UserAccessToken
+    {
+        return new UserAccessToken();
     }
 
     public function ticket(): TicketResource

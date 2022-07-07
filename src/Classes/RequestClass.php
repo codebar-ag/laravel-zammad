@@ -91,7 +91,7 @@ abstract class RequestClass
     public function deleteRequest($url): Response
     {
         $response = Http::withToken(config('zammad.token'))
-           # ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            // ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
             ->delete($url);
 
         $ignoreReferenceError = [
