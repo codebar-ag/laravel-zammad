@@ -21,7 +21,7 @@ class User
     }
 
     public function __construct(
-        public int $id,
+        public int    $id,
         public string $first_name,
         public string $last_name,
         public string $login,
@@ -29,11 +29,12 @@ class User
         public Carbon $last_login_at,
         public Carbon $updated_at,
         public Carbon $created_at,
-    ) {
+    )
+    {
     }
 
     public static function fake(
-        ?int $id = null,
+        ?int    $id = null,
         ?string $first_name = null,
         ?string $last_name = null,
         ?string $login = null,
@@ -41,13 +42,14 @@ class User
         ?Carbon $last_login_at = null,
         ?Carbon $updated_at = null,
         ?Carbon $created_at = null,
-    ): self {
+    ): self
+    {
         return new self(
             id: $id ?? random_int(1, 1000),
-            first_name: $first_name ?? 'Noah',
-            last_name: $last_name ?? 'Schweizer',
-            login: $login ?? 'noah@schweizer.ch',
-            email: $email ?? 'noah@schweizer.ch',
+            first_name: $first_name ?? 'Max',
+            last_name: $last_name ?? 'Mustermann',
+            login: $login ?? 'max.mustermann@codebar.ch',
+            email: $email ?? 'max.mustermann@codebar.ch',
             last_login_at: $last_login_at ?? now(),
             updated_at: $updated_at ?? now(),
             created_at: $created_at ?? now()->subDay(),

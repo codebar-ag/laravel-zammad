@@ -29,6 +29,23 @@ abstract class RequestClass
     /**
      * @throws \Illuminate\Http\Client\RequestException
      */
+    public function getRequestOnBehalf($userId, $url): Response
+    {
+        $response = Http::withToken(config('zammad.token'))
+            ->withHeaders([
+                'X-On-Behalf-Of' => $userId,
+            ])
+            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+            ->get($url);
+
+        event(new ZammadResponseLog($response));
+
+        return $response->throw();
+    }
+
+    /**
+     * @throws \Illuminate\Http\Client\RequestException
+     */
     public function getRequest($url): Response
     {
         $response = Http::withToken(config('zammad.token'))
@@ -74,17 +91,17 @@ abstract class RequestClass
     public function deleteRequest($url): Response
     {
         $response = Http::withToken(config('zammad.token'))
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
+           # ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
             ->delete($url);
 
-        event(new ZammadResponseLog($response));
-
         $ignoreReferenceError = [
-            'ignore' => $this->ignoreReferenceErrorIngore,
+            'ignore' => $this->ignoreReferenceErrorIngore ? true : false,
             'error' => $response->body() && Str::of($response->body())->contains($this->objectHasReferenceError),
         ];
 
         $ignoreReferenceErrorStatus = ! in_array(false, $ignoreReferenceError);
+
+        event(new ZammadResponseLog($response));
 
         return $ignoreReferenceErrorStatus
             ? $response
