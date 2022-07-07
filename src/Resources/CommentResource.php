@@ -18,9 +18,9 @@ class CommentResource extends RequestClass
 
         $response = self::getRequest($url);
 
-        $comment = $response->json();
+        $comments = $response->json();
 
-        return collect($comment)->map(fn (array $comment) => Comment::fromJson($comment));
+        return collect($comments)->map(fn (array $comment) => Comment::fromJson($comment));
     }
 
     public function show(int $id): ?Comment
