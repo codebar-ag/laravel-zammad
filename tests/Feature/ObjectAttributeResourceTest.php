@@ -14,13 +14,16 @@ it('lists objects', function () {
 })->group('objects');
 
 it('shows a object', function () {
-    $id = 1;
-    $object = (new Zammad())->object()->show($id);
-    $this->assertSame($id, $object->id);
+    $objects = (new Zammad())->object()->list();
     Event::assertDispatched(ZammadResponseLog::class, 1);
+    $object = $objects->last();
+
+    $newObject = (new Zammad())->object()->show($object->id);
+    $this->assertSame($object->id, $newObject->id);
+    Event::assertDispatched(ZammadResponseLog::class, 2);
 })->group('objects');
 
-it('creates and delete object', function () {
+it('creates a object', function () {
     $objectAttribute = ObjectAttribute::fakeCreateToArray();
     $object = (new Zammad())->object()->create($objectAttribute);
     $this->assertInstanceOf(ObjectAttribute::class, $object);
@@ -29,7 +32,7 @@ it('creates and delete object', function () {
     Event::assertDispatched(ZammadResponseLog::class, 1);
 })->group('objects');
 
-it('update and delete object', function () {
+it('update a object', function () {
     $objectAttribute = ObjectAttribute::fakeCreateToArray();
     $object = (new Zammad())->object()->create($objectAttribute);
     Event::assertDispatched(ZammadResponseLog::class, 1);
@@ -59,14 +62,18 @@ it('update and delete object', function () {
     Event::assertDispatched(ZammadResponseLog::class, 2);
     expect($updatedObjectAttribute['display'])->toEqual($object->display);
     expect($objectAttribute['display'])->not()->toEqual($object->display);
+})->group('objects');
+
+it('deletes a object', function () {
+    $objectAttribute = ObjectAttribute::fakeCreateToArray();
+    $object = (new Zammad())->object()->create($objectAttribute);
+    Event::assertDispatched(ZammadResponseLog::class, 1);
 
     (new Zammad())->object()->delete($object->id);
-    Event::assertDispatched(ZammadResponseLog::class, 3);
+    Event::assertDispatched(ZammadResponseLog::class, 2);
 })->group('objects');
 
 it('execute database migrations', function () {
     (new Zammad())->object()->executeMigrations();
-
-    $this->assertTrue(true);
     Event::assertDispatched(ZammadResponseLog::class, 1);
 })->group('objects');

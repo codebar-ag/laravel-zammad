@@ -27,18 +27,11 @@ it('list users', function () {
 })->group('users');
 
 it('searches a user', function () {
-    $email = Str::orderedUuid()->toString().'@codebar.ch';
-
-    $data = [
-        'email' => $email,
-    ];
-
-    $user = (new Zammad())->user()->create($data);
+    $users = (new Zammad())->user()->list();
     Event::assertDispatched(ZammadResponseLog::class, 1);
+    $user = $users->last();
 
-    sleep(5);
-
-    $searchedUser = (new Zammad())->user()->search($email);
+    $searchedUser = (new Zammad())->user()->search($user->email);
 
     $this->assertInstanceOf(User::class, $searchedUser);
     $this->assertSame($user->id, $searchedUser->id);

@@ -2,6 +2,8 @@
 
 namespace CodebarAg\Zammad\DTO;
 
+use Illuminate\Support\Str;
+
 class ObjectAttribute
 {
     public static function fromJson(array $data): self
@@ -9,7 +11,9 @@ class ObjectAttribute
         return new self(
             id: $data['id'],
             name: $data['name'],
-            object_lookup_id: $data['object_lookup_id'],
+            object_lookup_id: array_key_exists('object_lookup_id', $data)
+                ? $data['object_lookup_id']
+                : null,
             display: $data['display'],
             data_type: $data['data_type'],
             position: $data['position'],
@@ -21,7 +25,7 @@ class ObjectAttribute
     public function __construct(
         public int $id,
         public string $name,
-        public int $object_lookup_id,
+        public ?int $object_lookup_id,
         public string $display,
         public string $data_type,
         public int $position,
@@ -69,7 +73,7 @@ class ObjectAttribute
         ]
     ) {
         return [
-            'name' => $name,
+            'name' => $name.'_'.Str::slug(Str::orderedUuid()->toString(), '_'),
             'object' => $object,
             'display' => $display,
             'active' => $active,

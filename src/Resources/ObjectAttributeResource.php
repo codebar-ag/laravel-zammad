@@ -19,7 +19,7 @@ class ObjectAttributeResource extends RequestClass
 
         $objects = $response->json();
 
-        return collect($objects);
+        return collect($objects)->map(fn (array $object) => ObjectAttribute::fromJson($object));
     }
 
     public function show(int $id): ?ObjectAttribute

@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 it('lists user tokens', function () {
     $tokens = (new Zammad())->userAccesstoken()->list();
     Event::assertDispatched(ZammadResponseLog::class, 1);
-})->group('users', 'zammad');
+})->group('users');
 
 it('creates a user token', function () {
     $data = [
