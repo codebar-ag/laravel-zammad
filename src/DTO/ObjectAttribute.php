@@ -2,8 +2,6 @@
 
 namespace CodebarAg\Zammad\DTO;
 
-use Illuminate\Support\Str;
-
 class ObjectAttribute
 {
     public static function fromJson(array $data): self
