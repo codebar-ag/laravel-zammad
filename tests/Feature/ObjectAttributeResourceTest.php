@@ -73,7 +73,9 @@ it('deletes a object', function () {
     Event::assertDispatched(ZammadResponseLog::class, 2);
 })->group('objects');
 
+# this test is migrating the zammad database which can take up to 30seconds.
 it('execute database migrations', function () {
     (new Zammad())->object()->executeMigrations();
     Event::assertDispatched(ZammadResponseLog::class, 1);
+    sleep(30);
 })->group('objects');

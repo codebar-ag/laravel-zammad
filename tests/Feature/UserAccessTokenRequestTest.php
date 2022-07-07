@@ -15,7 +15,7 @@ it('lists user tokens', function () {
 it('creates a user token', function () {
     $data = [
         'label' => Str::orderedUuid()->toString(),
-        'permission' => [],
+        'permission' => ['admin'],
     ];
     $token = (new Zammad())->userAccesstoken()->create($data);
     Event::assertDispatched(ZammadResponseLog::class, 1);

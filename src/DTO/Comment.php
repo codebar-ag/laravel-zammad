@@ -24,6 +24,7 @@ class Comment
             });
 
         $filterImages = config('zammad.filter_images');
+        $filterTables = config('zammad.filter_tables');
         $filterSigantureMarker = config('zammad.filter_signature_marker');
         $filterSigantureMarkerValue = config('zammad.filter_signature_marker_value');
         $filterDataSignature = config('zammad.filter_data_signature');
@@ -32,7 +33,11 @@ class Comment
         $bodyFiltered = $data['body'];
 
         if ($filterImages) {
-            $bodyFiltered = preg_replace("/<img[^>]+\>/i", ' ', $bodyFiltered);
+            $bodyFiltered = preg_replace("/<img[^>]+\>/i", '$1', $bodyFiltered);
+        }
+
+        if ($filterTables) {
+            $bodyFiltered = preg_replace("/<table[^>]+\>/i", '$1', $bodyFiltered);
         }
 
         if ($filterSigantureMarker) {

@@ -40,7 +40,7 @@ return [
      */
 
     'http_retry_maximum' => env('ZAMMAD_HTTP_RETRY_MAXIMUM', 3),
-    'http_retry_delay' => env('ZAMMAD_HTTP_RETRY_DELAY', 2500),
+    'http_retry_delay' => env('ZAMMAD_HTTP_RETRY_DELAY', 1500),
 
     /*
     |--------------------------------------------------------------------------
@@ -65,6 +65,7 @@ return [
     */
 
     'filter_images' => true,
+    'filter_tables' => true,
     'filter_signature_marker' => true,
     'filter_signature_marker_value' => '<span class="js-signatureMarker"></span>',
     'filter_data_signature' => true,
