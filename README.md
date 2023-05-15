@@ -20,11 +20,11 @@ features to manage customer communication.
 
 ## 🛠 Requirements
 
-| Version | v2.0.0 | v1.0.0  |
-|---------|--------|---------|
-| PHP     | `^8.1` | `^8.0`  |
-| Laravel| `^9.0` | `^8.12` |
-| Zammad Access| ✅      | ✅       |
+| Package 	 | PHP 	  | Laravel 	        | Zammad 	 |
+|-----------|--------|------------------|----------|
+| >v3.0     | >8.2   | > Laravel 10.0   | ✅        |
+| >v2.0 	   | >8.1 	 | > Laravel 9.0 	  | ✅	       |
+| >v1.0 	   | >8.0 	 | > Laravel 8.12 	 | ✅	       |
 
 ## ⚙️ Installation
 
