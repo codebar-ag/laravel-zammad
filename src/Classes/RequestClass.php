@@ -3,9 +3,12 @@
 namespace CodebarAg\Zammad\Classes;
 
 use CodebarAg\Zammad\Events\ZammadResponseLog;
-use Illuminate\Http\Client\Response;
-use Illuminate\Support\Facades\Http;
+use CodebarAg\Zammad\ZammadConnector;
 use Illuminate\Support\Str;
+use Saloon\Exceptions\Request\RequestException;
+use Saloon\Http\Request;
+use Saloon\Http\Response;
+use Throwable;
 
 abstract class RequestClass
 {
@@ -17,6 +20,8 @@ abstract class RequestClass
 
     protected $objectHasReferenceError;
 
+    protected $connector;
+
     public function __construct()
     {
         $this->httpRetryMaxium = config('zammad.http_retry_maximum');
@@ -24,16 +29,25 @@ abstract class RequestClass
 
         $this->ignoreReferenceErrorIngore = config('zammad.object_reference_error_ignore');
         $this->objectHasReferenceError = config('zammad.objet_reference_error');
+
+        $this->connector = new ZammadConnector();
+    }
+
+    private function performRequest(Request $request): Response
+    {
+        return $this->connector->sendAndRetry(
+            $request,
+            $this->httpRetryMaxium,
+            $this->httpRetryDelay,
+        );
     }
 
     /**
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException|Throwable
      */
-    public function getRequest($url): Response
+    public function getRequest(Request $request): Response
     {
-        $response = Http::withToken(config('zammad.token'))
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->get($url);
+        $response = $this->performRequest($request);
 
         event(new ZammadResponseLog($response));
 
@@ -41,13 +55,11 @@ abstract class RequestClass
     }
 
     /**
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException|Throwable
      */
-    public function postRequest($url, $data = null): Response
+    public function postRequest(Request $request): Response
     {
-        $response = Http::withToken(config('zammad.token'))
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->post($url, $data);
+        $response = $this->performRequest($request);
 
         event(new ZammadResponseLog($response));
 
@@ -55,13 +67,11 @@ abstract class RequestClass
     }
 
     /**
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException|Throwable
      */
-    public function putRequest($url, $data): Response
+    public function putRequest(Request $request): Response
     {
-        $response = Http::withToken(config('zammad.token'))
-            ->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->put($url, $data);
+        $response = $this->performRequest($request);
 
         event(new ZammadResponseLog($response));
 
@@ -69,13 +79,11 @@ abstract class RequestClass
     }
 
     /**
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException|Throwable
      */
-    public function deleteRequest($url): Response
+    public function deleteRequest(Request $request): Response
     {
-        $response = Http::withToken(config('zammad.token'))
-            //->retry($this->httpRetryMaxium, $this->httpRetryDelay)
-            ->delete($url);
+        $response = $this->performRequest($request);
 
         $ignoreReferenceError = [
             'ignore' => $this->ignoreReferenceErrorIngore ? true : false,

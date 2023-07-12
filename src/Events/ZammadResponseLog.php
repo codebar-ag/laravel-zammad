@@ -4,8 +4,8 @@ namespace CodebarAg\Zammad\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Http\Client\Response;
 use Illuminate\Queue\SerializesModels;
+use Saloon\Http\Response;
 
 class ZammadResponseLog
 {

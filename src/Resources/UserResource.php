@@ -4,42 +4,60 @@ namespace CodebarAg\Zammad\Resources;
 
 use CodebarAg\Zammad\Classes\RequestClass;
 use CodebarAg\Zammad\DTO\User;
+use CodebarAg\Zammad\Requests\Users\AllUsersRequest;
+use CodebarAg\Zammad\Requests\Users\CreateUserRequest;
+use CodebarAg\Zammad\Requests\Users\DestroyUserRequest;
+use CodebarAg\Zammad\Requests\Users\GetUserRequest;
+use CodebarAg\Zammad\Requests\Users\SearchUserRequest;
+use CodebarAg\Zammad\Requests\Users\UpdateUserRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Saloon\Exceptions\Request\RequestException;
 
 class UserResource extends RequestClass
 {
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     * @throws \JsonException
+     */
     public function me(): User
     {
-        $url = sprintf('%s/api/v1/users/me', config('zammad.url'));
+        $request = new GetUserRequest;
 
-        $response = self::getRequest($url);
+        $response = self::getRequest($request);
 
         $data = $response->json();
 
         return User::fromJson($data);
     }
 
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     * @throws \JsonException
+     */
     public function list(): Collection
     {
-        $url = sprintf('%s/api/v1/users', config('zammad.url'));
+        $request = new AllUsersRequest;
 
-        $response = self::getRequest($url);
+        $response = self::getRequest($request);
 
         $users = $response->json();
 
         return collect($users)->map(fn (array $user) => User::fromJson($user));
     }
 
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     * @throws \JsonException
+     */
     public function search(string $term): ?User
     {
-        $url = sprintf(
-            '%s/api/v1/users/search?query=%s&limit=1',
-            config('zammad.url'),
-            $term,
-        );
+        $request = new SearchUserRequest($term);
 
-        $response = self::getRequest($url);
+        $response = self::getRequest($request);
 
         $data = $response->json();
 
@@ -48,54 +66,70 @@ class UserResource extends RequestClass
             : null;
     }
 
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     * @throws \JsonException
+     */
     public function show(int $id): User
     {
-        $url = sprintf(
-            '%s/api/v1/users/%s',
-            config('zammad.url'),
-            $id,
-        );
+        $request = new GetUserRequest($id);
 
-        $response = self::getRequest($url);
+        $response = self::getRequest($request);
 
         $data = $response->json();
 
         return User::fromJson($data);
     }
 
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     * @throws \JsonException
+     */
     public function create(array $data): User
     {
-        $url = sprintf('%s/api/v1/users', config('zammad.url'));
+        $request = new CreateUserRequest($data);
 
-        $response = self::postRequest($url, $data);
+        $response = self::postRequest($request);
 
         $user = $response->json();
 
         return User::fromJson($user);
     }
 
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     * @throws \JsonException
+     */
     public function update($id, array $data): User
     {
-        $url = sprintf('%s/api/v1/users/%s', config('zammad.url'), $id);
+        $request = new UpdateUserRequest($id, $data);
 
-        $response = self::putRequest($url, $data);
+        $response = self::putRequest($request);
 
         $user = $response->json();
 
         return User::fromJson($user);
     }
 
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     */
     public function delete(int $id): void
     {
-        $url = sprintf(
-            '%s/api/v1/users/%s',
-            config('zammad.url'),
-            $id,
-        );
+        $request = new DestroyUserRequest($id);
 
-        self::deleteRequest($url);
+        self::deleteRequest($request);
     }
 
+    /**
+     * @throws \JsonException
+     * @throws \Throwable
+     * @throws RequestException
+     */
     public function searchOrCreateByEmail(string $email, array $data = []): User
     {
         $user = $this->search("email:{$email}");
