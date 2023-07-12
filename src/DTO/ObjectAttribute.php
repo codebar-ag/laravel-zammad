@@ -35,14 +35,14 @@ class ObjectAttribute
     }
 
     public static function fake(
-        ?int $id = null,
-        ?int $name = null,
-        ?int $object_lookup_id = null,
-        ?string $display = null,
-        ?string $data_type = null,
-        ?int $position = null,
-        ?array $data_option = null,
-        ?array $data_option_new = null,
+        int $id = null,
+        int $name = null,
+        int $object_lookup_id = null,
+        string $display = null,
+        string $data_type = null,
+        int $position = null,
+        array $data_option = null,
+        array $data_option_new = null,
     ): self {
         return new self(
             id: $id ?? random_int(1, 1000),
@@ -61,7 +61,7 @@ class ObjectAttribute
         ?string $object = 'Ticket',
         ?string $display = 'Sample Object',
         ?bool $active = true,
-        ?int $position = null,
+        int $position = null,
         ?string $data_type = 'select',
         ?array $data_options = [
             'options' => [

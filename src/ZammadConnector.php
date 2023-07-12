@@ -14,7 +14,7 @@ class ZammadConnector extends Connector
             throw new \Exception('No url provided.', 500);
         }
 
-        return config('zammad.url') . '/api/v1';
+        return config('zammad.url').'/api/v1';
     }
 
     protected function defaultHeaders(): array

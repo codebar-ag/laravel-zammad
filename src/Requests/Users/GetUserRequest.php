@@ -11,16 +11,17 @@ class GetUserRequest extends Request
 
     public function __construct(
         public ?int $id = null
-    ) {}
+    ) {
+    }
 
     public function resolveEndpoint(): string
     {
         $endpoint = '/users/';
 
         if ($this->id) {
-            return $endpoint . $this->id;
+            return $endpoint.$this->id;
         }
 
-        return $endpoint . 'me';
+        return $endpoint.'me';
     }
 }

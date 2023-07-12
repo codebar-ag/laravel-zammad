@@ -95,17 +95,17 @@ class Ticket
     }
 
     public static function fake(
-        ?int $id = null,
-        ?int $number = null,
-        ?int $customer_id = null,
-        ?int $group_id = null,
-        ?int $state_id = null,
-        ?string $subject = null,
-        ?int $comments_count = null,
-        ?Carbon $updated_at = null,
-        ?Carbon $created_at = null,
-        ?Collection $comments = null,
-        ?array $properties = null,
+        int $id = null,
+        int $number = null,
+        int $customer_id = null,
+        int $group_id = null,
+        int $state_id = null,
+        string $subject = null,
+        int $comments_count = null,
+        Carbon $updated_at = null,
+        Carbon $created_at = null,
+        Collection $comments = null,
+        array $properties = null,
     ): self {
         return new self(
             id: $id ?? random_int(1, 1000),

@@ -33,14 +33,14 @@ class User
     }
 
     public static function fake(
-        ?int $id = null,
-        ?string $first_name = null,
-        ?string $last_name = null,
-        ?string $login = null,
-        ?string $email = null,
-        ?Carbon $last_login_at = null,
-        ?Carbon $updated_at = null,
-        ?Carbon $created_at = null,
+        int $id = null,
+        string $first_name = null,
+        string $last_name = null,
+        string $login = null,
+        string $email = null,
+        Carbon $last_login_at = null,
+        Carbon $updated_at = null,
+        Carbon $created_at = null,
     ): self {
         return new self(
             id: $id ?? random_int(1, 1000),

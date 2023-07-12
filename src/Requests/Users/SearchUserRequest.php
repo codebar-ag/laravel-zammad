@@ -11,10 +11,11 @@ class SearchUserRequest extends Request
 
     public function __construct(
         public string $term
-    ) {}
+    ) {
+    }
 
     public function resolveEndpoint(): string
     {
-        return '/users/search?limit=1&query=' . $this->term;
+        return '/users/search?limit=1&query='.$this->term;
     }
 }

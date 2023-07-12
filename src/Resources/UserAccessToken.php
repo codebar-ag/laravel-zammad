@@ -5,7 +5,6 @@ namespace CodebarAg\Zammad\Resources;
 use CodebarAg\Zammad\Classes\RequestClass;
 use CodebarAg\Zammad\Requests\Users\AccessTokens\AllAccessTokensRequest;
 use CodebarAg\Zammad\Requests\Users\AccessTokens\CreateAccessTokenRequest;
-use CodebarAg\Zammad\Requests\Users\CreateUserRequest;
 use Saloon\Exceptions\Request\RequestException;
 
 class UserAccessToken extends RequestClass
