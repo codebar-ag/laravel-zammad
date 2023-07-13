@@ -33,27 +33,21 @@ class ObjectAttributeResource extends RequestClass
     {
         $response = self::request(new GetObjectAttributeRequest($id));
 
-        $object = $response->json();
-
-        return ObjectAttribute::fromJson($object);
+        return $response->dtoOrFail();
     }
 
     public function create(array $data): ObjectAttribute
     {
         $response = self::request(new CreateObjectAttributeRequest($data));
 
-        $object = $response->json();
-
-        return ObjectAttribute::fromJson($object);
+        return $response->dtoOrFail();
     }
 
     public function update(int $id, array $data): ObjectAttribute
     {
         $response = self::request(new UpdateObjectAttributeRequest($id, $data));
 
-        $object = $response->json();
-
-        return ObjectAttribute::fromJson($object);
+        return $response->dtoOrFail();
     }
 
     public function delete(int $id): void

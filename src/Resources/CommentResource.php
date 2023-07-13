@@ -22,9 +22,7 @@ class CommentResource extends RequestClass
     {
         $response = self::request(new GetCommentRequest($id));
 
-        $comment = $response->json();
-
-        return Comment::fromJson($comment);
+        return $response->dtoOrFail();
     }
 
     /**
@@ -50,9 +48,7 @@ class CommentResource extends RequestClass
     {
         $response = self::request(new CreateCommentRequest($data));
 
-        $comment = $response->json();
-
-        return Comment::fromJson($comment);
+        return $response->dtoOrFail();
     }
 
     public function delete(int $id): void

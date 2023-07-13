@@ -2,6 +2,8 @@
 
 namespace CodebarAg\Zammad\Requests\Comments;
 
+use CodebarAg\Zammad\DTO\Comment;
+use Saloon\Contracts\Response;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 
@@ -17,5 +19,10 @@ class GetCommentRequest extends Request
     public function resolveEndpoint(): string
     {
         return '/ticket_articles/'.$this->id;
+    }
+
+    public function createDtoFromResponse(Response $response): Comment
+    {
+        return Comment::fromJson($response->json());
     }
 }

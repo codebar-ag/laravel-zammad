@@ -25,9 +25,7 @@ class UserResource extends RequestClass
     {
         $response = self::request(new GetUserRequest);
 
-        $data = $response->json();
-
-        return User::fromJson($data);
+        return $response->dtoOrFail();
     }
 
     /**
@@ -69,9 +67,7 @@ class UserResource extends RequestClass
     {
         $response = self::request(new GetUserRequest($id));
 
-        $data = $response->json();
-
-        return User::fromJson($data);
+        return $response->dtoOrFail();
     }
 
     /**
@@ -83,9 +79,7 @@ class UserResource extends RequestClass
     {
         $response = self::request(new CreateUserRequest($data));
 
-        $user = $response->json();
-
-        return User::fromJson($user);
+        return $response->dtoOrFail();
     }
 
     /**
@@ -97,9 +91,7 @@ class UserResource extends RequestClass
     {
         $response = self::request(new UpdateUserRequest($id, $data));
 
-        $user = $response->json();
-
-        return User::fromJson($user);
+        return $response->dtoOrFail();
     }
 
     /**

@@ -2,7 +2,9 @@
 
 namespace CodebarAg\Zammad\Requests\ObjectAttribute;
 
+use CodebarAg\Zammad\DTO\ObjectAttribute;
 use Saloon\Contracts\Body\HasBody;
+use Saloon\Contracts\Response;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Traits\Body\HasJsonBody;
@@ -26,5 +28,10 @@ class CreateObjectAttributeRequest extends Request implements HasBody
     protected function defaultBody(): array
     {
         return $this->payload;
+    }
+
+    public function createDtoFromResponse(Response $response): ObjectAttribute
+    {
+        return ObjectAttribute::fromJson($response->json());
     }
 }

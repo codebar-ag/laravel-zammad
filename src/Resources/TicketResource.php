@@ -54,9 +54,7 @@ class TicketResource extends RequestClass
     {
         $response = self::request(new GetTicketRequest($id));
 
-        $ticket = $response->json();
-
-        return Ticket::fromJson($ticket);
+        return $response->dtoOrFail();
     }
 
     /**
@@ -68,7 +66,7 @@ class TicketResource extends RequestClass
     {
         $response = self::request(new GetTicketRequest($id));
 
-        $ticket = Ticket::fromJson($response->json());
+        $ticket = $response->dtoOrFail();
 
         $ticket->comments = Zammad::comment()->showByTicket($id);
 
@@ -84,9 +82,7 @@ class TicketResource extends RequestClass
     {
         $response = self::request(new CreateTicketRequest($data));
 
-        $ticket = $response->json();
-
-        return Ticket::fromJson($ticket);
+        return $response->dtoOrFail();
     }
 
     /**

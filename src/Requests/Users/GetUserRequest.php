@@ -2,6 +2,8 @@
 
 namespace CodebarAg\Zammad\Requests\Users;
 
+use CodebarAg\Zammad\DTO\User;
+use Saloon\Contracts\Response;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 
@@ -23,5 +25,10 @@ class GetUserRequest extends Request
         }
 
         return $endpoint.'me';
+    }
+
+    public function createDtoFromResponse(Response $response): User
+    {
+        return User::fromJson($response->json());
     }
 }
