@@ -64,7 +64,7 @@ it('does_create_a_fake_comment', function () {
     $this->assertInstanceOf(Comment::class, $ticket);
 })->group('dto');
 
-it('does_create_a_fake_attachment', function () {
+it('does create a fake attachment', function () {
     $attachment = Attachment::fake();
 
     $this->assertInstanceOf(Attachment::class, $attachment);

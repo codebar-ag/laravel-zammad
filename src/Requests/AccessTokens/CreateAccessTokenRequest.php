@@ -1,6 +1,6 @@
 <?php
 
-namespace CodebarAg\Zammad\Requests\Users\AccessTokens;
+namespace CodebarAg\Zammad\Requests\AccessTokens;
 
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;

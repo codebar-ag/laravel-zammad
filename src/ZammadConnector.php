@@ -8,6 +8,9 @@ use Saloon\Http\Connector;
 
 class ZammadConnector extends Connector
 {
+    /**
+     * @throws \Exception
+     */
     public function resolveBaseUrl(): string
     {
         if (! config('zammad.url')) {
@@ -25,8 +28,23 @@ class ZammadConnector extends Connector
         ];
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function defaultAuth(): ?Authenticator
     {
-        return new TokenAuthenticator(config('zammad.token'));
+        return new TokenAuthenticator($this->setAuth(), 'Bearer');
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function setAuth(): string
+    {
+        if (! config('zammad.token')) {
+            throw new \Exception('No token provided.', 500);
+        }
+
+        return config('zammad.token');
     }
 }
