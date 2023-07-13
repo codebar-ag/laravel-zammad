@@ -37,7 +37,7 @@ it('deletes a user token', function () {
 
     $tokensCountBefore = count($tokensBefore['tokens']);
 
-    foreach($tokensBefore['tokens'] as $token) {
+    foreach ($tokensBefore['tokens'] as $token) {
         if ($token['name'] == $data['name']) {
             (new Zammad())->userAccesstoken()->delete($token['id']);
         }
@@ -48,7 +48,7 @@ it('deletes a user token', function () {
 
     $tokensCountAfter = count($tokensAfter['tokens']);
 
-    foreach($tokensAfter['tokens'] as $token) {
+    foreach ($tokensAfter['tokens'] as $token) {
         if ($token['name'] == $data['name']) {
             $this->fail('Token was not deleted');
         }

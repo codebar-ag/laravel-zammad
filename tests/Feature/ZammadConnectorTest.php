@@ -5,7 +5,7 @@ use CodebarAg\Zammad\ZammadConnector;
 it('will throw and error if a url is not provided', function () {
     config(['zammad.url' => '']);
     (new ZammadConnector())->resolveBaseUrl();
-})->throws(\Exception::class,'No url provided.', 500)
+})->throws(\Exception::class, 'No url provided.', 500)
     ->group('connector');
 
 it('will not throw and error if a url provided', function () {
@@ -16,7 +16,7 @@ it('will not throw and error if a url provided', function () {
 it('will throw and error if a token is not provided', function () {
     config(['zammad.token' => '']);
     (new ZammadConnector())->setAuth();
-})->throws(\Exception::class,'No token provided.', 500)
+})->throws(\Exception::class, 'No token provided.', 500)
     ->group('connector');
 
 it('will not throw and error if a token provided', function () {
