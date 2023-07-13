@@ -23,9 +23,7 @@ class UserResource extends RequestClass
      */
     public function me(): User
     {
-        $request = new GetUserRequest;
-
-        $response = self::getRequest($request);
+        $response = self::request(new GetUserRequest);
 
         $data = $response->json();
 
@@ -39,9 +37,7 @@ class UserResource extends RequestClass
      */
     public function list(): Collection
     {
-        $request = new AllUsersRequest;
-
-        $response = self::getRequest($request);
+        $response = self::request(new AllUsersRequest);
 
         $users = $response->json();
 
@@ -55,9 +51,7 @@ class UserResource extends RequestClass
      */
     public function search(string $term): ?User
     {
-        $request = new SearchUserRequest($term);
-
-        $response = self::getRequest($request);
+        $response = self::request(new SearchUserRequest($term));
 
         $data = $response->json();
 
@@ -73,9 +67,7 @@ class UserResource extends RequestClass
      */
     public function show(int $id): User
     {
-        $request = new GetUserRequest($id);
-
-        $response = self::getRequest($request);
+        $response = self::request(new GetUserRequest($id));
 
         $data = $response->json();
 
@@ -89,9 +81,7 @@ class UserResource extends RequestClass
      */
     public function create(array $data): User
     {
-        $request = new CreateUserRequest($data);
-
-        $response = self::postRequest($request);
+        $response = self::request(new CreateUserRequest($data));
 
         $user = $response->json();
 
@@ -105,9 +95,7 @@ class UserResource extends RequestClass
      */
     public function update($id, array $data): User
     {
-        $request = new UpdateUserRequest($id, $data);
-
-        $response = self::putRequest($request);
+        $response = self::request(new UpdateUserRequest($id, $data));
 
         $user = $response->json();
 
@@ -120,9 +108,7 @@ class UserResource extends RequestClass
      */
     public function delete(int $id): void
     {
-        $request = new DestroyUserRequest($id);
-
-        self::deleteRequest($request);
+        self::deleteRequest(new DestroyUserRequest($id));
     }
 
     /**

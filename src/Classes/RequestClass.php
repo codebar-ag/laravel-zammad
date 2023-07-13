@@ -45,37 +45,13 @@ abstract class RequestClass
     /**
      * @throws RequestException|Throwable
      */
-    public function getRequest(Request $request): Response
+    public function request(Request $request): Response
     {
         $response = $this->performRequest($request);
 
         event(new ZammadResponseLog($response));
 
-        return $response->throw();
-    }
-
-    /**
-     * @throws RequestException|Throwable
-     */
-    public function postRequest(Request $request): Response
-    {
-        $response = $this->performRequest($request);
-
-        event(new ZammadResponseLog($response));
-
-        return $response->throw();
-    }
-
-    /**
-     * @throws RequestException|Throwable
-     */
-    public function putRequest(Request $request): Response
-    {
-        $response = $this->performRequest($request);
-
-        event(new ZammadResponseLog($response));
-
-        return $response->throw();
+        return $response;
     }
 
     /**

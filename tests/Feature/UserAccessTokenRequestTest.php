@@ -14,7 +14,7 @@ it('lists user tokens', function () {
 
 it('creates a user token', function () {
     $data = [
-        'label' => Str::orderedUuid()->toString(),
+        'name' => Str::orderedUuid()->toString(),
         'permission' => ['admin'],
         'expires_at' => now()->addDay()->format('Y-m-d'),
     ];

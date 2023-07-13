@@ -5,30 +5,38 @@ namespace CodebarAg\Zammad\Resources;
 use CodebarAg\Zammad\Classes\RequestClass;
 use CodebarAg\Zammad\DTO\Ticket;
 use CodebarAg\Zammad\Facades\Zammad;
+use CodebarAg\Zammad\Requests\Tickets\AllTicketsRequest;
+use CodebarAg\Zammad\Requests\Tickets\CreateTicketRequest;
+use CodebarAg\Zammad\Requests\Tickets\DestroyTicketRequest;
+use CodebarAg\Zammad\Requests\Tickets\GetTicketRequest;
+use CodebarAg\Zammad\Requests\Tickets\SearchTicketRequest;
 use Illuminate\Support\Collection;
+use Saloon\Exceptions\Request\RequestException;
 
 class TicketResource extends RequestClass
 {
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     * @throws \JsonException
+     */
     public function list(): Collection
     {
-        $url = sprintf('%s/api/v1/tickets', config('zammad.url'));
-
-        $response = self::getRequest($url);
+        $response = self::request(new AllTicketsRequest);
 
         $tickets = $response->json();
 
         return collect($tickets)->map(fn (array $ticket) => Ticket::fromJson($ticket));
     }
 
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     * @throws \JsonException
+     */
     public function search(string $term): Collection
     {
-        $url = sprintf(
-            '%s/api/v1/tickets/search?query=%s',
-            config('zammad.url'),
-            $term,
-        );
-
-        $response = self::getRequest($url);
+        $response = self::request(new SearchTicketRequest($term));
 
         $tickets = $response->json('assets.Ticket');
 
@@ -37,30 +45,28 @@ class TicketResource extends RequestClass
             ->values();
     }
 
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     * @throws \JsonException
+     */
     public function show(int $id): ?Ticket
     {
-        $url = sprintf(
-            '%s/api/v1/tickets/%s',
-            config('zammad.url'),
-            $id,
-        );
-
-        $response = self::getRequest($url);
+        $response = self::request(new GetTicketRequest($id));
 
         $ticket = $response->json();
 
         return Ticket::fromJson($ticket);
     }
 
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     * @throws \JsonException
+     */
     public function showWithComments(int $id): ?Ticket
     {
-        $url = sprintf(
-            '%s/api/v1/tickets/%s',
-            config('zammad.url'),
-            $id,
-        );
-
-        $response = self::getRequest($url);
+        $response = self::request(new GetTicketRequest($id));
 
         $ticket = Ticket::fromJson($response->json());
 
@@ -69,25 +75,26 @@ class TicketResource extends RequestClass
         return $ticket;
     }
 
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     * @throws \JsonException
+     */
     public function create(array $data): Ticket
     {
-        $url = sprintf('%s/api/v1/tickets', config('zammad.url'));
-
-        $response = self::postRequest($url, $data);
+        $response = self::request(new CreateTicketRequest($data));
 
         $ticket = $response->json();
 
         return Ticket::fromJson($ticket);
     }
 
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     */
     public function delete(int $id): void
     {
-        $url = sprintf(
-            '%s/api/v1/tickets/%s',
-            config('zammad.url'),
-            $id,
-        );
-
-        self::deleteRequest($url);
+        self::deleteRequest(new DestroyTicketRequest($id));
     }
 }
