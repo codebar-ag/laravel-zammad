@@ -10,12 +10,23 @@ class SearchUserRequest extends Request
     protected Method $method = Method::GET;
 
     public function __construct(
-        public string $term
+        public string $term,
+        public int $limit = 1,
+        public bool $expand = false
     ) {
     }
 
     public function resolveEndpoint(): string
     {
-        return '/users/search?limit=1&query='.$this->term;
+        return '/users/search';
+    }
+
+    protected function defaultQuery(): array
+    {
+        return [
+            'query' => $this->term,
+            'limit' => $this->limit,
+            'expand' => $this->expand,
+        ];
     }
 }

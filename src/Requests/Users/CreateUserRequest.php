@@ -16,13 +16,21 @@ class CreateUserRequest extends Request implements HasBody
     protected Method $method = Method::POST;
 
     public function __construct(
-        protected array $payload
+        protected array $payload,
+        public bool $expand = false
     ) {
     }
 
     public function resolveEndpoint(): string
     {
         return '/users';
+    }
+
+    protected function defaultQuery(): array
+    {
+        return [
+            'expand' => $this->expand,
+        ];
     }
 
     protected function defaultBody(): array

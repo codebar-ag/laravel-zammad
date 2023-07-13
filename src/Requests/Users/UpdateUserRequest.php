@@ -17,13 +17,21 @@ class UpdateUserRequest extends Request implements HasBody
 
     public function __construct(
         public int $id,
-        public array $payload
+        public array $payload,
+        public bool $expand = false
     ) {
     }
 
     public function resolveEndpoint(): string
     {
         return '/users/'.$this->id;
+    }
+
+    protected function defaultQuery(): array
+    {
+        return [
+            'expand' => $this->expand,
+        ];
     }
 
     protected function defaultBody(): array

@@ -10,12 +10,17 @@ use CodebarAg\Zammad\Requests\Users\DestroyUserRequest;
 use CodebarAg\Zammad\Requests\Users\GetUserRequest;
 use CodebarAg\Zammad\Requests\Users\SearchUserRequest;
 use CodebarAg\Zammad\Requests\Users\UpdateUserRequest;
+use CodebarAg\Zammad\Traits\HasExpand;
+use CodebarAg\Zammad\Traits\HasLimit;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Saloon\Exceptions\Request\RequestException;
 
 class UserResource extends RequestClass
 {
+    use HasLimit;
+    use HasExpand;
+
     /**
      * @throws \Throwable
      * @throws RequestException
@@ -23,7 +28,7 @@ class UserResource extends RequestClass
      */
     public function me(): User
     {
-        $response = self::request(new GetUserRequest);
+        $response = self::request(new GetUserRequest(expand: $this->expand));
 
         return $response->dtoOrFail();
     }
@@ -35,7 +40,7 @@ class UserResource extends RequestClass
      */
     public function list(): Collection
     {
-        $response = self::request(new AllUsersRequest);
+        $response = self::request(new AllUsersRequest(expand: $this->expand));
 
         $users = $response->json();
 
@@ -49,7 +54,7 @@ class UserResource extends RequestClass
      */
     public function search(string $term): ?User
     {
-        $response = self::request(new SearchUserRequest($term));
+        $response = self::request(new SearchUserRequest(term: $term, limit: $this->limit, expand: $this->expand));
 
         $data = $response->json();
 
@@ -65,7 +70,7 @@ class UserResource extends RequestClass
      */
     public function show(int $id): User
     {
-        $response = self::request(new GetUserRequest($id));
+        $response = self::request(new GetUserRequest(id: $id, expand: $this->expand));
 
         return $response->dtoOrFail();
     }
@@ -77,7 +82,7 @@ class UserResource extends RequestClass
      */
     public function create(array $data): User
     {
-        $response = self::request(new CreateUserRequest($data));
+        $response = self::request(new CreateUserRequest(payload: $data, expand: $this->expand));
 
         return $response->dtoOrFail();
     }
@@ -89,7 +94,7 @@ class UserResource extends RequestClass
      */
     public function update($id, array $data): User
     {
-        $response = self::request(new UpdateUserRequest($id, $data));
+        $response = self::request(new UpdateUserRequest(id: $id, payload: $data, expand: $this->expand));
 
         return $response->dtoOrFail();
     }

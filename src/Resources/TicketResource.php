@@ -10,11 +10,16 @@ use CodebarAg\Zammad\Requests\Tickets\CreateTicketRequest;
 use CodebarAg\Zammad\Requests\Tickets\DestroyTicketRequest;
 use CodebarAg\Zammad\Requests\Tickets\GetTicketRequest;
 use CodebarAg\Zammad\Requests\Tickets\SearchTicketRequest;
+use CodebarAg\Zammad\Traits\HasExpand;
+use CodebarAg\Zammad\Traits\HasLimit;
 use Illuminate\Support\Collection;
 use Saloon\Exceptions\Request\RequestException;
 
 class TicketResource extends RequestClass
 {
+    use HasLimit;
+    use HasExpand;
+
     /**
      * @throws \Throwable
      * @throws RequestException
@@ -22,7 +27,7 @@ class TicketResource extends RequestClass
      */
     public function list(): Collection
     {
-        $response = self::request(new AllTicketsRequest);
+        $response = self::request(new AllTicketsRequest(expand: $this->expand));
 
         $tickets = $response->json();
 
@@ -36,7 +41,7 @@ class TicketResource extends RequestClass
      */
     public function search(string $term): Collection
     {
-        $response = self::request(new SearchTicketRequest($term));
+        $response = self::request(new SearchTicketRequest(term: $term, limit: $this->limit, expand: $this->expand));
 
         $tickets = $response->json('assets.Ticket');
 
@@ -52,7 +57,7 @@ class TicketResource extends RequestClass
      */
     public function show(int $id): ?Ticket
     {
-        $response = self::request(new GetTicketRequest($id));
+        $response = self::request(new GetTicketRequest(id: $id, expand: $this->expand));
 
         return $response->dtoOrFail();
     }
@@ -64,7 +69,7 @@ class TicketResource extends RequestClass
      */
     public function showWithComments(int $id): ?Ticket
     {
-        $response = self::request(new GetTicketRequest($id));
+        $response = self::request(new GetTicketRequest(id: $id, expand: $this->expand));
 
         $ticket = $response->dtoOrFail();
 
@@ -80,7 +85,7 @@ class TicketResource extends RequestClass
      */
     public function create(array $data): Ticket
     {
-        $response = self::request(new CreateTicketRequest($data));
+        $response = self::request(new CreateTicketRequest(payload: $data, expand: $this->expand));
 
         return $response->dtoOrFail();
     }

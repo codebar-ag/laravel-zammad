@@ -12,7 +12,8 @@ class GetUserRequest extends Request
     protected Method $method = Method::GET;
 
     public function __construct(
-        public ?int $id = null
+        public ?int $id = null,
+        public bool $expand = false
     ) {
     }
 
@@ -25,6 +26,13 @@ class GetUserRequest extends Request
         }
 
         return $endpoint.'me';
+    }
+
+    protected function defaultQuery(): array
+    {
+        return [
+            'expand' => $this->expand,
+        ];
     }
 
     public function createDtoFromResponse(Response $response): User
