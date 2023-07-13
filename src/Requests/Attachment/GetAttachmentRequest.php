@@ -18,6 +18,6 @@ class GetAttachmentRequest extends Request
 
     public function resolveEndpoint(): string
     {
-        return '/ticket_attachment/' . $this->ticketId . '/' . $this->commentId . '/' . $this->attachmentId;
+        return '/ticket_attachment/'.$this->ticketId.'/'.$this->commentId.'/'.$this->attachmentId;
     }
 }
