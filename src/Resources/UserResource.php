@@ -40,7 +40,7 @@ class UserResource extends RequestClass
      */
     public function list(): Collection
     {
-        $response = self::request(new AllUsersRequest(expand: $this->expand));
+        $response = self::request(new AllUsersRequest);
 
         $users = $response->json();
 
@@ -54,7 +54,7 @@ class UserResource extends RequestClass
      */
     public function search(string $term): ?User
     {
-        $response = self::request(new SearchUserRequest(term: $term, limit: $this->limit, expand: $this->expand));
+        $response = self::request(new SearchUserRequest(term: $term, limit: $this->limit));
 
         $data = $response->json();
 

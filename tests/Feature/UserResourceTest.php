@@ -118,3 +118,31 @@ it('deletes a user', function () {
     (new Zammad())->user()->delete($user->id);
     Event::assertDispatched(ZammadResponseLog::class, 3);
 })->group('users');
+
+it('show current user expanded', function () {
+    $user = (new Zammad())->user()->me();
+    $userExpand = (new Zammad())->user()->expand()->me();
+    $this->assertInstanceOf(User::class, $user);
+    $this->assertInstanceOf(User::class, $userExpand);
+    Event::assertDispatched(ZammadResponseLog::class, 2);
+
+    $this->assertSame($user->id, $userExpand->id);
+    $this->assertNull($user->expanded);
+    $this->assertNotNull($userExpand->expanded);
+})->group('users', 'expand');
+
+it('show user expanded', function () {
+    $users = (new Zammad())->user()->list();
+    Event::assertDispatched(ZammadResponseLog::class, 1);
+    $usr = $users->last();
+
+    $user = (new Zammad())->user()->show($usr->id);
+    $userExpand = (new Zammad())->user()->expand()->show($usr->id);
+    $this->assertInstanceOf(User::class, $user);
+    $this->assertInstanceOf(User::class, $userExpand);
+    Event::assertDispatched(ZammadResponseLog::class, 3);
+
+    $this->assertSame($user->id, $userExpand->id);
+    $this->assertNull($user->expanded);
+    $this->assertNotNull($userExpand->expanded);
+})->group('users', 'expand');

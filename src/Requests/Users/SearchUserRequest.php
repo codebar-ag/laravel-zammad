@@ -11,8 +11,7 @@ class SearchUserRequest extends Request
 
     public function __construct(
         public string $term,
-        public int $limit = 1,
-        public bool $expand = false
+        public int $limit = 1
     ) {
     }
 
@@ -26,7 +25,6 @@ class SearchUserRequest extends Request
         return [
             'query' => $this->term,
             'limit' => $this->limit,
-            'expand' => $this->expand,
         ];
     }
 }

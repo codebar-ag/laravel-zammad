@@ -8,6 +8,7 @@ use CodebarAg\Zammad\Events\ZammadResponseLog;
 use CodebarAg\Zammad\Zammad;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 
 it('does show by ticket', function () {
     $id = 32;
@@ -83,3 +84,25 @@ it('does parse body from comment', function () {
         $comment->body_filtered,
     );
 })->group('comments');
+
+it('has a from name helper', function () {
+    $id = 66;
+
+    $comment = (new Zammad())->comment()->show($id);
+
+    $this->assertSame(
+        Str::before(Str::between($comment->from, '"', '"'), '<'),
+        $comment->fromName(),
+    );
+})->group('comments', 'helpers');
+
+it('has a from email helper', function () {
+    $id = 66;
+
+    $comment = (new Zammad())->comment()->show($id);
+
+    $this->assertSame(
+        Str::between($comment->from, '<', '>'),
+        $comment->fromEmail(),
+    );
+})->group('comments', 'helpers');

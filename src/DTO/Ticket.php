@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 class Ticket
 {
-    public static function fromJson(array $data): self
+    public static function fromJson(array $data, bool $expanded = false): self
     {
         $properties = collect(config('zammad.ticket'))
             ->filter(fn (string $_, string $key) => Arr::exists($data, $key))
@@ -37,6 +37,7 @@ class Ticket
             created_at: Carbon::parse($data['created_at']),
             comments: $data['comments'] ?? collect([]),
             properties: $properties,
+            expanded: $expanded ? $data : null,
         );
     }
 
@@ -52,6 +53,7 @@ class Ticket
         public Carbon $created_at,
         public Collection $comments,
         array $properties,
+        public ?array $expanded = null,
     ) {
         $this->comments = collect([]);
 
@@ -76,22 +78,22 @@ class Ticket
 
     public function isOpen(): bool
     {
-        return in_array($this->state_id, [1, 2, 3, 7]);
+        return in_array($this->state_id, config('zammad.ticket_states.open', []));
     }
 
     public function isClosed(): bool
     {
-        return in_array($this->state_id, [4]);
+        return in_array($this->state_id, config('zammad.ticket_states.closed', []));
     }
 
     public function isActive(): bool
     {
-        return in_array($this->state_id, [1, 2, 3, 4, 7]);
+        return in_array($this->state_id, config('zammad.ticket_states.active', []));
     }
 
     public function isInactive(): bool
     {
-        return in_array($this->state_id, [5, 6]);
+        return in_array($this->state_id, config('zammad.ticket_states.inactive', []));
     }
 
     public static function fake(
@@ -106,6 +108,7 @@ class Ticket
         Carbon $created_at = null,
         Collection $comments = null,
         array $properties = null,
+        array $expanded = null,
     ): self {
         return new self(
             id: $id ?? random_int(1, 1000),
@@ -119,6 +122,7 @@ class Ticket
             created_at: $created_at ?? now()->subDay(),
             comments: $comments ?? collect([Comment::fake()]),
             properties: $properties ?? [],
+            expanded: $expanded ?? null,
         );
     }
 }

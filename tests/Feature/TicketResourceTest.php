@@ -88,3 +88,18 @@ it('create and delete a ticket', function () {
     (new Zammad())->ticket()->delete($ticket->id);
     Event::assertDispatched(ZammadResponseLog::class, 2);
 })->group('tickets');
+
+it('shows a ticket expanded', function () {
+    $id = 32;
+
+    $ticket = (new Zammad())->ticket()->show($id);
+    $ticketExpand = (new Zammad())->ticket()->expand()->show($id);
+
+    $this->assertInstanceOf(Ticket::class, $ticket);
+    $this->assertInstanceOf(Ticket::class, $ticketExpand);
+    Event::assertDispatched(ZammadResponseLog::class, 2);
+
+    $this->assertSame($ticket->id, $ticketExpand->id);
+    $this->assertNull($ticket->expanded);
+    $this->assertNotNull($ticketExpand->expanded);
+})->group('tickets', 'expand');

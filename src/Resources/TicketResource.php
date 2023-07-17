@@ -27,7 +27,7 @@ class TicketResource extends RequestClass
      */
     public function list(): Collection
     {
-        $response = self::request(new AllTicketsRequest(expand: $this->expand));
+        $response = self::request(new AllTicketsRequest);
 
         $tickets = $response->json();
 
@@ -41,7 +41,7 @@ class TicketResource extends RequestClass
      */
     public function search(string $term): Collection
     {
-        $response = self::request(new SearchTicketRequest(term: $term, limit: $this->limit, expand: $this->expand));
+        $response = self::request(new SearchTicketRequest(term: $term, limit: $this->limit));
 
         $tickets = $response->json('assets.Ticket');
 

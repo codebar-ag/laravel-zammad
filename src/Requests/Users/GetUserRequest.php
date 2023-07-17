@@ -37,6 +37,6 @@ class GetUserRequest extends Request
 
     public function createDtoFromResponse(Response $response): User
     {
-        return User::fromJson($response->json());
+        return User::fromJson($response->json(), $this->expand);
     }
 }

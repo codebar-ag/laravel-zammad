@@ -31,6 +31,6 @@ class GetTicketRequest extends Request
 
     public function createDtoFromResponse(Response $response): Ticket
     {
-        return Ticket::fromJson($response->json());
+        return Ticket::fromJson($response->json(), $this->expand);
     }
 }

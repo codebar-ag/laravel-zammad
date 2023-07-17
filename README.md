@@ -294,6 +294,29 @@ $content = Zammad::attachment()->download(
 );
 ```
 
+## Expanding response payloads
+
+You can use the `expand()` method to expand the response with additional data.
+
+See documentation on this in the [Zammad API Docs](https://docs.zammad.org/en/latest/api/intro.html?highlight=expand#response-payloads-expand).
+
+```php
+$ticket = Zammad::ticket()->expand()->show(20);
+$user = Zammad::user()->expand()->show(20);
+$me = Zammad::user()->expand()->me();
+```
+
+## Limit response payloads
+
+You can use the `limit(int $limit = 1)` method to expand the response with additional data.
+
+See documentation on this in the [Zammad API Docs](https://docs.zammad.org/en/latest/api/intro.html?highlight=expand#response-payloads-expand).
+
+```php
+$ticket = Zammad::ticket()->limit()->list();
+$user = Zammad::user()->limit()->list();
+```
+
 ## 🏋️ DTO showcase
 
 ```php
@@ -368,6 +391,7 @@ CodebarAg\Zammad\DTO\ObjectAttribute {
   +data_option_new: []          // ?array
 }
 ```
+
 
 ## 🔧 Configuration file
 

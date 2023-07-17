@@ -131,4 +131,14 @@ class Comment
             created_at: $created_at ?? now()->subDay(),
         );
     }
+
+    public function fromName(): string
+    {
+        return Str::before(Str::between($this->from, '"', '"'), '<');
+    }
+
+    public function fromEmail(): string
+    {
+        return Str::between($this->from, '<', '>');
+    }
 }
