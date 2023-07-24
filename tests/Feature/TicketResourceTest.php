@@ -118,5 +118,4 @@ it('paginates ticket list with page and perPage methods', function () {
 
     $this->assertNotSame($tickets, $ticketsTwo);
 
-
 })->group('tickets', 'paginate');

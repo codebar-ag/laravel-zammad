@@ -8,7 +8,6 @@ use CodebarAg\Zammad\Zammad;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
-use function PHPUnit\Framework\assertSame;
 
 it('show current user', function () {
     $user = (new Zammad())->user()->me();
