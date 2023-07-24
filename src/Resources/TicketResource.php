@@ -12,6 +12,7 @@ use CodebarAg\Zammad\Requests\Tickets\GetTicketRequest;
 use CodebarAg\Zammad\Requests\Tickets\SearchTicketRequest;
 use CodebarAg\Zammad\Traits\HasExpand;
 use CodebarAg\Zammad\Traits\HasLimit;
+use CodebarAg\Zammad\Traits\HasPagination;
 use Illuminate\Support\Collection;
 use Saloon\Exceptions\Request\RequestException;
 
@@ -19,6 +20,7 @@ class TicketResource extends RequestClass
 {
     use HasLimit;
     use HasExpand;
+    use HasPagination;
 
     /**
      * @throws \Throwable
@@ -27,7 +29,7 @@ class TicketResource extends RequestClass
      */
     public function list(): Collection
     {
-        $response = self::request(new AllTicketsRequest);
+        $response = self::request(new AllTicketsRequest(perPage: $this->perPage, page: $this->page));
 
         $tickets = $response->json();
 

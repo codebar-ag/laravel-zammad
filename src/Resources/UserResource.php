@@ -12,6 +12,7 @@ use CodebarAg\Zammad\Requests\Users\SearchUserRequest;
 use CodebarAg\Zammad\Requests\Users\UpdateUserRequest;
 use CodebarAg\Zammad\Traits\HasExpand;
 use CodebarAg\Zammad\Traits\HasLimit;
+use CodebarAg\Zammad\Traits\HasPagination;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Saloon\Exceptions\Request\RequestException;
@@ -20,6 +21,7 @@ class UserResource extends RequestClass
 {
     use HasLimit;
     use HasExpand;
+    use HasPagination;
 
     /**
      * @throws \Throwable
@@ -40,7 +42,7 @@ class UserResource extends RequestClass
      */
     public function list(): Collection
     {
-        $response = self::request(new AllUsersRequest);
+        $response = self::request(new AllUsersRequest(perPage: $this->perPage, page: $this->page));
 
         $users = $response->json();
 
@@ -115,6 +117,8 @@ class UserResource extends RequestClass
      */
     public function searchOrCreateByEmail(string $email, array $data = []): User
     {
+        $this->limit = 1;
+
         $user = $this->search("email:{$email}");
 
         if ($user) {

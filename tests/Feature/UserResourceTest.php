@@ -8,6 +8,7 @@ use CodebarAg\Zammad\Zammad;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+use function PHPUnit\Framework\assertSame;
 
 it('show current user', function () {
     $user = (new Zammad())->user()->me();
@@ -146,3 +147,19 @@ it('show user expanded', function () {
     $this->assertNull($user->expanded);
     $this->assertNotNull($userExpand->expanded);
 })->group('users', 'expand');
+
+it('paginates user list', function () {
+    $users = (new Zammad())->user()->paginate(1, 2)->list();
+    $usersTwo = (new Zammad())->user()->paginate(2, 2)->list();
+
+    $this->assertNotSame($users, $usersTwo);
+
+})->group('users', 'paginate');
+
+it('paginates user list with page and perPage methods', function () {
+    $users = (new Zammad())->user()->page(1)->perPage(2)->list();
+    $usersTwo = (new Zammad())->user()->page(2)->perPage(2)->list();
+
+    $this->assertNotSame($users, $usersTwo);
+
+})->group('users', 'paginate');

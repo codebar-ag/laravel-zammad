@@ -306,15 +306,30 @@ $user = Zammad::user()->expand()->show(20);
 $me = Zammad::user()->expand()->me();
 ```
 
-## Limit response payloads
+## Limit search response payloads
 
 You can use the `limit(int $limit = 1)` method to expand the response with additional data.
 
-See documentation on this in the [Zammad API Docs](https://docs.zammad.org/en/latest/api/intro.html?highlight=expand#response-payloads-expand).
+See documentation on this in the [Zammad API Docs](https://docs.zammad.org/en/latest/api/user.html#search).
 
 ```php
-$ticket = Zammad::ticket()->limit()->list();
-$user = Zammad::user()->limit()->list();
+$ticket = Zammad::ticket()->limit(1)->search();
+$user = Zammad::user()->limit(1)->search();
+```
+
+## Paginate list response payloads
+
+You can use the `perPage(int $perPage)` and `page(int $page)` methods to set the page and per page values for the response
+Alternatively you can use the `paginate(int $page, int $perPage):` method to set both at once.
+
+See documentation on this in the [Zammad API Docs](https://docs.zammad.org/en/latest/api/intro.html#pagination).
+
+```php
+$ticket = Zammad::ticket()->perPage(1)->page(1)->list();
+$user = Zammad::user()->perPage(1)->page(1)->list();
+
+$ticket = Zammad::ticket()->paginate(1, 1)->list();
+$user = Zammad::user()->paginate(1, 1)->list();
 ```
 
 ## 🏋️ DTO showcase
@@ -492,6 +507,25 @@ return [
 
     'ticket' => [
         // 'note' => 'string',
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Ticket States
+    |--------------------------------------------------------------------------
+    | 
+    | The ticket states are used to determine if a ticket is open, closed,
+    | active or inactive. You can use this information to filter tickets
+    | by their state. The following states are supported by default.
+    | https://docs.zammad.org/en/latest/api/ticket/states.html
+    |
+    */
+
+    'ticket_states' => [
+        'open' => [1, 2, 3, 7],
+        'closed' => [4],
+        'active' => [1, 2, 3, 4, 7],
+        'inactive' => [5, 6],
     ],
 
 ];

@@ -103,3 +103,20 @@ it('shows a ticket expanded', function () {
     $this->assertNull($ticket->expanded);
     $this->assertNotNull($ticketExpand->expanded);
 })->group('tickets', 'expand');
+
+it('paginates ticket list', function () {
+    $users = (new Zammad())->ticket()->paginate(1, 2)->list();
+    $usersTwo = (new Zammad())->ticket()->paginate(2, 2)->list();
+
+    $this->assertNotSame($users, $usersTwo);
+
+})->group('tickets', 'paginate');
+
+it('paginates ticket list with page and perPage methods', function () {
+    $tickets = (new Zammad())->ticket()->page(1)->perPage(2)->list();
+    $ticketsTwo = (new Zammad())->ticket()->page(2)->perPage(2)->list();
+
+    $this->assertNotSame($tickets, $ticketsTwo);
+
+
+})->group('tickets', 'paginate');
