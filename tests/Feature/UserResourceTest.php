@@ -27,7 +27,7 @@ it('list users', function () {
 })->group('users');
 
 it('searches a user', function () {
-    $users = (new Zammad())->user()->paginate(1,100)->list();
+    $users = (new Zammad())->user()->paginate(1, 100)->list();
     Event::assertDispatched(ZammadResponseLog::class, 1);
     $user = $users->last();
 

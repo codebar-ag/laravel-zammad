@@ -31,6 +31,7 @@ class SearchUserRequest extends Request
         }
 
         ray($query);
+
         return $query;
     }
 }

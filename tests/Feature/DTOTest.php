@@ -7,7 +7,6 @@ use CodebarAg\Zammad\DTO\Attachment;
 use CodebarAg\Zammad\DTO\Comment;
 use CodebarAg\Zammad\DTO\Ticket;
 use CodebarAg\Zammad\DTO\User;
-use CodebarAg\Zammad\Zammad;
 
 it('does create a fake user', function () {
     $user = User::fake();
@@ -115,4 +114,3 @@ it('can get the status of a ticket', function () {
     expect($ticket->state())->toBe('unknown');
 
 })->group('tickets');
-
