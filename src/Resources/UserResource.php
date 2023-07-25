@@ -54,11 +54,15 @@ class UserResource extends RequestClass
      * @throws RequestException
      * @throws \JsonException
      */
-    public function search(string $term): ?User
+    public function search(string $term): null|User|Collection
     {
         $response = self::request(new SearchUserRequest(term: $term, limit: $this->limit));
 
         $data = $response->json();
+
+        if ($this->limit > 1) {
+            return collect($data)->map(fn (array $user) => User::fromJson($user));
+        }
 
         return Arr::exists($data, 0)
             ? User::fromJson($data[0])

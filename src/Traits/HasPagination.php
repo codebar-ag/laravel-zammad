@@ -4,9 +4,9 @@ namespace CodebarAg\Zammad\Traits;
 
 trait HasPagination
 {
-    public int $page = 1;
+    public ?int $page = null;
 
-    public int $perPage = 1;
+    public ?int $perPage = null;
 
     public function page(int $page): self
     {

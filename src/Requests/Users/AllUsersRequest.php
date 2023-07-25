@@ -32,6 +32,8 @@ class AllUsersRequest extends Request
             $query['page'] = $this->page;
         }
 
+        ray($query);
+
         return $query;
     }
 }

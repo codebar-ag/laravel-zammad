@@ -7,6 +7,7 @@ use CodebarAg\Zammad\DTO\Attachment;
 use CodebarAg\Zammad\DTO\Comment;
 use CodebarAg\Zammad\DTO\Ticket;
 use CodebarAg\Zammad\DTO\User;
+use CodebarAg\Zammad\Zammad;
 
 it('does create a fake user', function () {
     $user = User::fake();
@@ -69,3 +70,49 @@ it('does create a fake attachment', function () {
 
     $this->assertInstanceOf(Attachment::class, $attachment);
 })->group('dto');
+
+it('can get a url of an attachment', function () {
+    $attachment = Attachment::fromJson(
+        [
+            'id' => 42,
+            'size' => 37055,
+            'filename' => 'fake.txt',
+            'preferences' => [
+                'Content-Type' => 'text/plain',
+                'Mime-Type' => 'text/plain',
+            ],
+        ],
+        ticketId: 32,
+        commentId: 111,
+    );
+
+    expect($attachment->url())->toBe('https://dev-immospace.zammad.com/api/v1/ticket_attachment/32/111/42');
+})->group('attachments');
+
+it('can get the status of a ticket', function () {
+    $ticket = Ticket::fake(state_id: 1);
+    expect($ticket->state())->toBe('new');
+
+    $ticket = Ticket::fake(state_id: 2);
+    expect($ticket->state())->toBe('open');
+
+    $ticket = Ticket::fake(state_id: 3);
+    expect($ticket->state())->toBe('pending_reminder');
+
+    $ticket = Ticket::fake(state_id: 4);
+    expect($ticket->state())->toBe('closed');
+
+    $ticket = Ticket::fake(state_id: 5);
+    expect($ticket->state())->toBe('merged');
+
+    $ticket = Ticket::fake(state_id: 6);
+    expect($ticket->state())->toBe('removed');
+
+    $ticket = Ticket::fake(state_id: 7);
+    expect($ticket->state())->toBe('pending_close');
+
+    $ticket = Ticket::fake(state_id: 8);
+    expect($ticket->state())->toBe('unknown');
+
+})->group('tickets');
+

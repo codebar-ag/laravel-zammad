@@ -1,5 +1,6 @@
 <?php
 
+use CodebarAg\Zammad\DTO\Attachment;
 use CodebarAg\Zammad\Events\ZammadResponseLog;
 use CodebarAg\Zammad\Zammad;
 use Illuminate\Support\Str;
