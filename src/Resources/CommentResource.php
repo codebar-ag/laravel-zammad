@@ -4,59 +4,55 @@ namespace CodebarAg\Zammad\Resources;
 
 use CodebarAg\Zammad\Classes\RequestClass;
 use CodebarAg\Zammad\DTO\Comment;
+use CodebarAg\Zammad\Requests\Comments\CreateCommentRequest;
+use CodebarAg\Zammad\Requests\Comments\DestroyCommentRequest;
+use CodebarAg\Zammad\Requests\Comments\GetCommentByTicketRequest;
+use CodebarAg\Zammad\Requests\Comments\GetCommentRequest;
 use Illuminate\Support\Collection;
+use Saloon\Exceptions\Request\RequestException;
 
 class CommentResource extends RequestClass
 {
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     * @throws \JsonException
+     */
+    public function show(int $id): ?Comment
+    {
+        $response = self::request(new GetCommentRequest($id));
+
+        return $response->dtoOrFail();
+    }
+
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     * @throws \JsonException
+     */
     public function showByTicket(int $id): Collection
     {
-        $url = sprintf(
-            '%s/api/v1/ticket_articles/by_ticket/%s',
-            config('zammad.url'),
-            $id,
-        );
-
-        $response = self::getRequest($url);
+        $response = self::request(new GetCommentByTicketRequest($id));
 
         $comments = $response->json();
 
         return collect($comments)->map(fn (array $comment) => Comment::fromJson($comment));
     }
 
-    public function show(int $id): ?Comment
-    {
-        $url = sprintf(
-            '%s/api/v1/ticket_articles/%s',
-            config('zammad.url'),
-            $id,
-        );
-
-        $response = self::getRequest($url);
-
-        $comment = $response->json();
-
-        return Comment::fromJson($comment);
-    }
-
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     * @throws \JsonException
+     */
     public function create(array $data): Comment
     {
-        $url = sprintf('%s/api/v1/ticket_articles', config('zammad.url'));
+        $response = self::request(new CreateCommentRequest($data));
 
-        $response = self::postRequest($url, $data);
-
-        $comment = $response->json();
-
-        return Comment::fromJson($comment);
+        return $response->dtoOrFail();
     }
 
     public function delete(int $id): void
     {
-        $url = sprintf(
-            '%s/api/v1/ticket_articles/%s',
-            config('zammad.url'),
-            $id,
-        );
-
-        self::deleteRequest($url);
+        self::deleteRequest(new DestroyCommentRequest($id));
     }
 }

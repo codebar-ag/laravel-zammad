@@ -3,23 +3,21 @@
 namespace CodebarAg\Zammad\Resources;
 
 use CodebarAg\Zammad\Classes\RequestClass;
+use CodebarAg\Zammad\Requests\Attachment\GetAttachmentRequest;
+use Saloon\Exceptions\Request\RequestException;
 
 class AttachmentResource extends RequestClass
 {
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     */
     public function download(
         int $ticketId,
         int $commentId,
         int $attachmentId,
     ): string {
-        $url = sprintf(
-            '%s/api/v1/ticket_attachment/%s/%s/%s',
-            config('zammad.url'),
-            $ticketId,
-            $commentId,
-            $attachmentId,
-        );
-
-        $response = self::getRequest($url);
+        $response = self::request(new GetAttachmentRequest($ticketId, $commentId, $attachmentId));
 
         return $response->body();
     }

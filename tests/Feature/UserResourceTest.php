@@ -27,7 +27,7 @@ it('list users', function () {
 })->group('users');
 
 it('searches a user', function () {
-    $users = (new Zammad())->user()->list();
+    $users = (new Zammad())->user()->paginate(1, 100)->list();
     Event::assertDispatched(ZammadResponseLog::class, 1);
     $user = $users->last();
 
@@ -118,3 +118,59 @@ it('deletes a user', function () {
     (new Zammad())->user()->delete($user->id);
     Event::assertDispatched(ZammadResponseLog::class, 3);
 })->group('users');
+
+it('show current user expanded', function () {
+    $user = (new Zammad())->user()->me();
+    $userExpand = (new Zammad())->user()->expand()->me();
+    $this->assertInstanceOf(User::class, $user);
+    $this->assertInstanceOf(User::class, $userExpand);
+    Event::assertDispatched(ZammadResponseLog::class, 2);
+
+    $this->assertSame($user->id, $userExpand->id);
+    $this->assertNull($user->expanded);
+    $this->assertNotNull($userExpand->expanded);
+})->group('users', 'expand');
+
+it('show user expanded', function () {
+    $users = (new Zammad())->user()->list();
+    Event::assertDispatched(ZammadResponseLog::class, 1);
+    $usr = $users->last();
+
+    $user = (new Zammad())->user()->show($usr->id);
+    $userExpand = (new Zammad())->user()->expand()->show($usr->id);
+    $this->assertInstanceOf(User::class, $user);
+    $this->assertInstanceOf(User::class, $userExpand);
+    Event::assertDispatched(ZammadResponseLog::class, 3);
+
+    $this->assertSame($user->id, $userExpand->id);
+    $this->assertNull($user->expanded);
+    $this->assertNotNull($userExpand->expanded);
+})->group('users', 'expand');
+
+it('paginates user list', function () {
+    $users = (new Zammad())->user()->paginate(1, 2)->list();
+    $usersTwo = (new Zammad())->user()->paginate(2, 2)->list();
+
+    $this->assertNotSame($users, $usersTwo);
+
+})->group('users', 'paginate');
+
+it('paginates user list with page and perPage methods', function () {
+    $users = (new Zammad())->user()->page(1)->perPage(2)->list();
+    $usersTwo = (new Zammad())->user()->page(2)->perPage(2)->list();
+
+    $this->assertNotSame($users, $usersTwo);
+
+})->group('users', 'paginate');
+
+it('limits user list with limit method', function () {
+    $users = (new Zammad())->user()->limit()->search('info');
+
+    if (! $users instanceof User) {
+        expect(count($users))->toBeLessThanOrEqual(1);
+    }
+
+    $users = (new Zammad())->user()->limit(10)->search('info');
+
+    expect(count($users))->toBeLessThanOrEqual(10);
+})->group('users', 'limit');

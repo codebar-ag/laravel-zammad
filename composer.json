@@ -21,7 +21,9 @@
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.5",
         "illuminate/contracts": "^10.0",
-        "spatie/laravel-package-tools": "^1.9.2"
+        "spatie/laravel-package-tools": "^1.9.2",
+        "sammyjo20/saloon": "^2.0",
+        "sammyjo20/saloon-laravel": "^2.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",

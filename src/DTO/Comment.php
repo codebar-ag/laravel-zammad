@@ -93,22 +93,22 @@ class Comment
     }
 
     public static function fake(
-        ?int $id = null,
-        ?int $type_id = null,
-        ?int $ticket_id = null,
-        ?int $sender_id = null,
-        ?string $sender = null,
-        ?string $subject = null,
-        ?string $body = null,
-        ?string $content_type = null,
-        ?string $from = null,
-        ?string $to = null,
-        ?bool $internal = null,
-        ?int $created_by_id = null,
-        ?int $updated_by_id = null,
-        ?int $origin_by_id = null,
-        ?Carbon $updated_at = null,
-        ?Carbon $created_at = null,
+        int $id = null,
+        int $type_id = null,
+        int $ticket_id = null,
+        int $sender_id = null,
+        string $sender = null,
+        string $subject = null,
+        string $body = null,
+        string $content_type = null,
+        string $from = null,
+        string $to = null,
+        bool $internal = null,
+        int $created_by_id = null,
+        int $updated_by_id = null,
+        int $origin_by_id = null,
+        Carbon $updated_at = null,
+        Carbon $created_at = null,
     ): self {
         return new self(
             id: $id ?? random_int(1, 1000),
@@ -130,5 +130,15 @@ class Comment
             updated_at: $updated_at ?? now(),
             created_at: $created_at ?? now()->subDay(),
         );
+    }
+
+    public function fromName(): string
+    {
+        return Str::before(Str::between($this->from, '"', '"'), '<');
+    }
+
+    public function fromEmail(): string
+    {
+        return Str::between($this->from, '<', '>');
     }
 }

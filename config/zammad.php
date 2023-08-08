@@ -88,4 +88,23 @@ return [
         // 'note' => 'string',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Ticket States
+    |--------------------------------------------------------------------------
+    |
+    | The ticket states are used to determine if a ticket is open, closed,
+    | active or inactive. You can use this information to filter tickets
+    | by their state. The following states are supported by default.
+    | https://docs.zammad.org/en/latest/api/ticket/states.html
+    |
+    */
+
+    'ticket_states' => [
+        'open' => [1, 2, 3, 7],
+        'closed' => [4],
+        'active' => [1, 2, 3, 4, 7],
+        'inactive' => [5, 6],
+    ],
+
 ];

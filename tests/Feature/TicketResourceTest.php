@@ -88,3 +88,34 @@ it('create and delete a ticket', function () {
     (new Zammad())->ticket()->delete($ticket->id);
     Event::assertDispatched(ZammadResponseLog::class, 2);
 })->group('tickets');
+
+it('shows a ticket expanded', function () {
+    $id = 32;
+
+    $ticket = (new Zammad())->ticket()->show($id);
+    $ticketExpand = (new Zammad())->ticket()->expand()->show($id);
+
+    $this->assertInstanceOf(Ticket::class, $ticket);
+    $this->assertInstanceOf(Ticket::class, $ticketExpand);
+    Event::assertDispatched(ZammadResponseLog::class, 2);
+
+    $this->assertSame($ticket->id, $ticketExpand->id);
+    $this->assertNull($ticket->expanded);
+    $this->assertNotNull($ticketExpand->expanded);
+})->group('tickets', 'expand');
+
+it('paginates ticket list', function () {
+    $users = (new Zammad())->ticket()->paginate(1, 2)->list();
+    $usersTwo = (new Zammad())->ticket()->paginate(2, 2)->list();
+
+    $this->assertNotSame($users, $usersTwo);
+
+})->group('tickets', 'paginate');
+
+it('paginates ticket list with page and perPage methods', function () {
+    $tickets = (new Zammad())->ticket()->page(1)->perPage(2)->list();
+    $ticketsTwo = (new Zammad())->ticket()->page(2)->perPage(2)->list();
+
+    $this->assertNotSame($tickets, $ticketsTwo);
+
+})->group('tickets', 'paginate');

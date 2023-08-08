@@ -4,18 +4,25 @@ namespace CodebarAg\Zammad\Resources;
 
 use CodebarAg\Zammad\Classes\RequestClass;
 use CodebarAg\Zammad\DTO\ObjectAttribute;
+use CodebarAg\Zammad\Requests\ObjectAttribute\AllObjectAttributesRequest;
+use CodebarAg\Zammad\Requests\ObjectAttribute\CreateObjectAttributeRequest;
+use CodebarAg\Zammad\Requests\ObjectAttribute\DestroyObjectAttributeRequest;
+use CodebarAg\Zammad\Requests\ObjectAttribute\ExecuteMigrationsObjectAttributeRequest;
+use CodebarAg\Zammad\Requests\ObjectAttribute\GetObjectAttributeRequest;
+use CodebarAg\Zammad\Requests\ObjectAttribute\UpdateObjectAttributeRequest;
 use Illuminate\Support\Collection;
+use Saloon\Exceptions\Request\RequestException;
 
 class ObjectAttributeResource extends RequestClass
 {
+    /**
+     * @throws \Throwable
+     * @throws RequestException
+     * @throws \JsonException
+     */
     public function list(): Collection
     {
-        $url = sprintf(
-            '%s/api/v1/object_manager_attributes',
-            config('zammad.url'),
-        );
-
-        $response = self::getRequest($url);
+        $response = self::request(new AllObjectAttributesRequest);
 
         $objects = $response->json();
 
@@ -24,63 +31,32 @@ class ObjectAttributeResource extends RequestClass
 
     public function show(int $id): ?ObjectAttribute
     {
-        $url = sprintf(
-            '%s/api/v1/object_manager_attributes/%s',
-            config('zammad.url'),
-            $id,
-        );
+        $response = self::request(new GetObjectAttributeRequest($id));
 
-        $response = self::getRequest($url);
-
-        $object = $response->json();
-
-        return ObjectAttribute::fromJson($object);
+        return $response->dtoOrFail();
     }
 
     public function create(array $data): ObjectAttribute
     {
-        $url = sprintf('%s/api/v1/object_manager_attributes', config('zammad.url'));
+        $response = self::request(new CreateObjectAttributeRequest($data));
 
-        $response = self::postRequest($url, $data);
-
-        $object = $response->json();
-
-        return ObjectAttribute::fromJson($object);
+        return $response->dtoOrFail();
     }
 
     public function update(int $id, array $data): ObjectAttribute
     {
-        $url = sprintf(
-            '%s/api/v1/object_manager_attributes/%s',
-            config('zammad.url'),
-            $id,
-        );
+        $response = self::request(new UpdateObjectAttributeRequest($id, $data));
 
-        $response = self::putRequest($url, $data);
-
-        $object = $response->json();
-
-        return ObjectAttribute::fromJson($object);
+        return $response->dtoOrFail();
     }
 
     public function delete(int $id): void
     {
-        $url = sprintf(
-            '%s/api/v1/object_manager_attributes/%s',
-            config('zammad.url'),
-            $id,
-        );
-
-        self::deleteRequest($url);
+        self::deleteRequest(new DestroyObjectAttributeRequest($id));
     }
 
     public function executeMigrations(): void
     {
-        $url = sprintf(
-            '%s/api/v1/object_manager_attributes_execute_migrations/',
-            config('zammad.url'),
-        );
-
-        self::postRequest($url);
+        self::request(new ExecuteMigrationsObjectAttributeRequest);
     }
 }
