@@ -249,7 +249,7 @@ $objects = Zammad::object()->list();
     'active' => true,
     'position' => 1500,
     'data_type' => 'select',
-    'data_options' => [
+    'data_option' => [
         'options' => [
             'key-one' => 'First Key',
             'key-two' => 'Second Key',
@@ -298,7 +298,8 @@ $content = Zammad::attachment()->download(
 
 You can use the `expand()` method to expand the response with additional data.
 
-See documentation on this in the [Zammad API Docs](https://docs.zammad.org/en/latest/api/intro.html?highlight=expand#response-payloads-expand).
+See documentation on this in
+the [Zammad API Docs](https://docs.zammad.org/en/latest/api/intro.html?highlight=expand#response-payloads-expand).
 
 ```php
 $ticket = Zammad::ticket()->expand()->show(20);
@@ -319,7 +320,8 @@ $user = Zammad::user()->limit(1)->search();
 
 ## Paginate list response payloads
 
-You can use the `perPage(int $perPage)` and `page(int $page)` methods to set the page and per page values for the response
+You can use the `perPage(int $perPage)` and `page(int $page)` methods to set the page and per page values for the
+response
 Alternatively you can use the `paginate(int $page, int $perPage):` method to set both at once.
 
 See documentation on this in the [Zammad API Docs](https://docs.zammad.org/en/latest/api/intro.html#pagination).
@@ -406,7 +408,6 @@ CodebarAg\Zammad\DTO\ObjectAttribute {
   +data_option_new: []          // ?array
 }
 ```
-
 
 ## 🔧 Configuration file
 
