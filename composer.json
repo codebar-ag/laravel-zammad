@@ -30,17 +30,16 @@
         "saloonphp/saloon": "^2.11"
     },
     "require-dev": {
-        "laravel/pint": "^1.0",
-        "nunomaduro/collision": "^7.9",
-        "nunomaduro/larastan": "^2.0.1",
-        "orchestra/testbench": "^8.0",
+        "laravel/pint": "^1.5",
+        "nunomaduro/collision": "^7.0",
+        "nunomaduro/larastan": "^2.4.0",
         "pestphp/pest": "^2.0",
-        "pestphp/pest-plugin-arch": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.0",
+        "pestphp/pest-plugin-arch": "^2.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",
-        "spatie/laravel-ray": "^1.26"
+        "spatie/laravel-ray": "^1.9"
     },
     "autoload": {
         "psr-4": {
