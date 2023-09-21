@@ -2,6 +2,7 @@
 
 use CodebarAg\Zammad\Events\ZammadResponseLog;
 use CodebarAg\Zammad\Zammad;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 
 it('can download an attachment', function () {
