@@ -19,8 +19,8 @@ use Saloon\Exceptions\Request\RequestException;
 
 class UserResource extends RequestClass
 {
-    use HasLimit;
     use HasExpand;
+    use HasLimit;
     use HasPagination;
 
     /**

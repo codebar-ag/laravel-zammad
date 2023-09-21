@@ -18,8 +18,8 @@ use Saloon\Exceptions\Request\RequestException;
 
 class TicketResource extends RequestClass
 {
-    use HasLimit;
     use HasExpand;
+    use HasLimit;
     use HasPagination;
 
     /**
