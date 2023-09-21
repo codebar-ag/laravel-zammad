@@ -15,6 +15,10 @@
             "email": "sebastian.fix@codebar.ch",
             "homepage": "https://www.codebar.ch",
             "role": "Developer"
+        },
+        {
+            "name": "Rhys Lees",
+            "role": "Software-Developer"
         }
     ],
     "require": {
@@ -22,21 +26,21 @@
         "guzzlehttp/guzzle": "^7.5",
         "illuminate/contracts": "^10.0",
         "spatie/laravel-package-tools": "^1.9.2",
-        "sammyjo20/saloon": "^2.0",
-        "sammyjo20/saloon-laravel": "^2.0"
+        "saloonphp/laravel-plugin": "^2.1",
+        "saloonphp/saloon": "^2.11"
     },
     "require-dev": {
-        "laravel/pint": "^1.0",
-        "nunomaduro/collision": "^7.9",
-        "nunomaduro/larastan": "^2.0.1",
-        "orchestra/testbench": "^8.0",
+        "laravel/pint": "^1.5",
+        "nunomaduro/collision": "^7.0",
+        "nunomaduro/larastan": "^2.4.0",
         "pestphp/pest": "^2.0",
-        "pestphp/pest-plugin-arch": "^2.0",
+        "orchestra/testbench": "^8.0",
         "pestphp/pest-plugin-laravel": "^2.0",
+        "pestphp/pest-plugin-arch": "^2.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",
-        "spatie/laravel-ray": "^1.26"
+        "spatie/laravel-ray": "^1.9"
     },
     "autoload": {
         "psr-4": {

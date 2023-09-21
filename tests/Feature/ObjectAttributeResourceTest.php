@@ -11,7 +11,7 @@ it('lists objects', function () {
     $this->assertInstanceOf(Collection::class, $objects);
     $this->assertTrue($objects->count() > 0);
     Event::assertDispatched(ZammadResponseLog::class, 1);
-})->group('objects');
+})->group('objects', 'list-objects');
 
 it('shows a object', function () {
     $objects = (new Zammad())->object()->list();
@@ -21,16 +21,21 @@ it('shows a object', function () {
     $newObject = (new Zammad())->object()->show($object->id);
     $this->assertSame($object->id, $newObject->id);
     Event::assertDispatched(ZammadResponseLog::class, 2);
-})->group('objects');
+})->group('objects', 'show-object');
 
 it('creates a object', function () {
     $objectAttribute = ObjectAttribute::fakeCreateToArray();
     $object = (new Zammad())->object()->create($objectAttribute);
+
     $this->assertInstanceOf(ObjectAttribute::class, $object);
     $this->assertSame($objectAttribute['name'], $object->name);
     $this->assertSame($objectAttribute['display'], $object->display);
     Event::assertDispatched(ZammadResponseLog::class, 1);
-})->group('objects');
+
+    (new Zammad())->object()->delete($object->id);
+    (new Zammad())->object()->executeMigrations();
+
+})->group('objects', 'create-object');
 
 it('update a object', function () {
     $objectAttribute = ObjectAttribute::fakeCreateToArray();
@@ -62,7 +67,11 @@ it('update a object', function () {
     Event::assertDispatched(ZammadResponseLog::class, 2);
     expect($updatedObjectAttribute['display'])->toEqual($object->display);
     expect($objectAttribute['display'])->not()->toEqual($object->display);
-})->group('objects');
+
+    (new Zammad())->object()->delete($object->id);
+    (new Zammad())->object()->executeMigrations();
+
+})->group('objects', 'update-object');
 
 it('deletes a object', function () {
     $objectAttribute = ObjectAttribute::fakeCreateToArray();

@@ -24,7 +24,7 @@ it('list users', function () {
     });
 
     Event::assertDispatched(ZammadResponseLog::class, 1);
-})->group('users');
+})->group('users', 'list-users');
 
 it('searches a user', function () {
     $users = (new Zammad())->user()->paginate(1, 100)->list();
