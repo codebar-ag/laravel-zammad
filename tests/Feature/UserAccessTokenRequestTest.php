@@ -6,6 +6,7 @@ use CodebarAg\Zammad\Events\ZammadResponseLog;
 use CodebarAg\Zammad\Zammad;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+
 use function PHPUnit\Framework\assertSame;
 
 it('lists user tokens', function () {
