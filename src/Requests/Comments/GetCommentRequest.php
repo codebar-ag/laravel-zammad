@@ -3,7 +3,7 @@
 namespace CodebarAg\Zammad\Requests\Comments;
 
 use CodebarAg\Zammad\DTO\Comment;
-use Saloon\Contracts\Response;
+use Saloon\Http\Response;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 

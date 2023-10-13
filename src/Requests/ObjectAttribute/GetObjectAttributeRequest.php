@@ -3,7 +3,7 @@
 namespace CodebarAg\Zammad\Requests\ObjectAttribute;
 
 use CodebarAg\Zammad\DTO\ObjectAttribute;
-use Saloon\Contracts\Response;
+use Saloon\Http\Response;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 

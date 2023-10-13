@@ -4,7 +4,7 @@ namespace CodebarAg\Zammad\Requests\Tickets;
 
 use CodebarAg\Zammad\DTO\Ticket;
 use Saloon\Contracts\Body\HasBody;
-use Saloon\Contracts\Response;
+use Saloon\Http\Response;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Traits\Body\HasJsonBody;
