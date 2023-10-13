@@ -3,9 +3,9 @@
 namespace CodebarAg\Zammad\Requests\Users;
 
 use CodebarAg\Zammad\DTO\User;
-use Saloon\Http\Response;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Http\Response;
 
 class GetUserRequest extends Request
 {

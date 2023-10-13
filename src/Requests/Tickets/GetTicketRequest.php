@@ -3,9 +3,9 @@
 namespace CodebarAg\Zammad\Requests\Tickets;
 
 use CodebarAg\Zammad\DTO\Ticket;
-use Saloon\Http\Response;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Http\Response;
 
 class GetTicketRequest extends Request
 {

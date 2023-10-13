@@ -3,9 +3,9 @@
 namespace CodebarAg\Zammad\Requests\ObjectAttribute;
 
 use CodebarAg\Zammad\DTO\ObjectAttribute;
-use Saloon\Http\Response;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Http\Response;
 
 class GetObjectAttributeRequest extends Request
 {

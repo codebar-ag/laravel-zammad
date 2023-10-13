@@ -4,9 +4,9 @@ namespace CodebarAg\Zammad\Requests\Tickets;
 
 use CodebarAg\Zammad\DTO\Ticket;
 use Saloon\Contracts\Body\HasBody;
-use Saloon\Http\Response;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Http\Response;
 use Saloon\Traits\Body\HasJsonBody;
 
 class CreateTicketRequest extends Request implements HasBody

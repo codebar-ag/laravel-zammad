@@ -4,9 +4,9 @@ namespace CodebarAg\Zammad\Requests\ObjectAttribute;
 
 use CodebarAg\Zammad\DTO\ObjectAttribute;
 use Saloon\Contracts\Body\HasBody;
-use Saloon\Http\Response;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Http\Response;
 use Saloon\Traits\Body\HasJsonBody;
 
 class CreateObjectAttributeRequest extends Request implements HasBody

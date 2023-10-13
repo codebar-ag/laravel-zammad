@@ -4,9 +4,9 @@ namespace CodebarAg\Zammad\Requests\Users;
 
 use CodebarAg\Zammad\DTO\User;
 use Saloon\Contracts\Body\HasBody;
-use Saloon\Http\Response;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Http\Response;
 use Saloon\Traits\Body\HasJsonBody;
 
 class UpdateUserRequest extends Request implements HasBody
