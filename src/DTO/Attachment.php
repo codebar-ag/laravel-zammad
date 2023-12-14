@@ -43,12 +43,12 @@ class Attachment
     }
 
     public static function fake(
-        int $id = null,
-        int $ticketId = null,
-        int $commentId = null,
-        int $size = null,
-        string $name = null,
-        string $type = null,
+        ?int $id = null,
+        ?int $ticketId = null,
+        ?int $commentId = null,
+        ?int $size = null,
+        ?string $name = null,
+        ?string $type = null,
     ): self {
         return new self(
             id: $id ?? random_int(1, 9999),
