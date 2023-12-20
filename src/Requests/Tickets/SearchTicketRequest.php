@@ -11,7 +11,7 @@ class SearchTicketRequest extends Request
 
     public function __construct(
         public string $term,
-        public int $limit = 1
+        public ?int $limit = null,
     ) {
     }
 
@@ -24,7 +24,7 @@ class SearchTicketRequest extends Request
     {
         return [
             'query' => $this->term,
-            'limit' => 1,
+            'limit' => $this->limit,
         ];
     }
 }
