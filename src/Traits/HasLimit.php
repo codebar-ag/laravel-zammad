@@ -6,7 +6,7 @@ trait HasLimit
 {
     public ?int $limit = null;
 
-    public function limit(int $limit): self
+    public function limit(int $limit = 1): self
     {
         $this->limit = $limit;
 
