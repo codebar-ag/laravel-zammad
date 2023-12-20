@@ -22,9 +22,14 @@ class SearchTicketRequest extends Request
 
     protected function defaultQuery(): array
     {
-        return [
+        $query = [
             'query' => $this->term,
-            'limit' => $this->limit,
         ];
+
+        if ($this->limit) {
+            $query['limit'] = $this->limit;
+        }
+
+        return $query;
     }
 }
