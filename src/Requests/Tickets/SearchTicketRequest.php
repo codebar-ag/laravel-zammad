@@ -11,7 +11,9 @@ class SearchTicketRequest extends Request
 
     public function __construct(
         public string $term,
-        public int $limit = 1
+        public ?int $limit = null,
+        public ?int $perPage = null,
+        public ?int $page = null,
     ) {
     }
 
@@ -22,9 +24,22 @@ class SearchTicketRequest extends Request
 
     protected function defaultQuery(): array
     {
-        return [
+        $query = [
             'query' => $this->term,
-            'limit' => 1,
         ];
+
+        if ($this->limit) {
+            $query['limit'] = $this->limit;
+        }
+
+        if ($this->perPage) {
+            $query['per_page'] = $this->perPage;
+        }
+
+        if ($this->page) {
+            $query['page'] = $this->page;
+        }
+
+        return $query;
     }
 }

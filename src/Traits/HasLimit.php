@@ -4,7 +4,7 @@ namespace CodebarAg\Zammad\Traits;
 
 trait HasLimit
 {
-    public int $limit = 1;
+    public ?int $limit = null;
 
     public function limit(int $limit = 1): self
     {
