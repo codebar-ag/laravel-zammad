@@ -11,7 +11,7 @@ class SearchUserRequest extends Request
 
     public function __construct(
         public string $term,
-        public ?int $limit = null
+        public ?int $limit = null,
     ) {
     }
 
