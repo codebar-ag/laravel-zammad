@@ -11,7 +11,7 @@ class SearchUserRequest extends Request
 
     public function __construct(
         public string $term,
-        public int $limit = 1
+        public ?int $limit = null,
     ) {
     }
 
@@ -29,8 +29,6 @@ class SearchUserRequest extends Request
         if ($this->limit) {
             $query['limit'] = $this->limit;
         }
-
-        ray($query);
 
         return $query;
     }

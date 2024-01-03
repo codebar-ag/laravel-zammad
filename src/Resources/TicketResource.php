@@ -43,7 +43,7 @@ class TicketResource extends RequestClass
      */
     public function search(string $term): Collection
     {
-        $response = self::request(new SearchTicketRequest(term: $term, limit: $this->limit));
+        $response = self::request(new SearchTicketRequest(term: $term, limit: $this->limit, perPage: $this->perPage, page: $this->page));
 
         $tickets = $response->json('assets.Ticket');
 
