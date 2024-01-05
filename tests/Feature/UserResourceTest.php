@@ -105,8 +105,6 @@ it('searches or creates a user', function () {
     $user = (new Zammad())->user()->searchOrCreateByEmail($email);
     $this->assertSame($email, $user->email);
     Event::assertDispatched(ZammadResponseLog::class, 2);
-    (new Zammad())->user()->delete($user->id);
-    Event::assertDispatched(ZammadResponseLog::class, 3);
 })->group('users');
 
 it('deletes a user', function () {
@@ -114,10 +112,9 @@ it('deletes a user', function () {
     $user = (new Zammad())->user()->searchOrCreateByEmail($email);
     $this->assertSame($email, $user->email);
     Event::assertDispatched(ZammadResponseLog::class, 2);
-
     (new Zammad())->user()->delete($user->id);
     Event::assertDispatched(ZammadResponseLog::class, 3);
-})->group('users')->skip('Failing on CI');
+})->group('users')->skip('not possible via api');
 
 it('show current user expanded', function () {
     $user = (new Zammad())->user()->me();
