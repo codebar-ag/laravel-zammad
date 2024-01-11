@@ -14,7 +14,7 @@ See the documentation if you need further functionality. ⚠️
 
 ## 💡 What is Zammad?
 
-Zammad is a web based open source helpdesk/customer support system with many
+Zammad is a web-based open source helpdesk/customer support system with many
 features to manage customer communication.
 
 ## 🛠 Requirements
@@ -65,32 +65,47 @@ can create your token. Be sure to activate all rights you need.
 
 ```php
 use CodebarAg\Zammad\Facades\Zammad;
+```
 
+```php
 /**
  * Get the current authenticated user.
  */
+ 
 $user = Zammad::user()->me();
+```
 
+```php
 /**
  * Show a list of users.
  */
+ 
 $users = Zammad::user()->list();
+```
 
+```php
 /**
  * Search a single user.
  */
+ 
 $term = 'email:sebastian.fix@codebar.ch';
  
 $user = Zammad::user()->search($term);
+```
 
+```php
 /**
  * Show a user by id.
  */
+ 
 $user = Zammad::user()->show(20);
+```
 
+```php
 /**
  * Create a new user.
  */
+ 
 $data = [
     'firstname' => 'Max',
     'lastname' => 'Mustermann',
@@ -98,32 +113,43 @@ $data = [
 ];
 
 $user = (new Zammad())->user()->create($data);
+```
 
+```php
 /**
  * Update a existing user.
  */
+ 
 $data = [
     'firstname' => 'Max',
     'lastname' => 'Mustermann',
 ];
 
 $user = (new Zammad())->user()->update($id, $data);
+```
 
+```php
 /**
  * Delete a user by id.
  */
+ 
 (new Zammad())->user()->delete(20);
+```
 
+```php
 /**
  * Search a user by email. If not found create a new user.
  */
+ 
 $user = (new Zammad())->user()->searchOrCreateByEmail('max.mustermann@codebar.ch');
+```
 
+```php
 /**
  * Search a user by email. If not found create a new user with custom $data
  */
  
- $data = [
+$data = [
     'firstname' => 'Max',
     'lastname' => 'Mustermann',
     'email' => 'max.mustermann@codebar.ch',
@@ -136,32 +162,47 @@ $user = (new Zammad())->user()->searchOrCreateByEmail('max.mustermann@codebar.ch
 
 ```php
 use CodebarAg\Zammad\Facades\Zammad;
+```
 
+```php
 /**
  * Show a list of tickets.
  */
+ 
 $tickets = Zammad::ticket()->list();
+```
 
+```php
 /**
  * Search tickets which include following term.
  */
+ 
 $term = 'Max Mustermann';
  
 $tickets = Zammad::ticket()->search($term);
+```
 
+```php
 /**
  * Show a ticket by id (empty comments).
  */
+ 
 $ticket = Zammad::ticket()->show(20);
+```
 
+```php
 /**
  * Show a ticket by id with comments.
  */
+ 
 $ticket = Zammad::ticket()->showWithComments(20);
+```
 
+```php
 /**
  * Create a new ticket.
  */
+ 
 $data = [
     'title' => 'The application is not working',
     'group' => 'Inbox',
@@ -180,10 +221,13 @@ $data = [
 ];
 
 $ticket = (new Zammad())->ticket()->create($data);
+```
 
+```php
 /**
  * Delete a ticket by id.
  */
+ 
 (new Zammad())->user()->delete(20);
 ```
 
@@ -191,20 +235,29 @@ $ticket = (new Zammad())->ticket()->create($data);
 
 ```php
 use CodebarAg\Zammad\Facades\Zammad;
+```
 
+```php
 /**
  * Show comments by ticket id
  */
+ 
 $comments = Zammad::comment()->showByTicket(20);
+```
 
+```php
 /**
  * Show a comment by id.
  */
+ 
 $comment = Zammad::comment()->show(20);
+```
 
+```php
 /**
  * Create a new comment.
  */
+ 
 $data = [
     'ticket_id' => 42,
     'subject' => 'Login still not working',
@@ -220,10 +273,13 @@ $data = [
 ];
 
 $comment = (new Zammad())->comment()->create($data);
+```
 
+```php
 /**
  * Delete a comment by id.
  */
+ 
 (new Zammad())->comment()->delete(20);
 ```
 
@@ -231,12 +287,17 @@ $comment = (new Zammad())->comment()->create($data);
 
 ```php
 use CodebarAg\Zammad\Facades\Zammad;
+```
 
+```php
 /**
  * Show a list of objects.
  */
+ 
 $objects = Zammad::object()->list();
+```
 
+```php
 /**
  * Create a object
  */
@@ -259,22 +320,29 @@ $objects = Zammad::object()->list();
 ];
 
 $object = Zammad::object()->create($data);
+```
 
+```php
 /**
  * Update a object
  */
  
- 
 $object = Zammad::object()->update($id, $data);
+```
 
+```php
 /**
  * Show a object by id.
  */
+ 
 $object = Zammad::object()->show(20);
+```
 
+```php
 /**
  * Execute database migrations
  */
+ 
 (new Zammad())->object()->executeMigrations();
 ```
 
@@ -282,7 +350,9 @@ $object = Zammad::object()->show(20);
 
 ```php
 use CodebarAg\Zammad\Facades\Zammad;
+```
 
+```php
 /**
  * Download attachment.
  */
