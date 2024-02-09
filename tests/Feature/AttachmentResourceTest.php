@@ -3,7 +3,6 @@
 use CodebarAg\Zammad\Events\ZammadResponseLog;
 use CodebarAg\Zammad\Zammad;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
 
 it('can download an attachment', function () {
     $content = (new Zammad())->attachment()->download(
@@ -12,6 +11,6 @@ it('can download an attachment', function () {
         attachmentId: 42,
     );
 
-    $this->assertSame(37055, Str::length($content));
+    $this->assertSame(46034, strlen($content));
     Event::assertDispatched(ZammadResponseLog::class, 1);
 })->group('attachments');
