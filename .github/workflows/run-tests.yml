@@ -52,7 +52,7 @@ jobs:
           ZAMMAD_OBJECT_REFERENCE_ERROR_IGNORE: true
 
       - name: Store test reports
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Store report
           retention-days: 1
