@@ -14,8 +14,7 @@ class GetUserRequest extends Request
     public function __construct(
         public ?int $id = null,
         public bool $expand = false
-    ) {
-    }
+    ) {}
 
     public function resolveEndpoint(): string
     {

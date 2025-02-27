@@ -15,8 +15,7 @@ class CreateAccessTokenRequest extends Request implements HasBody
 
     public function __construct(
         protected array $payload
-    ) {
-    }
+    ) {}
 
     public function resolveEndpoint(): string
     {

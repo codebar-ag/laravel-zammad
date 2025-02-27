@@ -19,8 +19,7 @@ class UpdateUserRequest extends Request implements HasBody
         public int $id,
         public array $payload,
         public bool $expand = false
-    ) {
-    }
+    ) {}
 
     public function resolveEndpoint(): string
     {

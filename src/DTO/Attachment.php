@@ -28,8 +28,7 @@ class Attachment
         public int $size,
         public string $name,
         public string $type,
-    ) {
-    }
+    ) {}
 
     public function url(): string
     {

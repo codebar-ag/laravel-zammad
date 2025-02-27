@@ -31,8 +31,7 @@ class User
         public Carbon $updated_at,
         public Carbon $created_at,
         public ?array $expanded = null,
-    ) {
-    }
+    ) {}
 
     public static function fake(
         ?int $id = null,

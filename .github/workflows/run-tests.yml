@@ -15,11 +15,8 @@ jobs:
       matrix:
         os: [ ubuntu-latest, windows-latest ]
         php: [ 8.2, 8.3 ]
-        laravel: [ 10.* ]
+        laravel: [ 11.* ]
         stability: [ prefer-lowest, prefer-stable ]
-        include:
-          - laravel: 10.*
-            testbench: 8.*
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
@@ -41,7 +38,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Set phpunit.xml
@@ -55,7 +52,7 @@ jobs:
           ZAMMAD_OBJECT_REFERENCE_ERROR_IGNORE: true
 
       - name: Store test reports
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Store report
           retention-days: 1
