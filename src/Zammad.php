@@ -13,31 +13,31 @@ class Zammad
 {
     public function user(): UserResource
     {
-        return new UserResource();
+        return new UserResource;
     }
 
     public function userAccessToken(): UserAccessToken
     {
-        return new UserAccessToken();
+        return new UserAccessToken;
     }
 
     public function ticket(): TicketResource
     {
-        return new TicketResource();
+        return new TicketResource;
     }
 
     public function comment(): CommentResource
     {
-        return new CommentResource();
+        return new CommentResource;
     }
 
     public function attachment(): AttachmentResource
     {
-        return new AttachmentResource();
+        return new AttachmentResource;
     }
 
     public function object(): ObjectAttributeResource
     {
-        return new ObjectAttributeResource();
+        return new ObjectAttributeResource;
     }
 }

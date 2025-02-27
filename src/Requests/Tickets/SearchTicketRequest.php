@@ -14,8 +14,7 @@ class SearchTicketRequest extends Request
         public ?int $limit = null,
         public ?int $perPage = null,
         public ?int $page = null,
-    ) {
-    }
+    ) {}
 
     public function resolveEndpoint(): string
     {

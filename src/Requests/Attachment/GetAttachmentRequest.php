@@ -13,8 +13,7 @@ class GetAttachmentRequest extends Request
         public int $ticketId,
         public int $commentId,
         public int $attachmentId,
-    ) {
-    }
+    ) {}
 
     public function resolveEndpoint(): string
     {

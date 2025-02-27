@@ -12,8 +12,7 @@ class AllUsersRequest extends Request
     public function __construct(
         public ?int $perPage = null,
         public ?int $page = null,
-    ) {
-    }
+    ) {}
 
     public function resolveEndpoint(): string
     {

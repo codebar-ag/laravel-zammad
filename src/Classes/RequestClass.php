@@ -30,7 +30,7 @@ abstract class RequestClass
         $this->ignoreReferenceErrorIngore = config('zammad.object_reference_error_ignore');
         $this->objectHasReferenceError = config('zammad.objet_reference_error');
 
-        $this->connector = new ZammadConnector();
+        $this->connector = new ZammadConnector;
     }
 
     private function performRequest(Request $request): Response

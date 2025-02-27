@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 it('does show by ticket', function () {
     $id = 32;
 
-    $comments = (new Zammad())->comment()->showByTicket($id);
+    $comments = (new Zammad)->comment()->showByTicket($id);
 
     $this->assertInstanceOf(Collection::class, $comments);
 
@@ -28,7 +28,7 @@ it('does show by ticket', function () {
 it('does show comment', function () {
     $id = 66;
 
-    $comment = (new Zammad())->comment()->show($id);
+    $comment = (new Zammad)->comment()->show($id);
 
     $this->assertInstanceOf(Comment::class, $comment);
     $this->assertSame($id, $comment->id);
@@ -50,7 +50,7 @@ it('does create comment', function () {
         ],
     ];
 
-    $comment = (new Zammad())->comment()->create($data);
+    $comment = (new Zammad)->comment()->create($data);
 
     $this->assertInstanceOf(Comment::class, $comment);
     $this->assertSame('::subject::', $comment->subject);
@@ -64,12 +64,12 @@ it('does create comment', function () {
         $this->assertSame('text/plain', $attachment->type);
     });
     Event::assertDispatched(ZammadResponseLog::class, 1);
-    (new Zammad())->comment()->delete($comment->id);
+    (new Zammad)->comment()->delete($comment->id);
     Event::assertDispatched(ZammadResponseLog::class, 2);
 })->group('comments');
 
 it('does parse body from comment', function () {
-    $comment = (new Zammad())->comment()->show(342);
+    $comment = (new Zammad)->comment()->show(342);
 
     $this->assertStringContainsString(
         'Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans.',
@@ -88,7 +88,7 @@ it('does parse body from comment', function () {
 it('has a from name helper', function () {
     $id = 66;
 
-    $comment = (new Zammad())->comment()->show($id);
+    $comment = (new Zammad)->comment()->show($id);
 
     $this->assertSame(
         Str::before(Str::between($comment->from, '"', '"'), '<'),
@@ -99,7 +99,7 @@ it('has a from name helper', function () {
 it('has a from email helper', function () {
     $id = 66;
 
-    $comment = (new Zammad())->comment()->show($id);
+    $comment = (new Zammad)->comment()->show($id);
 
     $this->assertSame(
         Str::between($comment->from, '<', '>'),

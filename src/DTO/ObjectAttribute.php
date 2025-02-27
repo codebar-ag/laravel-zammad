@@ -31,8 +31,7 @@ class ObjectAttribute
         public int $position,
         public array $data_option,
         public ?array $data_option_new,
-    ) {
-    }
+    ) {}
 
     public static function fake(
         ?int $id = null,

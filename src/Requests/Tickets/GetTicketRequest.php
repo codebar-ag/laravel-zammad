@@ -14,8 +14,7 @@ class GetTicketRequest extends Request
     public function __construct(
         public int $id,
         public bool $expand = false
-    ) {
-    }
+    ) {}
 
     public function resolveEndpoint(): string
     {

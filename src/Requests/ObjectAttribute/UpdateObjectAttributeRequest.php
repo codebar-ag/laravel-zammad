@@ -18,8 +18,7 @@ class UpdateObjectAttributeRequest extends Request implements HasBody
     public function __construct(
         public int $id,
         public array $payload
-    ) {
-    }
+    ) {}
 
     public function resolveEndpoint(): string
     {

@@ -89,8 +89,7 @@ class Comment
         public Collection $attachments,
         public Carbon $updated_at,
         public Carbon $created_at,
-    ) {
-    }
+    ) {}
 
     public static function fake(
         ?int $id = null,
