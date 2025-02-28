@@ -1,9 +1,9 @@
 <img src="https://banners.beyondco.de/Laravel%20Zammad.png?theme=light&packageManager=composer+require&packageName=codebar-ag%2Flaravel-zammad&pattern=circuitBoard&style=style_2&description=An+opinionated+way+to+integrate+Zammad+with+Laravel&md=1&showWatermark=0&fontSize=150px&images=ticket&widths=500&heights=500">
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codebar-ag/laravel-zammad.svg?style=flat-square)](https://packagist.org/packages/codebar-ag/laravel-zammad)
+[![GitHub-Tests](https://github.com/codebar-ag/laravel-zammad/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/codebar-ag/laravel-zammad/actions/workflows/run-tests.yml)
+[![GitHub Code Style](https://github.com/codebar-ag/laravel-zammad/actions/workflows/fix-php-code-style-issues.yml/badge.svg?branch=main)](https://github.com/codebar-ag/laravel-zammad/actions/workflows/fix-php-code-style-issues.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/codebar-ag/laravel-zammad.svg?style=flat-square)](https://packagist.org/packages/codebar-ag/laravel-zammad)
-[![run-tests](https://github.com/codebar-ag/laravel-zammad/actions/workflows/run-tests.yml/badge.svg)](https://github.com/codebar-ag/laravel-zammad/actions/workflows/run-tests.yml)
-[![PHPStan](https://github.com/codebar-ag/laravel-zammad/actions/workflows/phpstan.yml/badge.svg)](https://github.com/codebar-ag/laravel-zammad/actions/workflows/phpstan.yml)
 
 This package was developed to give you a quick start to communicate with the
 Zammad REST API. It is used to query the most common endpoints.
@@ -19,11 +19,13 @@ features to manage customer communication.
 
 ## 🛠 Requirements
 
-| Package 	 | PHP 	  | Laravel 	        | Zammad 	 |
-|-----------|--------|------------------|----------|
-| >v3.0     | >8.2   | > Laravel 10.0   | ✅        |
-| >v2.0 	   | >8.1 	 | > Laravel 9.0 	  | ✅	       |
-| >v1.0 	   | >8.0 	 | > Laravel 8.12 	 | ✅	       |
+| Package 	 | PHP 	       | Laravel 	      | Zammad 	 |
+|-----------|-------------|----------------|----------|
+| v12.0     | ^8.2 - ^8.4 | Laravel 12.0   | ✅        |
+| v11.0     | ^8.2 - ^8.3 | Laravel 11.0   | ✅        |
+| v3.0      | 8.2         | Laravel 10.0   | ✅        |
+| v2.0 	    | 8.1 	       | Laravel 9.0 	  | ✅	       |
+| v1.0 	    | 8.0 	       | Laravel 8.12 	 | ✅        |
 
 ## ⚙️ Installation
 
