@@ -20,6 +20,7 @@
         <junit outputFile="build/report.junit.xml"/>
     </logging>
     <php>
+        <env name="APP_KEY" value="base64:F+mHMDBbavrsp/I3WYA5lDSwDJJI/0wQG4eM3csq/lo="/>
         <env name="ZAMMAD_URL" value="https://dev-immospace.zammad.com"/>
         <env name="ZAMMAD_TOKEN" value="token"/>
     </php>
