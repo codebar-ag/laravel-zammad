@@ -18,12 +18,12 @@ it('show current user', function () {
 it('list users', function () {
     $users = (new Zammad)->user()->list();
 
-    $this->assertInstanceOf(Collection::class, $users);
-    $users->each(function (User $user) {
-        $this->assertInstanceOf(User::class, $user);
-    });
+	$this->assertInstanceOf(Collection::class, $users);
+	$users->each(function (User $user) {
+		$this->assertInstanceOf(User::class, $user);
+	});
 
-    Event::assertDispatched(ZammadResponseLog::class, 1);
+	Event::assertDispatched(ZammadResponseLog::class, 1);
 })->group('users', 'list-users');
 
 it('searches a user', function () {
@@ -33,19 +33,19 @@ it('searches a user', function () {
 
     $searchedUser = (new Zammad)->user()->search($user->email);
 
-    $this->assertInstanceOf(User::class, $searchedUser);
-    $this->assertSame($user->id, $searchedUser->id);
-    $this->assertSame($user->email, $searchedUser->email);
-    Event::assertDispatched(ZammadResponseLog::class, 2);
+	$this->assertInstanceOf(User::class, $searchedUser);
+	$this->assertSame($user->id, $searchedUser->id);
+	$this->assertSame($user->email, $searchedUser->email);
+	Event::assertDispatched(ZammadResponseLog::class, 2);
 })->group('users');
 
 it('searches a non existing user', function () {
-    $term = 'email:does@not.exist';
+	$term = 'email:does@not.exist';
 
     $user = (new Zammad)->user()->search($term);
 
-    $this->assertNull($user);
-    Event::assertDispatched(ZammadResponseLog::class, 1);
+	$this->assertNull($user);
+	Event::assertDispatched(ZammadResponseLog::class, 1);
 })->group('users');
 
 it('shows a user', function () {
@@ -55,29 +55,29 @@ it('shows a user', function () {
 
     $newUser = (new Zammad)->user()->show($user->id);
 
-    $this->assertInstanceOf(User::class, $newUser);
-    $this->assertSame($user->id, $newUser->id);
-    Event::assertDispatched(ZammadResponseLog::class, 2);
+	$this->assertInstanceOf(User::class, $newUser);
+	$this->assertSame($user->id, $newUser->id);
+	Event::assertDispatched(ZammadResponseLog::class, 2);
 })->group('users');
 
 it('creates a user', function () {
-    $firstname = Str::orderedUuid()->toString();
-    $lastname = Str::orderedUuid()->toString();
-    $email = $firstname.'@codebar.ch';
+	$firstname = Str::orderedUuid()->toString();
+	$lastname = Str::orderedUuid()->toString();
+	$email = $firstname . '@codebar.ch';
 
-    $data = [
-        'firstname' => $firstname,
-        'lastname' => $lastname,
-        'email' => $email,
-    ];
+	$data = [
+		'firstname' => $firstname,
+		'lastname' => $lastname,
+		'email' => $email,
+	];
 
     $user = (new Zammad)->user()->create($data);
 
-    $this->assertInstanceOf(User::class, $user);
-    $this->assertSame($firstname, $user->first_name);
-    $this->assertSame($lastname, $user->last_name);
-    $this->assertStringEndsWith($email, $user->email);
-    Event::assertDispatched(ZammadResponseLog::class, 1);
+	$this->assertInstanceOf(User::class, $user);
+	$this->assertSame($firstname, $user->first_name);
+	$this->assertSame($lastname, $user->last_name);
+	$this->assertStringEndsWith($email, $user->email);
+	Event::assertDispatched(ZammadResponseLog::class, 1);
 })->group('users');
 
 it('updates a user', function () {
@@ -85,19 +85,19 @@ it('updates a user', function () {
     Event::assertDispatched(ZammadResponseLog::class, 1);
     $user = $users->last();
 
-    $firstname = Str::orderedUuid()->toString();
-    $lastname = Str::orderedUuid()->toString();
+	$firstname = Str::orderedUuid()->toString();
+	$lastname = Str::orderedUuid()->toString();
 
-    $data = [
-        'firstname' => $firstname,
-        'lastname' => $lastname,
-    ];
+	$data = [
+		'firstname' => $firstname,
+		'lastname' => $lastname,
+	];
 
     $updatedUser = (new Zammad)->user()->update($user->id, $data);
     Event::assertDispatched(ZammadResponseLog::class, 2);
 
-    expect($firstname)->toEqual($updatedUser->first_name);
-    expect($lastname)->toEqual($updatedUser->last_name);
+	expect($firstname)->toEqual($updatedUser->first_name);
+	expect($lastname)->toEqual($updatedUser->last_name);
 })->group('users');
 
 it('searches or creates a user', function () {
@@ -148,7 +148,7 @@ it('paginates user list', function () {
     $users = (new Zammad)->user()->paginate(1, 2)->list();
     $usersTwo = (new Zammad)->user()->paginate(2, 2)->list();
 
-    $this->assertNotSame($users, $usersTwo);
+	$this->assertNotSame($users, $usersTwo);
 
 })->group('users', 'paginate');
 
@@ -156,18 +156,18 @@ it('paginates user list with page and perPage methods', function () {
     $users = (new Zammad)->user()->page(1)->perPage(2)->list();
     $usersTwo = (new Zammad)->user()->page(2)->perPage(2)->list();
 
-    $this->assertNotSame($users, $usersTwo);
+	$this->assertNotSame($users, $usersTwo);
 
 })->group('users', 'paginate');
 
 it('limits user list with limit method', function () {
     $users = (new Zammad)->user()->limit()->search('info');
 
-    if (! $users instanceof User) {
-        expect(count($users))->toBeLessThanOrEqual(1);
-    }
+	if (!$users instanceof User) {
+		expect(count($users))->toBeLessThanOrEqual(1);
+	}
 
     $users = (new Zammad)->user()->limit(10)->search('info');
 
-    expect(count($users))->toBeLessThanOrEqual(10);
+	expect(count($users))->toBeLessThanOrEqual(10);
 })->group('users', 'limit');
