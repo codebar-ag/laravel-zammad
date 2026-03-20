@@ -1,81 +1,82 @@
 {
-    "name": "codebar-ag/laravel-zammad",
-    "description": "Zammad integration with Laravel",
-    "keywords": [
-        "zammad",
-        "laravel",
-        "codebar-ag",
-        "laravel-zammad"
-    ],
-    "homepage": "https://github.com/codebar-ag/laravel-zammad",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Sebastian Steiger",
-            "email": "sebastian.fix@codebar.ch",
-            "homepage": "https://www.codebar.ch",
-            "role": "Developer"
-        },
-        {
-            "name": "Rhys Lees",
-            "role": "Software-Developer"
-        }
-    ],
-    "require": {
-        "php": "^8.2",
-        "guzzlehttp/guzzle": "^7.5",
-        "illuminate/contracts": "^10.0",
-        "spatie/laravel-package-tools": "^1.9.2",
-        "saloonphp/laravel-plugin": "^3.0",
-        "saloonphp/saloon": "^3.0"
+  "name": "codebar-ag/laravel-zammad",
+  "description": "Zammad integration with Laravel",
+  "keywords": [
+    "zammad",
+    "laravel",
+    "codebar-ag",
+    "laravel-zammad"
+  ],
+  "homepage": "https://github.com/codebar-ag/laravel-zammad",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sebastian Steiger",
+      "email": "sebastian.fix@codebar.ch",
+      "homepage": "https://www.codebar.ch",
+      "role": "Developer"
     },
-    "require-dev": {
-        "laravel/pint": "^1.5",
-        "nunomaduro/collision": "^7.0",
-        "nunomaduro/larastan": "^2.4.0",
-        "pestphp/pest": "^2.0",
-        "orchestra/testbench": "^8.0",
-        "pestphp/pest-plugin-laravel": "^2.0",
-        "pestphp/pest-plugin-arch": "^2.0",
-        "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.0",
-        "spatie/laravel-ray": "^1.9"
-    },
-    "autoload": {
-        "psr-4": {
-            "CodebarAg\\Zammad\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "CodebarAg\\Zammad\\Tests\\": "tests"
-        }
-    },
-    "scripts": {
-        "analyse": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
-    },
-    "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "composer/package-versions-deprecated": false,
-            "pestphp/pest-plugin": true,
-            "phpstan/extension-installer": true
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "CodebarAg\\Zammad\\ZammadServiceProvider"
-            ],
-            "aliases": {
-                "Zammad": "CodebarAg\\Zammad\\Facades\\Zammad"
-            }
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    {
+      "name": "Rhys Lees",
+      "role": "Software-Developer"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "guzzlehttp/guzzle": "^7.5",
+    "illuminate/contracts": "^10.0",
+    "spatie/laravel-package-tools": "^1.9.2",
+    "saloonphp/laravel-plugin": "^3.0",
+    "saloonphp/saloon": "^3.0",
+    "ext-openssl": "*"
+  },
+  "require-dev": {
+    "laravel/pint": "^1.5",
+    "nunomaduro/collision": "^7.0",
+    "nunomaduro/larastan": "^2.4.0",
+    "pestphp/pest": "^2.0",
+    "orchestra/testbench": "^8.0",
+    "pestphp/pest-plugin-laravel": "^2.0",
+    "pestphp/pest-plugin-arch": "^2.0",
+    "phpstan/extension-installer": "^1.1",
+    "phpstan/phpstan-deprecation-rules": "^1.0",
+    "phpstan/phpstan-phpunit": "^1.0",
+    "spatie/laravel-ray": "^1.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "CodebarAg\\Zammad\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "CodebarAg\\Zammad\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "analyse": "vendor/bin/phpstan analyse",
+    "test": "vendor/bin/pest",
+    "test-coverage": "vendor/bin/pest --coverage",
+    "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/package-versions-deprecated": false,
+      "pestphp/pest-plugin": true,
+      "phpstan/extension-installer": true
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "CodebarAg\\Zammad\\ZammadServiceProvider"
+      ],
+      "aliases": {
+        "Zammad": "CodebarAg\\Zammad\\Facades\\Zammad"
+      }
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
