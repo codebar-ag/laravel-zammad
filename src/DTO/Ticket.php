@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
+#[\AllowDynamicProperties]
 class Ticket
 {
     public static function fromJson(array $data, bool $expanded = false): self
