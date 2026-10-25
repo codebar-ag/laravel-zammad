@@ -33,12 +33,13 @@ abstract class RequestClass
         $this->connector = new ZammadConnector;
     }
 
-    private function performRequest(Request $request): Response
+    private function performRequest(Request $request, bool $throw = true): Response
     {
         return $this->connector->sendAndRetry(
             $request,
             $this->httpRetryMaxium,
             $this->httpRetryDelay,
+            throw: $throw,
         );
     }
 
@@ -59,7 +60,9 @@ abstract class RequestClass
      */
     public function deleteRequest(Request $request): Response
     {
-        $response = $this->performRequest($request);
+        // Do not let the retry loop throw on its own: the response has to be
+        // inspected first so that the configured reference error can be ignored.
+        $response = $this->performRequest($request, throw: false);
 
         $ignoreReferenceError = [
             'ignore' => $this->ignoreReferenceErrorIngore ? true : false,
