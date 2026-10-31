@@ -18,19 +18,19 @@
         }
     ],
     "require": {
-        "php": "8.2.*|8.3.*|8.4.*",
+        "php": "8.2.*|8.3.*|8.4.*|8.5.*",
         "guzzlehttp/guzzle": "^7.8",
-        "illuminate/contracts": "^12.0",
+        "illuminate/contracts": "^12.0|^13.0",
         "spatie/laravel-package-tools": "^1.19",
         "saloonphp/cache-plugin": "^3.1",
-        "saloonphp/laravel-plugin": "^3.0|^4.0",
+        "saloonphp/laravel-plugin": "^3.0|^4.0|^5.0",
         "saloonphp/saloon": "^3.0|^4.0"
     },
     "require-dev": {
         "laravel/pint": "^1.21",
         "larastan/larastan": "^v3.1",
-        "orchestra/testbench": "^10.0",
-        "pestphp/pest": "^3.7",
+        "orchestra/testbench": "^10.0|^11.0",
+        "pestphp/pest": "^3.7|^4.0",
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpstan/phpstan-phpunit": "^2.0",
@@ -48,8 +48,8 @@
     },
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage",
+        "test": "vendor/bin/pest --no-coverage",
+        "test-coverage": "vendor/bin/pest --coverage --coverage-html build/coverage --coverage-text=build/coverage.txt --coverage-clover build/logs/clover.xml",
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
     },
     "config": {
